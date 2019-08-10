@@ -5,7 +5,9 @@
     "main": "server.js",
     "scripts": {
         "start": "node server",
-        "server": "nodemon server"
+        "server": "nodemon server",
+        "client": "npm start --prefix client",
+        "dev": "concurrently \"npm run server\" \"npm run client\""
     },
     "author": "Siabsish Mohanty",
     "license": "MIT",
@@ -16,7 +18,7 @@
         "express-validator": "^6.0.1",
         "gravatar": "^1.8.0",
         "jsonwebtoken": "^8.5.1",
-        "mongoose": "^5.6.0",
+        "mongoose": "^5.6.1",
         "request": "^2.88.0"
     },
     "devDependencies": {
