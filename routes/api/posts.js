@@ -27,7 +27,7 @@ router.post(
             }
 
             const user = await User.findById(req.user.id).select(
-                '-password -confirmPassword'
+                '-password'
             );
 
             const newPost = {
@@ -183,7 +183,7 @@ router.post(
             }
 
             const user = await User.findById(req.user.id).select(
-                '-password -confirmPassword'
+                '-password'
             );
 
             const post = await Post.findById(req.params.post_id);

@@ -28,13 +28,13 @@ router.post(
             'password',
             'Password needs to be atleast 6 characters long'
         ).isLength({ min: 6 }),
-        check('confirmPassword').custom((value, { req }) => {
-            if (value !== req.body.password) {
-                throw new Error('Please enter the same password');
-            }
-            // Indicates the success of this synchronous custom validator
-            return true;
-        })
+        // check('confirmPassword').custom((value, { req }) => {
+        //     if (value !== req.body.password) {
+        //         throw new Error('Please enter the same password');
+        //     }
+        //     // Indicates the success of this synchronous custom validator
+        //     return true;
+        // })
     ],
     async (req, res) => {
         const errors = validationResult(req);
@@ -42,7 +42,7 @@ router.post(
             // Bad request
             return res.status(400).json({ errors: errors.array() });
         }
-        const { name, email, password, confirmPassword } = req.body;
+        const { name, email, password } = req.body;
         try {
             let user = await Users.findOne({ email });
             // Check if user exists
@@ -62,12 +62,12 @@ router.post(
                 email,
                 avatar,
                 password,
-                confirmPassword
+                // confirmPassword
             });
             // Encrypt password
             const salt = await bcrypt.genSalt(10);
             user.password = await bcrypt.hash(password, salt);
-            user.confirmPassword = await bcrypt.hash(confirmPassword, salt);
+            // user.confirmPassword = await bcrypt.hash(confirmPassword, salt);
             // Save User
             await user.save();
             // Return JWT

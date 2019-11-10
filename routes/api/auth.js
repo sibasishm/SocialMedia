@@ -15,7 +15,7 @@ router.get('/', auth, async (req, res) => {
     try {
         // get user data from it's id (sent from token) but not the password
         const user = await User.findById(req.user.id).select(
-            '-password -confirmPassword'
+            '-password'
         );
         res.json(user);
     } catch (err) {
@@ -69,7 +69,7 @@ router.post(
             jwt.sign(
                 payload,
                 config.get('jwtSecret'),
-                { expiresIn: 360000 }, //Change it to 3600
+                { expiresIn: 3600 },
                 (err, token) => {
                     if (err) throw err;
                     res.json({ token });
