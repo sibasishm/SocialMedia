@@ -1,7 +1,7 @@
 {
     "name": "socialmedia",
     "version": "1.0.0",
-    "description": "Social Media Network for students",
+    "description": "The interest group spacific socialize platform",
     "main": "server.js",
     "scripts": {
         "start": "node server",
