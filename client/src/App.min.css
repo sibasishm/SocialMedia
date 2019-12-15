@@ -291,7 +291,7 @@
 .container {
   max-width: 1100px;
   overflow: hidden;
-  padding: 0 2rem
+  padding: 1rem 2rem
 }
 
 .x-large {
@@ -502,6 +502,151 @@
 .badge.badge-danger {
   background-color: #dc3545;
   color: #fff
+}
+
+@-webkit-keyframes rotate {
+  0% {
+    -webkit-transform-origin: bottom left;
+    transform-origin: bottom left;
+    -webkit-transform: translate(-5px, -75px) rotate(0deg) scale(1.1);
+    transform: translate(-5px, -75px) rotate(0deg) scale(1.1)
+  }
+
+  25% {
+    -webkit-transform-origin: bottom left;
+    transform-origin: bottom left;
+    -webkit-transform: translate(-5px, -75px) rotate(-180deg) scale(1.1);
+    transform: translate(-5px, -75px) rotate(-180deg) scale(1.1)
+  }
+
+  26% {
+    -webkit-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: translate(-5px, 75px) rotate(-180deg) scale(1.1);
+    transform: translate(-5px, 75px) rotate(-180deg) scale(1.1)
+  }
+
+  50% {
+    -webkit-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: translate(-5px, 75px) rotate(-360deg) scale(1.1);
+    transform: translate(-5px, 75px) rotate(-360deg) scale(1.1)
+  }
+
+  51% {
+    -webkit-transform-origin: top right;
+    transform-origin: top right;
+    -webkit-transform: translate(5px, 75px) rotate(-360deg) scale(1.1);
+    transform: translate(5px, 75px) rotate(-360deg) scale(1.1)
+  }
+
+  75% {
+    -webkit-transform-origin: top right;
+    transform-origin: top right;
+    -webkit-transform: translate(5px, 75px) rotate(-540deg) scale(1.1);
+    transform: translate(5px, 75px) rotate(-540deg) scale(1.1)
+  }
+
+  76% {
+    -webkit-transform-origin: bottom right;
+    transform-origin: bottom right;
+    -webkit-transform: translate(5px, -75px) rotate(-540deg) scale(1.1);
+    transform: translate(5px, -75px) rotate(-540deg) scale(1.1)
+  }
+
+  100% {
+    -webkit-transform-origin: bottom right;
+    transform-origin: bottom right;
+    -webkit-transform: translate(5px, -75px) rotate(-720deg) scale(1.1);
+    transform: translate(5px, -75px) rotate(-720deg) scale(1.1)
+  }
+}
+
+@keyframes rotate {
+  0% {
+    -webkit-transform-origin: bottom left;
+    transform-origin: bottom left;
+    -webkit-transform: translate(-5px, -75px) rotate(0deg) scale(1.1);
+    transform: translate(-5px, -75px) rotate(0deg) scale(1.1)
+  }
+
+  25% {
+    -webkit-transform-origin: bottom left;
+    transform-origin: bottom left;
+    -webkit-transform: translate(-5px, -75px) rotate(-180deg) scale(1.1);
+    transform: translate(-5px, -75px) rotate(-180deg) scale(1.1)
+  }
+
+  26% {
+    -webkit-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: translate(-5px, 75px) rotate(-180deg) scale(1.1);
+    transform: translate(-5px, 75px) rotate(-180deg) scale(1.1)
+  }
+
+  50% {
+    -webkit-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: translate(-5px, 75px) rotate(-360deg) scale(1.1);
+    transform: translate(-5px, 75px) rotate(-360deg) scale(1.1)
+  }
+
+  51% {
+    -webkit-transform-origin: top right;
+    transform-origin: top right;
+    -webkit-transform: translate(5px, 75px) rotate(-360deg) scale(1.1);
+    transform: translate(5px, 75px) rotate(-360deg) scale(1.1)
+  }
+
+  75% {
+    -webkit-transform-origin: top right;
+    transform-origin: top right;
+    -webkit-transform: translate(5px, 75px) rotate(-540deg) scale(1.1);
+    transform: translate(5px, 75px) rotate(-540deg) scale(1.1)
+  }
+
+  76% {
+    -webkit-transform-origin: bottom right;
+    transform-origin: bottom right;
+    -webkit-transform: translate(5px, -75px) rotate(-540deg) scale(1.1);
+    transform: translate(5px, -75px) rotate(-540deg) scale(1.1)
+  }
+
+  100% {
+    -webkit-transform-origin: bottom right;
+    transform-origin: bottom right;
+    -webkit-transform: translate(5px, -75px) rotate(-720deg) scale(1.1);
+    transform: translate(5px, -75px) rotate(-720deg) scale(1.1)
+  }
+}
+
+.spinner {
+  color: #f75737;
+  width: 70px;
+  height: 70px;
+  background-color: #f75737;
+  outline: 6px solid #f75737;
+  outline-offset: -1px;
+  -webkit-transform: rotate(45deg) scale(0.5);
+  transform: rotate(45deg) scale(0.5)
+}
+
+.spinner:before {
+  content: '';
+  display: block;
+  width: 70px;
+  height: 70px;
+  background-color: #f75737;
+  -webkit-animation: rotate 3s infinite;
+  animation: rotate 3s infinite
+}
+
+.spinner-container {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%)
 }
 
 .form {
