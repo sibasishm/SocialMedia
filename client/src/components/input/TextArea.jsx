@@ -1,17 +1,17 @@
 import React from 'react';
 
-export const SimpleInput = ({
+export const TextArea = ({
 	input,
 	label,
 	iconClasses,
-	type,
 	placeholder,
+	rows = 1,
 	meta: { touched, error }
 }) => (
 	<div className={`form-group ${iconClasses ? 'icon-input' : ''}`}>
 		{label && <label>{label}</label>}
 		{iconClasses && <i className={iconClasses}></i>}
-		<input {...input} placeholder={placeholder} type={type} />
+		<textarea {...input} placeholder={placeholder} rows={rows} />
 		{touched && error && <span>{error}</span>}
 	</div>
 );

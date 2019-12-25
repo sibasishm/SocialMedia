@@ -2,25 +2,27 @@ import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Container, Header, Button } from 'semantic-ui-react';
 
 const Landing = ({ isAuthenticated }) => {
 	if (isAuthenticated) {
 		return <Redirect to='/dashboard' />;
 	}
 	return (
-		<header className='landing'>
-			<div className='landing-inner'>
-				<h1 className='landing-inner-text'>
-					<span className='x-large'>Socialize</span>
-					<span className='lead'>
-						Rest of the world is just a click away
-					</span>
-				</h1>
-				<Link to='/register' className='btn btn-light my-1'>
-					Get started
-				</Link>
-			</div>
-		</header>
+		<Container text>
+			<Header
+				as='h1'
+				content='Socialize'
+				subheader='The journey of a million miles begin with a single step.'
+			/>
+			<Button
+				as={Link}
+				to='/register'
+				size='large'
+				color='teal'
+				content='Get started'
+			/>
+		</Container>
 	);
 };
 

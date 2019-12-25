@@ -5,7 +5,9 @@ import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
 import { createProfile } from '../../actions/profile';
 
-import { SimpleInput } from './SimpleInput';
+import { SimpleInput } from '../input/SimpleInput';
+import { TextArea } from '../input/TextArea';
+import { SimpleSelect } from '../input/SimpleSelect';
 
 const CreateProfile = ({ createProfile, formData, history }) => {
 	const onSubmit = e => {
@@ -23,9 +25,17 @@ const CreateProfile = ({ createProfile, formData, history }) => {
 			/>
 			<Field
 				name='email'
-				type='email'
-				component={SimpleInput}
+				type='description'
+				rows={3}
+				component={TextArea}
 				label='Email'
+			/>
+			<Field
+				name='gender'
+				options={['Male', 'Female', 'None']}
+				component={SimpleSelect}
+				label='Gender'
+				placeholder='Select a gender'
 			/>
 			<input type='submit' value='Login' className='btn btn-primary' />
 		</form>

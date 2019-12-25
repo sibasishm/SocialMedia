@@ -13,7 +13,7 @@ import {
 } from './types';
 import { setAlert } from './alert';
 
-import { setAuthToken } from '../utils/utilities';
+import { setAuthToken } from '../utils';
 
 // Set x-auth-token in axios defaults header
 // Get user data from /api/auth and set to payload
