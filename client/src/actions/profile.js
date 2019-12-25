@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { setAlert } from './alert';
+import { toastr } from 'react-redux-toastr';
 import { GET_PROFILE, PROFILE_ERROR } from './types';
 
 export const getCurrentProfile = () => async dispatch => {
@@ -40,9 +40,9 @@ export const createProfile = (
 			payload: res.data
 		});
 
-		dispatch(
-			setAlert(edit ? 'Profile updated' : 'Profile created', 'success')
-		);
+		edit
+			? toastr.info('Profile updated')
+			: toastr.success('Profile created', "You're all set");
 
 		// For new profile creation redirect to dashboard
 		if (!edit) {
@@ -52,9 +52,7 @@ export const createProfile = (
 		const errors = err.response.data.errors;
 
 		if (errors) {
-			errors.forEach(error =>
-				dispatch(setAlert(error.msg, 'danger', 3000))
-			);
+			errors.forEach(error => toastr.error(error.msg));
 		}
 
 		dispatch({

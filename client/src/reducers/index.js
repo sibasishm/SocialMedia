@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
 import { reducer as form } from 'redux-form';
-import alert from './alert';
+import { reducer as toastr } from 'react-redux-toastr';
 import auth from './auth';
 import profile from './profile';
 import modal from './modal';
 
 export default combineReducers({
-	alert,
+	toastr,
 	auth,
 	profile,
 	form,

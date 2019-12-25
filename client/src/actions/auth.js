@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import { toastr } from 'react-redux-toastr';
 import {
 	REGISTER_SUCCESS,
 	REGISTER_FAIL,
@@ -11,7 +11,7 @@ import {
 	CLEAR_PROFILE,
 	NO_TOKEN
 } from './types';
-import { setAlert } from './alert';
+import { closeModal } from './modal';
 
 import { setAuthToken } from '../utils';
 
@@ -61,14 +61,14 @@ export const register = ({ name, email, password }) => async dispatch => {
 
 		dispatch(loadUser());
 
-		dispatch(setAlert('Registered successfully!', 'success', 4000));
+		dispatch(closeModal());
+		toastr.success('Welcome', 'Registered successfully!');
 	} catch (err) {
 		const errors = err.response.data.errors;
+		dispatch(closeModal());
 
 		if (errors) {
-			errors.forEach(error =>
-				dispatch(setAlert(error.msg, 'danger', 3000))
-			);
+			errors.forEach(error => toastr.error(error.msg));
 		}
 
 		dispatch({
@@ -96,14 +96,14 @@ export const login = ({ email, password }) => async dispatch => {
 
 		dispatch(loadUser());
 
-		dispatch(setAlert('Logged in successfully!', 'success', 4000));
+		dispatch(closeModal());
+		toastr.success('Welcome back', 'Signed in successfully!');
 	} catch (err) {
 		const errors = err.response.data.errors;
+		dispatch(closeModal());
 
 		if (errors) {
-			errors.forEach(error =>
-				dispatch(setAlert(error.msg, 'danger', 3000))
-			);
+			errors.forEach(error => toastr.error(error.msg));
 		}
 
 		dispatch({

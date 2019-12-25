@@ -1,13 +1,19 @@
 import React from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Container, Header, Button } from 'semantic-ui-react';
+import { openModal } from '../../actions/modal';
 
-const Landing = ({ isAuthenticated }) => {
+const Landing = ({ isAuthenticated, openModal }) => {
 	if (isAuthenticated) {
 		return <Redirect to='/dashboard' />;
 	}
+
+	const handleRegister = () => {
+		openModal('Register');
+	};
+
 	return (
 		<Container text>
 			<Header
@@ -16,22 +22,22 @@ const Landing = ({ isAuthenticated }) => {
 				subheader='The journey of a million miles begin with a single step.'
 			/>
 			<Button
-				as={Link}
-				to='/register'
 				size='large'
 				color='teal'
 				content='Get started'
+				onClick={handleRegister}
 			/>
 		</Container>
 	);
 };
 
 Landing.prototype = {
-	isAuthenticated: PropTypes.bool
+	isAuthenticated: PropTypes.bool,
+	openModal: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
 	isAuthenticated: state.auth.isAuthenticated
 });
 
-export default connect(mapStateToProps)(Landing);
+export default connect(mapStateToProps, { openModal })(Landing);

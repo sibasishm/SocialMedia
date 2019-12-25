@@ -7,25 +7,53 @@ import { Menu, Container } from 'semantic-ui-react';
 import GuestLinks from './GuestLinks';
 import AuthLinks from './AuthLinks';
 
-const Navbar = ({ isAuthenticated, loading }) => (
-	<Menu pointing secondary size='large'>
-		<Container>
-			<Menu.Item header as={NavLink} exact to='/' name='Socialize' />
-			<Menu.Item as={NavLink} to='/profile' name='People' />
-			<Menu.Item as={NavLink} to='/events' name='Event' />
-			{!loading && (isAuthenticated ? <AuthLinks /> : <GuestLinks />)}
-		</Container>
-	</Menu>
-);
+import { openModal } from '../../actions/modal';
+import { logout } from '../../actions/auth';
+
+const Navbar = ({ isAuthenticated, loading, user, openModal, logout }) => {
+	const handleSignIn = () => {
+		openModal('Auth');
+	};
+
+	const handleRegister = () => {
+		openModal('Register');
+	};
+
+	return (
+		<Menu pointing secondary size='large'>
+			<Container>
+				<Menu.Item header as={NavLink} exact to='/' name='Socialize' />
+				<Menu.Item as={NavLink} to='/profile' name='People' />
+				<Menu.Item as={NavLink} to='/events' name='Event' />
+				{!loading &&
+					(isAuthenticated ? (
+						<AuthLinks logout={logout} userDetails={user} />
+					) : (
+						<GuestLinks
+							signIn={handleSignIn}
+							register={handleRegister}
+						/>
+					))}
+			</Container>
+		</Menu>
+	);
+};
 
 Navbar.propTypes = {
 	isAuthenticated: PropTypes.bool,
-	loading: PropTypes.bool
+	loading: PropTypes.bool,
+	user: PropTypes.object,
+	openModal: PropTypes.func.isRequired,
+	logout: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
 	isAuthenticated: state.auth.isAuthenticated,
-	loading: state.auth.loading
+	loading: state.auth.loading,
+	user: {
+		name: state.auth.user ? state.auth.user.name : 'User Name',
+		avatar: state.auth.user ? state.auth.user.avatar : ''
+	}
 });
 
-export default connect(mapStateToProps)(Navbar);
+export default connect(mapStateToProps, { openModal, logout })(Navbar);
