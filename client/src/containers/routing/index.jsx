@@ -2,23 +2,26 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { Container } from 'semantic-ui-react';
 
-import Dashboard from '../../components/dashboard/Dashboard';
-import CreateProfile from '../../components/form/CreateProfile';
+import Profile from '../dashboard/Profile';
 import Settings from '../user/Settings';
 import PrivateRoute from './PrivateRoute';
 import NotFound from '../../components/layout/NotFound';
+import People from '../dashboard/People';
+import Events from '../dashboard/Events';
+import Topics from '../dashboard/Topics';
 
 const Routes = () => {
 	return (
 		<Container>
 			<Switch>
-				<PrivateRoute eaxct path='/dashboard' component={Dashboard} />
-				<PrivateRoute
-					eaxct
-					path='/create-profile'
-					component={CreateProfile}
-				/>
-				<PrivateRoute exact path='/settings' component={Settings} />
+				<Route exact path='/people' component={People} />
+				<PrivateRoute path='/people:id' component={People} />
+				<Route exact path='/events' component={Events} />
+				<PrivateRoute path='/events:id' component={Events} />
+				<Route exact path='/topics' component={Topics} />
+				<PrivateRoute path='/topics:id' component={Topics} />
+				<PrivateRoute eaxct path='/me' component={Profile} />
+				<PrivateRoute path='/settings' component={Settings} />
 				<Route component={NotFound} />
 			</Switch>
 		</Container>

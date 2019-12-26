@@ -23,8 +23,9 @@ const Navbar = ({ isAuthenticated, loading, user, openModal, logout }) => {
 		<Menu pointing secondary size='large'>
 			<Container>
 				<Menu.Item header as={NavLink} exact to='/' name='Socialize' />
-				<Menu.Item as={NavLink} to='/profile' name='People' />
-				<Menu.Item as={NavLink} to='/events' name='Event' />
+				<Menu.Item as={NavLink} to='/events' name='Events' />
+				<Menu.Item as={NavLink} to='/topics' name='Topics' />
+				<Menu.Item as={NavLink} to='/people' name='People' />
 				{!loading &&
 					(isAuthenticated ? (
 						<AuthLinks logout={logout} userDetails={user} />

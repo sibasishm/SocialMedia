@@ -9,7 +9,6 @@ import Navbar from '../components/nav/Navbar';
 import Landing from './landing';
 import Routes from './routing';
 import Modal from './modal';
-import { Segment } from 'semantic-ui-react';
 
 // Redux
 import { Provider } from 'react-redux';
@@ -35,20 +34,18 @@ const App = () => {
 		<Provider store={store}>
 			<Router>
 				<Fragment>
+					<Modal />
+					<Navbar />
 					<ReduxToastr
 						timeOut={3000}
 						position='top-center'
 						transitionIn='fadeIn'
 						transitionOut='fadeOut'
 					/>
-					<Modal />
-					<Navbar />
-					<Segment textAlign='center' vertical>
-						<Switch>
-							<Route exact path='/' component={Landing} />
-							<Route component={Routes} />
-						</Switch>
-					</Segment>
+					<Switch>
+						<Route exact path='/' component={Landing} />
+						<Route component={Routes} />
+					</Switch>
 				</Fragment>
 			</Router>
 		</Provider>

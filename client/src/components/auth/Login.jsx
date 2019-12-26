@@ -9,19 +9,15 @@ import { login } from '../../actions/auth';
 import { required, email } from '../../utils/formValidators';
 
 const Login = ({ login, isAuthenticated, handleSubmit }) => {
-	const onFormSubmit = formData => {
-		login(formData);
-	};
-
 	if (isAuthenticated) {
-		return <Redirect to='/dashboard' />;
+		return <Redirect to='/me' />;
 	}
 
 	return (
 		<Form
 			error
 			size='large'
-			onSubmit={handleSubmit(onFormSubmit)}
+			onSubmit={handleSubmit(login)}
 			autoComplete='off'
 		>
 			<Field

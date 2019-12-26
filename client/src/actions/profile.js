@@ -20,12 +20,8 @@ export const getCurrentProfile = () => async dispatch => {
 	}
 };
 
-// Create or edit profile data
-export const createProfile = (
-	formData,
-	history,
-	edit = false
-) => async dispatch => {
+// Update profile data
+export const updateProfile = formData => async dispatch => {
 	try {
 		const config = {
 			headers: {
@@ -40,14 +36,7 @@ export const createProfile = (
 			payload: res.data
 		});
 
-		edit
-			? toastr.info('Profile updated')
-			: toastr.success('Profile created', "You're all set");
-
-		// For new profile creation redirect to dashboard
-		if (!edit) {
-			history.push('/dashboard');
-		}
+		toastr.info('Profile updated');
 	} catch (err) {
 		const errors = err.response.data.errors;
 

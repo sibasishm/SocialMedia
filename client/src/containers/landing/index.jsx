@@ -7,7 +7,7 @@ import { openModal } from '../../actions/modal';
 
 const Landing = ({ isAuthenticated, openModal }) => {
 	if (isAuthenticated) {
-		return <Redirect to='/dashboard' />;
+		return <Redirect to='/me' />;
 	}
 
 	const handleRegister = () => {
@@ -15,7 +15,7 @@ const Landing = ({ isAuthenticated, openModal }) => {
 	};
 
 	return (
-		<Container text>
+		<Container text textAlign='center'>
 			<Header
 				as='h1'
 				content='Socialize'

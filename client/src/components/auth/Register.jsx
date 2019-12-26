@@ -15,23 +15,15 @@ import {
 } from '../../utils/formValidators';
 
 const Register = ({ register, isAuthenticated, handleSubmit }) => {
-	const onFormSubmit = formData => {
-		if (formData.password !== formData.confirmPassword) {
-			console.error("Passowrds don't match!", 'HANDLE');
-		} else {
-			register(formData);
-		}
-	};
-
 	if (isAuthenticated) {
-		return <Redirect to='/dashboard' />;
+		return <Redirect to='/me' />;
 	}
 
 	return (
 		<Form
 			error
 			size='large'
-			onSubmit={handleSubmit(onFormSubmit)}
+			onSubmit={handleSubmit(register)}
 			autoComplete='off'
 		>
 			<Field

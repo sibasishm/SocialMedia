@@ -1,27 +1,40 @@
 import React from 'react';
+import { Form, Dropdown, Label } from 'semantic-ui-react';
+
+const formatOptions = options =>
+	options.map((option, index) => ({
+		key: index,
+		text: option,
+		value: option.toLowerCase()
+	}));
 
 export const SimpleSelect = ({
 	input,
-	label,
-	iconClasses,
+	options,
 	placeholder,
-	multiple = false,
-	options = [],
-	meta: { touched, error }
+	multiple,
+	meta: { touched, error, warning }
 }) => (
-	<div className={`form-group ${iconClasses ? 'icon-input' : ''}`}>
-		{label && <label>{label}</label>}
-		{iconClasses && <i className={iconClasses}></i>}
-		<select {...input} multiple={multiple}>
-			<option value='' disabled>
-				{placeholder}
-			</option>
-			{options.map(val => (
-				<option value={val} key={val}>
-					{val}
-				</option>
-			))}
-		</select>
-		{touched && error && <span>{error}</span>}
-	</div>
+	<Form.Field error={touched && !!error}>
+		<Dropdown
+			selection
+			value={input.value || null}
+			onChange={(e, data) => input.onChange(data.value)}
+			multiple={multiple}
+			placeholder={placeholder}
+			options={formatOptions(options)}
+			search
+		/>
+		{touched &&
+			((error && (
+				<Label basic pointing color='red'>
+					{error}
+				</Label>
+			)) ||
+				(warning && (
+					<Label basic pointing color='orange'>
+						{warning}
+					</Label>
+				)))}
+	</Form.Field>
 );
