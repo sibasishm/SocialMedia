@@ -47,6 +47,8 @@ router.post('/', auth, async (req, res) => {
 	// Declare the keywords decalred in the schema
 	const profileArrayKewords = [];
 	const profileKeywords = [
+		'firstName',
+		'surname',
 		'bio',
 		'dob',
 		'gender',
@@ -81,29 +83,29 @@ router.post('/', auth, async (req, res) => {
 	profileKeywords.forEach(keyword =>
 		req.body.hasOwnProperty(keyword) && req.body[keyword]
 			? (profileObj[keyword] = req.body[keyword])
-			: (profileObj[keyword] = keyword === 'dob' ? new Date() : '-')
+			: (profileObj[keyword] = keyword === 'dob' ? new Date() : '')
 	);
 	profileArrayKewords.forEach(keyword =>
 		req.body.hasOwnProperty(keyword) && req.body[keyword]
 			? (profileObj[keyword] = converToArray(req.body[keyword]))
-			: (profileObj[keyword] = ['-'])
+			: (profileObj[keyword] = [])
 	);
 	favouriteKeywords.forEach(keyword =>
 		req.body.hasOwnProperty(keyword) && req.body[keyword]
 			? (profileObj.favourites[keyword] = converToArray(
 					req.body[keyword]
 			  ))
-			: (profileObj.favourites[keyword] = ['-'])
+			: (profileObj.favourites[keyword] = [])
 	);
 	socialKeywords.forEach(keyword =>
 		req.body.hasOwnProperty(keyword) && req.body[keyword]
 			? (profileObj.social[keyword] = req.body[keyword])
-			: (profileObj.social[keyword] = '-')
+			: (profileObj.social[keyword] = '')
 	);
 	contactKeywords.forEach(keyword =>
 		req.body.hasOwnProperty(keyword) && req.body[keyword]
 			? (profileObj.contact[keyword] = req.body[keyword])
-			: (profileObj.contact[keyword] = '-')
+			: (profileObj.contact[keyword] = '')
 	);
 
 	try {

@@ -8,7 +8,7 @@ import { SimpleInput } from '../input/SimpleInput';
 import { login } from '../../actions/auth';
 import { required, email } from '../../utils/formValidators';
 
-const Login = ({ login, isAuthenticated, handleSubmit }) => {
+const Login = ({ login, auth: { isAuthenticated }, handleSubmit }) => {
 	if (isAuthenticated) {
 		return <Redirect to='/me' />;
 	}
@@ -45,12 +45,12 @@ const Login = ({ login, isAuthenticated, handleSubmit }) => {
 
 Login.propTypes = {
 	login: PropTypes.func.isRequired,
-	isAuthenticated: PropTypes.bool,
-	handleSubmit: PropTypes.func
+	auth: PropTypes.object.isRequired,
+	handleSubmit: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-	isAuthenticated: state.auth.isAuthenticated
+	auth: state.auth
 });
 
 export default connect(mapStateToProps, { login })(

@@ -24,6 +24,7 @@ export const SimpleSelect = ({
 			placeholder={placeholder}
 			options={formatOptions(options)}
 			search
+			fluid
 		/>
 		{touched &&
 			((error && (

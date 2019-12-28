@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Container, Header, Button } from 'semantic-ui-react';
 import { openModal } from '../../actions/modal';
 
-const Landing = ({ isAuthenticated, openModal }) => {
+const Landing = ({ auth: { isAuthenticated }, openModal }) => {
 	if (isAuthenticated) {
 		return <Redirect to='/me' />;
 	}
@@ -32,12 +32,12 @@ const Landing = ({ isAuthenticated, openModal }) => {
 };
 
 Landing.prototype = {
-	isAuthenticated: PropTypes.bool,
+	auth: PropTypes.object.isRequired,
 	openModal: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-	isAuthenticated: state.auth.isAuthenticated
+	auth: state.auth
 });
 
 export default connect(mapStateToProps, { openModal })(Landing);

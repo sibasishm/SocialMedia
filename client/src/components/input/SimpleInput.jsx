@@ -12,6 +12,7 @@ export const SimpleInput = ({
 	<Form.Field error={touched && !!error}>
 		<Input
 			{...input}
+			fluid
 			type={type}
 			icon={icon}
 			iconPosition='left'

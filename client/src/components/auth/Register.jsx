@@ -14,7 +14,7 @@ import {
 	matchPasswords
 } from '../../utils/formValidators';
 
-const Register = ({ register, isAuthenticated, handleSubmit }) => {
+const Register = ({ register, auth: { isAuthenticated }, handleSubmit }) => {
 	if (isAuthenticated) {
 		return <Redirect to='/me' />;
 	}
@@ -68,12 +68,12 @@ const Register = ({ register, isAuthenticated, handleSubmit }) => {
 
 Register.propTypes = {
 	register: PropTypes.func.isRequired,
-	isAuthenticated: PropTypes.bool,
-	handleSubmit: PropTypes.func
+	auth: PropTypes.object.isRequired,
+	handleSubmit: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-	isAuthenticated: state.auth.isAuthenticated
+	auth: state.auth
 });
 
 export default connect(mapStateToProps, {

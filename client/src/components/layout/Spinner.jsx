@@ -1,9 +1,7 @@
 import React from 'react';
 
-export default () => {
-	return (
-		<div className='spinner-container'>
-			<div className='spinner'></div>
-		</div>
-	);
-};
+export default () => (
+	<div id='spinner-container'>
+		<div id='my-spinner'></div>
+	</div>
+);

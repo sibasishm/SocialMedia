@@ -2,13 +2,13 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { Container } from 'semantic-ui-react';
 
-import Profile from '../dashboard/Profile';
+import Profile from '../people/Profile';
 import Settings from '../user/Settings';
 import PrivateRoute from './PrivateRoute';
 import NotFound from '../../components/layout/NotFound';
-import People from '../dashboard/People';
-import Events from '../dashboard/Events';
-import Topics from '../dashboard/Topics';
+import People from '../people';
+import Events from '../events';
+import Topics from '../topics';
 
 const Routes = () => {
 	return (

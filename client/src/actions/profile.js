@@ -1,10 +1,56 @@
 import axios from 'axios';
 import { toastr } from 'react-redux-toastr';
-import { GET_PROFILE, PROFILE_ERROR } from './types';
+import {
+	GET_PROFILE,
+	GET_PROFILES,
+	PROFILE_ERROR,
+	CLEAR_PROFILE
+} from './types';
 
+// Logged in user's profile (token set in local storage)
 export const getCurrentProfile = () => async dispatch => {
 	try {
 		const res = await axios.get('/api/profiles/me');
+		dispatch({
+			type: GET_PROFILE,
+			payload: res.data
+		});
+	} catch (err) {
+		dispatch({ type: CLEAR_PROFILE });
+
+		dispatch({
+			type: PROFILE_ERROR,
+			payload: {
+				msg: err.response.statusText,
+				status: err.response.status
+			}
+		});
+	}
+};
+
+// All profiles
+export const getProfiles = () => async dispatch => {
+	try {
+		const res = axios.get('/api/profiles');
+		dispatch({
+			type: GET_PROFILES,
+			payload: res.data
+		});
+	} catch (err) {
+		dispatch({
+			type: PROFILE_ERROR,
+			payload: {
+				msg: err.response.statusText,
+				status: err.response.status
+			}
+		});
+	}
+};
+
+// Any user profile from userId
+export const getProfilesById = userId => async dispatch => {
+	try {
+		const res = axios.get(`/api/profiles/user/${userId}`);
 		dispatch({
 			type: GET_PROFILE,
 			payload: res.data
@@ -20,7 +66,7 @@ export const getCurrentProfile = () => async dispatch => {
 	}
 };
 
-// Update profile data
+// Get OR Update profile data
 export const updateProfile = formData => async dispatch => {
 	try {
 		const config = {

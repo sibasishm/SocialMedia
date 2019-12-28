@@ -4,6 +4,7 @@ import ReduxToastr from 'react-redux-toastr';
 
 // StyleSheets
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
+import '../assets/stylesheets/styles.css';
 
 import Navbar from '../components/nav/Navbar';
 import Landing from './landing';

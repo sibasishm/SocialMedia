@@ -10,47 +10,46 @@ import AuthLinks from './AuthLinks';
 import { openModal } from '../../actions/modal';
 import { logout } from '../../actions/auth';
 
-const Navbar = ({ isAuthenticated, loading, user, openModal, logout }) => {
-	const handleSignIn = () => {
-		openModal('Auth');
-	};
+const makeUserInfo = user => ({
+	name: user && user.name ? user.name : 'User name',
+	avatar: user && user.avatar ? user.avatar : ''
+});
 
-	const handleRegister = () => {
-		openModal('Register');
-	};
-
-	return (
-		<Menu pointing secondary size='large'>
-			<Container>
-				<Menu.Item header as={NavLink} exact to='/' name='Socialize' />
-				<Menu.Item as={NavLink} to='/events' name='Events' />
-				<Menu.Item as={NavLink} to='/topics' name='Topics' />
-				<Menu.Item as={NavLink} to='/people' name='People' />
-				{!loading &&
-					(isAuthenticated ? (
-						<AuthLinks logout={logout} userDetails={user} />
-					) : (
-						<GuestLinks
-							signIn={handleSignIn}
-							register={handleRegister}
-						/>
-					))}
-			</Container>
-		</Menu>
-	);
-};
+const Navbar = ({
+	auth: { isAuthenticated, loading, user },
+	openModal,
+	logout
+}) => (
+	<Menu pointing secondary size='large'>
+		<Container>
+			<Menu.Item header as={NavLink} exact to='/' name='Socialize' />
+			<Menu.Item as={NavLink} to='/events' name='Events' />
+			<Menu.Item as={NavLink} to='/topics' name='Topics' />
+			<Menu.Item as={NavLink} to='/people' name='People' />
+			{!loading &&
+				(isAuthenticated ? (
+					<AuthLinks
+						logout={logout}
+						userDetails={makeUserInfo(user)}
+					/>
+				) : (
+					<GuestLinks
+						signIn={() => openModal('Auth')}
+						register={() => openModal('Register')}
+					/>
+				))}
+		</Container>
+	</Menu>
+);
 
 Navbar.propTypes = {
-	isAuthenticated: PropTypes.bool,
-	loading: PropTypes.bool,
-	user: PropTypes.object,
+	auth: PropTypes.object.isRequired,
 	openModal: PropTypes.func.isRequired,
 	logout: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-	isAuthenticated: state.auth.isAuthenticated,
-	loading: state.auth.loading,
+	auth: state.auth,
 	user: {
 		name: state.auth.user ? state.auth.user.name : 'User Name',
 		avatar: state.auth.user ? state.auth.user.avatar : ''
