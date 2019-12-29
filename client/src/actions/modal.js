@@ -10,7 +10,7 @@ export const openModal = (type, props) => dispatch => {
 	});
 };
 
-export default closeModal = () => dispatch => {
+export const closeModal = () => dispatch => {
 	dispatch({
 		type: MODAL_CLOSE
 	});

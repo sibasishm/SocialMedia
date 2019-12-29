@@ -1,10 +1,15 @@
 import React, { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import ReduxToastr from 'react-redux-toastr';
+
+// StyleSheets
+import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
+import '../assets/stylesheets/styles.css';
 
 import Navbar from '../components/nav/Navbar';
 import Landing from './landing';
 import Routes from './routing';
-import { Segment } from 'semantic-ui-react';
+import Modal from './modal';
 
 // Redux
 import { Provider } from 'react-redux';
@@ -30,13 +35,18 @@ const App = () => {
 		<Provider store={store}>
 			<Router>
 				<Fragment>
+					<Modal />
 					<Navbar />
-					<Segment textAlign='center' vertical>
-						<Switch>
-							<Route exact path='/' component={Landing} />
-							<Route component={Routes} />
-						</Switch>
-					</Segment>
+					<ReduxToastr
+						timeOut={3000}
+						position='top-center'
+						transitionIn='fadeIn'
+						transitionOut='fadeOut'
+					/>
+					<Switch>
+						<Route exact path='/' component={Landing} />
+						<Route component={Routes} />
+					</Switch>
 				</Fragment>
 			</Router>
 		</Provider>

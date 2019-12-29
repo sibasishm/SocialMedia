@@ -1,17 +1,29 @@
 import React from 'react';
+import { Form, Label } from 'semantic-ui-react';
 
 export const TextArea = ({
 	input,
-	label,
-	iconClasses,
+	rows,
 	placeholder,
-	rows = 1,
-	meta: { touched, error }
+	meta: { touched, error, warning }
 }) => (
-	<div className={`form-group ${iconClasses ? 'icon-input' : ''}`}>
-		{label && <label>{label}</label>}
-		{iconClasses && <i className={iconClasses}></i>}
-		<textarea {...input} placeholder={placeholder} rows={rows} />
-		{touched && error && <span>{error}</span>}
-	</div>
+	<Form.Field error={touched && !!error}>
+		<textarea
+			{...input}
+			rows={rows}
+			placeholder={placeholder}
+			style={{ minHeight: 100 }}
+		/>
+		{touched &&
+			((error && (
+				<Label basic pointing color='red'>
+					{error}
+				</Label>
+			)) ||
+				(warning && (
+					<Label basic pointing color='orange'>
+						{warning}
+					</Label>
+				)))}
+	</Form.Field>
 );

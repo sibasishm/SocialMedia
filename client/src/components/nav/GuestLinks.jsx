@@ -1,17 +1,13 @@
 import React from 'react';
-import { NavLink, Link } from 'react-router-dom';
 import { Menu, Button } from 'semantic-ui-react';
 
-const GuestLinks = () => (
+const GuestLinks = ({ signIn, register }) => (
 	<Menu.Menu position='right'>
-		<Menu.Item as={NavLink} to='/login' content='Sign in' />
 		<Menu.Item>
-			<Button
-				as={Link}
-				to='/register'
-				color='teal'
-				content='Get started'
-			/>
+			<Button basic color='teal' content='Sign in' onClick={signIn} />
+		</Menu.Item>
+		<Menu.Item>
+			<Button color='teal' content='Get started' onClick={register} />
 		</Menu.Item>
 	</Menu.Menu>
 );

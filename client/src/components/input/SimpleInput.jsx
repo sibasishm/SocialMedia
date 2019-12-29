@@ -7,11 +7,12 @@ export const SimpleInput = ({
 	label,
 	icon,
 	placeholder,
-	meta: { touched, error }
+	meta: { touched, error, warning }
 }) => (
 	<Form.Field error={touched && !!error}>
 		<Input
 			{...input}
+			fluid
 			type={type}
 			icon={icon}
 			iconPosition='left'
@@ -19,10 +20,16 @@ export const SimpleInput = ({
 			labelPosition='left'
 			placeholder={placeholder}
 		/>
-		{touched && !!error && (
-			<Label pointing color='red'>
-				{error}
-			</Label>
-		)}
+		{touched &&
+			((error && (
+				<Label basic pointing color='red'>
+					{error}
+				</Label>
+			)) ||
+				(warning && (
+					<Label basic pointing color='orange'>
+						{warning}
+					</Label>
+				)))}
 	</Form.Field>
 );

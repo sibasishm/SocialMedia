@@ -1,85 +1,81 @@
 import React from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Form, Segment, Button, Header } from 'semantic-ui-react';
+import { Form, Button } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
 import { SimpleInput } from '../input/SimpleInput';
-import { setAlert } from '../../actions/alert';
 import { register } from '../../actions/auth';
+import {
+	required,
+	email,
+	minLength6,
+	notGmail,
+	matchPasswords
+} from '../../utils/formValidators';
 
-const Register = ({ setAlert, register, isAuthenticated, formData }) => {
-	const onFormSubmit = e => {
-		e.preventDefault();
-		// if (password !== confirmPassword) {
-		// 	setAlert("Passowrds don't match!", 'danger');
-		// } else {
-		register(formData);
-		// }
-	};
-
+const Register = ({ register, auth: { isAuthenticated }, handleSubmit }) => {
 	if (isAuthenticated) {
-		return <Redirect to='/dashboard' />;
+		return <Redirect to='/me' />;
 	}
 
 	return (
-		<Form error size='large' onSubmit={e => onFormSubmit(e)}>
-			<Segment>
-				<Field
-					name='name'
-					component={SimpleInput}
-					type='text'
-					placeholder='Your user name'
-					icon='user'
-				/>
-				<Field
-					name='email'
-					component={SimpleInput}
-					type='email'
-					placeholder='Your email'
-					icon='mail'
-				/>
-				<Field
-					name='password'
-					component={SimpleInput}
-					type='password'
-					placeholder='Your password'
-					icon='key'
-				/>
-				<Field
-					name='confirmPassword'
-					component={SimpleInput}
-					type='password'
-					placeholder='Repeat your password'
-					icon='key'
-				/>
-				<Button fluid size='medium' color='teal'>
-					Sign up
-				</Button>
-				<Header size='tiny'>
-					<span>Already have an account? </span>
-					<span>
-						<Link to='/register'>Sign in</Link>
-					</span>
-				</Header>
-			</Segment>
+		<Form
+			error
+			size='large'
+			onSubmit={handleSubmit(register)}
+			autoComplete='off'
+		>
+			<Field
+				name='name'
+				component={SimpleInput}
+				type='text'
+				placeholder='Your user name'
+				icon='user'
+				validate={required}
+			/>
+			<Field
+				name='email'
+				component={SimpleInput}
+				type='email'
+				placeholder='Your email'
+				icon='mail'
+				validate={[required, email]}
+				warn={notGmail}
+			/>
+			<Field
+				name='password'
+				component={SimpleInput}
+				type='password'
+				placeholder='Your password'
+				icon='key'
+				validate={[required, minLength6]}
+			/>
+			<Field
+				name='confirmPassword'
+				component={SimpleInput}
+				type='password'
+				placeholder='Repeat your password'
+				icon='key'
+				validate={[required, matchPasswords]}
+			/>
+			<Button fluid size='medium' color='teal'>
+				Sign up
+			</Button>
 		</Form>
 	);
 };
 
 Register.propTypes = {
-	setAlert: PropTypes.func.isRequired,
 	register: PropTypes.func.isRequired,
-	isAuthenticated: PropTypes.bool,
-	formData: PropTypes.object
+	auth: PropTypes.object.isRequired,
+	handleSubmit: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-	isAuthenticated: state.auth.isAuthenticated,
-	formData: state.form.register && state.form.register.values
+	auth: state.auth
 });
 
 export default connect(mapStateToProps, {
-	setAlert,
 	register
 })(reduxForm({ form: 'register' })(Register));
