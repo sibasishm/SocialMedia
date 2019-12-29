@@ -13,6 +13,8 @@ const minLength = min => value =>
 		: undefined;
 export const minLength6 = minLength(6);
 
+export const minLength20 = minLength(20);
+
 export const number = value =>
 	value && isNaN(Number(value)) ? 'Must be a number' : undefined;
 

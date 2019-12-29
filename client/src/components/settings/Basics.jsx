@@ -9,7 +9,7 @@ import { required } from '../../utils/formValidators';
 
 const Basics = ({ pristine, submitting, handleSubmit, updateProfile }) => (
 	<Segment>
-		<Header dividing size='large' content='Basic Information' />
+		<Header dividing size='large' content='Basic information' />
 		<Form onSubmit={handleSubmit(updateProfile)}>
 			<Form.Group inline widths='equal'>
 				<Field

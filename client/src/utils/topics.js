@@ -1,4 +1,4 @@
-const topics = Array.from(
+export const topics = Array.from(
 	new Set([
 		'Education',
 		'Environment',
@@ -25,4 +25,15 @@ const topics = Array.from(
 	])
 );
 
-export default topics;
+export const hobbies = Array.from(
+	new Set([
+		'Music',
+		'Movies',
+		'Food',
+		'Travel',
+		'Sports',
+		'News',
+		'Fun',
+		'Entertainment'
+	])
+);

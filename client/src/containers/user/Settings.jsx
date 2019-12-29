@@ -4,7 +4,12 @@ import { Route, Redirect, Switch } from 'react-router-dom';
 import { Grid } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
-import { updateProfile, getCurrentProfile } from '../../actions/profile';
+import {
+	updateProfile,
+	getCurrentProfile,
+	addExperience,
+	addEducation
+} from '../../actions/profile';
 
 import SideNav from '../../components/settings/SideNav';
 import Basics from '../../components/settings/Basics';
@@ -17,7 +22,9 @@ import Experience from '../../components/settings/Experience';
 const Settings = ({
 	updateProfile,
 	getCurrentProfile,
-	profile: { current, loading }
+	addEducation,
+	addExperience,
+	profile: { current }
 }) => {
 	useEffect(() => {
 		getCurrentProfile();
@@ -55,11 +62,15 @@ const Settings = ({
 					/>
 					<Route
 						path='/settings/education'
-						render={() => <Education />}
+						render={() => (
+							<Education updateProfile={addEducation} />
+						)}
 					/>
 					<Route
 						path='/settings/experience'
-						render={() => <Experience />}
+						render={() => (
+							<Experience updateProfile={addExperience} />
+						)}
 					/>
 				</Switch>
 			</Grid.Column>
@@ -70,6 +81,8 @@ const Settings = ({
 Settings.propTypes = {
 	updateProfile: PropTypes.func.isRequired,
 	getCurrentProfile: PropTypes.func.isRequired,
+	addEducation: PropTypes.func.isRequired,
+	addExperience: PropTypes.func.isRequired,
 	profile: PropTypes.object.isRequired
 };
 
@@ -77,6 +90,9 @@ const mapStateToProps = state => ({
 	profile: state.profile
 });
 
-export default connect(mapStateToProps, { updateProfile, getCurrentProfile })(
-	Settings
-);
+export default connect(mapStateToProps, {
+	updateProfile,
+	getCurrentProfile,
+	addExperience,
+	addEducation
+})(Settings);

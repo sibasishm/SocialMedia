@@ -4,7 +4,8 @@ import {
 	GET_PROFILE,
 	GET_PROFILES,
 	PROFILE_ERROR,
-	CLEAR_PROFILE
+	CLEAR_PROFILE,
+	UPDATE_PROFILE
 } from './types';
 
 // Logged in user's profile (token set in local storage)
@@ -31,7 +32,7 @@ export const getCurrentProfile = () => async dispatch => {
 // All profiles
 export const getProfiles = () => async dispatch => {
 	try {
-		const res = axios.get('/api/profiles');
+		const res = await axios.get('/api/profiles');
 		dispatch({
 			type: GET_PROFILES,
 			payload: res.data
@@ -83,6 +84,81 @@ export const updateProfile = formData => async dispatch => {
 		});
 
 		toastr.info('Profile updated');
+	} catch (err) {
+		const errors = err.response.data.errors;
+
+		if (errors) {
+			errors.forEach(error => toastr.error(error.msg));
+		}
+
+		dispatch({
+			type: PROFILE_ERROR,
+			payload: {
+				msg: err.response.statusText,
+				status: err.response.status
+			}
+		});
+	}
+};
+
+// Add experience
+export const addExperience = formData => async dispatch => {
+	try {
+		const config = {
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		};
+
+		const res = await axios.put(
+			'/api/profiles/experience',
+			formData,
+			config
+		);
+
+		dispatch({
+			type: UPDATE_PROFILE,
+			payload: res.data
+		});
+
+		toastr.success('Success!', 'A new experience added');
+	} catch (err) {
+		const errors = err.response.data.errors;
+
+		if (errors) {
+			errors.forEach(error => toastr.error(error.msg));
+		}
+
+		dispatch({
+			type: PROFILE_ERROR,
+			payload: {
+				msg: err.response.statusText,
+				status: err.response.status
+			}
+		});
+	}
+};
+
+// Add experience
+export const addEducation = formData => async dispatch => {
+	try {
+		const config = {
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		};
+
+		const res = await axios.put(
+			'/api/profiles/education',
+			formData,
+			config
+		);
+
+		dispatch({
+			type: UPDATE_PROFILE,
+			payload: res.data
+		});
+		toastr.success('Success!', 'A new education added');
 	} catch (err) {
 		const errors = err.response.data.errors;
 

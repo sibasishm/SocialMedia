@@ -16,3 +16,7 @@ export const CLEAR_PROFILE = 'CLEAR_PROFILE';
 // Modal
 export const MODAL_OPEN = 'MODAL_OPEN';
 export const MODAL_CLOSE = 'MODAL_CLOSE';
+// Post
+export const GET_POST = 'GET_POST';
+export const GET_POSTS = 'GET_POSTS';
+export const POST_ERROR = 'POST_ERROR';
