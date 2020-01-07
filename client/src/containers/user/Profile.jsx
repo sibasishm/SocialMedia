@@ -7,12 +7,13 @@ import { Grid, Container, Divider, Segment } from 'semantic-ui-react';
 import { getCurrentProfile } from '../../actions/profile';
 
 import Spinner from '../../components/layout/Spinner';
-import HeroBanner from '../../components/layout/profile/HeroBanner';
-import Stats from '../../components/layout/profile/Stats';
-import Social from '../../components/layout/profile/Social';
+import HeroBanner from '../../components/profile/HeroBanner';
+import Stats from '../../components/profile/Stats';
+import Social from '../../components/profile/Social';
 import Placeholder from '../../components/layout/Placeholder';
-import Menu from '../../components/layout/profile/Menu';
-import { Activities } from '../../components/layout/profile/Activities';
+import Menu from '../../components/profile/Menu';
+import { Activities } from '../../components/profile/Activities';
+import Topics from '../topics/Posts';
 
 const Profile = ({
 	getCurrentProfile,
@@ -23,7 +24,7 @@ const Profile = ({
 		getCurrentProfile();
 	}, [getCurrentProfile]);
 
-	return loading && current === null ? (
+	return loading || current === null ? (
 		<Spinner />
 	) : (
 		<div className='profile-container'>
@@ -64,7 +65,7 @@ const Profile = ({
 							/>
 							<Route
 								path='/me/topics'
-								render={() => <Placeholder />}
+								render={() => <Topics isAuthenticated={true} />}
 							/>
 							<Route
 								path='/me/events'

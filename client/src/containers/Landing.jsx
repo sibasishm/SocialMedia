@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Container, Header, Button } from 'semantic-ui-react';
-import { openModal } from '../../actions/modal';
+import { openModal } from '../actions/modal';
 
 const Landing = ({ auth: { isAuthenticated }, openModal }) => {
 	if (isAuthenticated) {

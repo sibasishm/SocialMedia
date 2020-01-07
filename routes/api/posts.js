@@ -60,6 +60,29 @@ router.get('/', async (req, res) => {
 	}
 });
 
+// @route   GET api/posts/me
+// @desc    get logged in user'posts
+// @access  Private
+router.get('/me', auth, async (req, res) => {
+	try {
+		// Show newest posts first
+		const posts = await Post.find({
+			user: req.user.id
+		}).sort({ date: -1 });
+
+		if (!posts) {
+			return res
+				.status(404)
+				.json({ msg: 'There are no posts for this user' });
+		}
+
+		res.json(posts);
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+});
+
 // @route   GET api/posts/:post_id
 // @desc    get specific post by id
 // @access  Private (Logged in users can only view)
@@ -195,7 +218,7 @@ router.post(
 				avatar: user.avatar,
 				user: req.user.id
 			};
-			post.comments.unshift(comment);
+			post.comments.push(comment);
 
 			await post.save();
 			res.json(post.comments);

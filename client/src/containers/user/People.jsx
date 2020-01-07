@@ -5,7 +5,7 @@ import { Card } from 'semantic-ui-react';
 
 import { getProfiles } from '../../actions/profile';
 import Spinner from '../../components/layout/Spinner';
-import UserCard from '../../components/layout/UserCard';
+import UserCard from '../../components/profile/UserCard';
 
 const People = ({ getProfiles, profile: { all, loading } }) => {
 	useEffect(() => {
