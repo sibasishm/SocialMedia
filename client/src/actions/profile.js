@@ -32,6 +32,9 @@ export const getCurrentProfile = () => async dispatch => {
 // All profiles
 export const getProfiles = () => async dispatch => {
 	try {
+		// Whenever user navigates to all topics or all users page clear his profile in store
+		dispatch({ type: CLEAR_PROFILE });
+
 		const res = await axios.get('/api/profiles');
 		dispatch({
 			type: GET_PROFILES,
@@ -49,9 +52,9 @@ export const getProfiles = () => async dispatch => {
 };
 
 // Any user profile from userId
-export const getProfilesById = userId => async dispatch => {
+export const getProfileById = userId => async dispatch => {
 	try {
-		const res = axios.get(`/api/profiles/user/${userId}`);
+		const res = await axios.get(`/api/profiles/user/${userId}`);
 		dispatch({
 			type: GET_PROFILE,
 			payload: res.data
@@ -79,7 +82,7 @@ export const updateProfile = formData => async dispatch => {
 		const res = await axios.post('/api/profiles', formData, config);
 
 		dispatch({
-			type: GET_PROFILE,
+			type: UPDATE_PROFILE,
 			payload: res.data
 		});
 

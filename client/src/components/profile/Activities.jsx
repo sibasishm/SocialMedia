@@ -1,5 +1,5 @@
 import React from 'react';
 
-export const Activities = () => {
+export default () => {
 	return <div>List of my activities</div>;
 };

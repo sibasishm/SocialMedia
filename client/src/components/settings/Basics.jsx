@@ -6,6 +6,7 @@ import { SimpleInput } from '../input/SimpleInput';
 import { RadioInput } from '../input/RadioInput';
 
 import { required } from '../../utils/formValidators';
+import { DateInput } from '../input/DateInput';
 
 const Basics = ({ pristine, submitting, handleSubmit, updateProfile }) => (
 	<Segment>
@@ -56,10 +57,12 @@ const Basics = ({ pristine, submitting, handleSubmit, updateProfile }) => (
 			</Form.Group>
 			<Field
 				name='dob'
-				type='date'
-				component={SimpleInput}
+				component={DateInput}
 				placeholder='Date of birth'
-				icon='calendar'
+				peekNextMonth
+				showMonthDropdown
+				showYearDropdown
+				dropdownMode='scroll'
 				validate={required}
 			/>
 			<Field

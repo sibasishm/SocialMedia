@@ -12,7 +12,7 @@ export const TextArea = ({
 			{...input}
 			rows={rows}
 			placeholder={placeholder}
-			style={{ minHeight: 100 }}
+			style={{ minHeight: 50 }}
 		/>
 		{touched &&
 			((error && (

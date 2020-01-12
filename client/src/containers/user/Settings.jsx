@@ -30,7 +30,7 @@ const Settings = ({
 		getCurrentProfile();
 	}, [getCurrentProfile]);
 	return (
-		<Grid>
+		<Grid columns={2} stackable>
 			<Grid.Column width={4}>
 				<SideNav />
 			</Grid.Column>
