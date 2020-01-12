@@ -17,9 +17,9 @@ export default () => {
 			<Menu.Item as={NavLink} to='/me/topics'>
 				Topics
 			</Menu.Item>
-			<Menu.Item as={NavLink} to='/me/events'>
+			{/* <Menu.Item as={NavLink} to='/me/events'>
 				Events
-			</Menu.Item>
+			</Menu.Item> */}
 			<Menu.Item as={NavLink} to='/me/photos'>
 				Photos
 			</Menu.Item>

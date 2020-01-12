@@ -10,9 +10,9 @@ import Spinner from '../../components/layout/Spinner';
 import HeroBanner from '../../components/profile/HeroBanner';
 import Stats from '../../components/profile/Stats';
 import Social from '../../components/profile/Social';
-import Placeholder from '../../components/layout/Placeholder';
 import GuestMenu from '../../components/profile/GuestMenu';
-import { Activities } from '../../components/profile/Activities';
+import Activities from '../../components/profile/Activities';
+import About from '../../components/profile/About';
 
 const Profile = ({ getProfileById, profile: { current, loading }, match }) => {
 	const userId = match.params.id;
@@ -25,7 +25,7 @@ const Profile = ({ getProfileById, profile: { current, loading }, match }) => {
 	) : (
 		<div className='profile-container'>
 			<HeroBanner />
-			<Grid>
+			<Grid columns={2} stackable>
 				<Grid.Column width={5}>
 					<Container textAlign='center'>
 						<img
@@ -47,17 +47,17 @@ const Profile = ({ getProfileById, profile: { current, loading }, match }) => {
 					</Container>
 				</Grid.Column>
 				<Grid.Column width={11}>
-					<GuestMenu />
+					<GuestMenu userId={userId} />
 					<Segment attached='bottom'>
 						<Switch>
 							<Route
 								exact
-								path='/people/:id'
+								path={`/people/${userId}`}
 								render={() => <Activities />}
 							/>
 							<Route
-								path='/people/:id/about'
-								render={() => <Placeholder />}
+								path={`/people/${userId}/about`}
+								render={() => <About profile={current} />}
 							/>
 						</Switch>
 					</Segment>

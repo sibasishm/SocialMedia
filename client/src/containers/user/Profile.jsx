@@ -12,7 +12,8 @@ import Stats from '../../components/profile/Stats';
 import Social from '../../components/profile/Social';
 import Placeholder from '../../components/layout/Placeholder';
 import Menu from '../../components/profile/Menu';
-import { Activities } from '../../components/profile/Activities';
+import Activities from '../../components/profile/Activities';
+import About from '../../components/profile/About';
 import Topics from '../topics/Posts';
 
 const Profile = ({
@@ -29,7 +30,7 @@ const Profile = ({
 	) : (
 		<div className='profile-container'>
 			<HeroBanner />
-			<Grid>
+			<Grid columns={2} stackable>
 				<Grid.Column width={5}>
 					<Container textAlign='center'>
 						<img
@@ -57,7 +58,7 @@ const Profile = ({
 							/>
 							<Route
 								path='/me/about'
-								render={() => <Placeholder />}
+								render={() => <About profile={current} />}
 							/>
 							<Route
 								path='/me/network'

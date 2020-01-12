@@ -2,13 +2,13 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Menu, Button } from 'semantic-ui-react';
 
-export default () => {
+export default ({ userId }) => {
 	return (
 		<Menu attached='top' tabular>
-			<Menu.Item as={NavLink} exact to='/people/:id'>
+			<Menu.Item as={NavLink} exact to={`/people/${userId}`}>
 				Activities
 			</Menu.Item>
-			<Menu.Item as={NavLink} to='/people/:id/about'>
+			<Menu.Item as={NavLink} to={`/people/${userId}/about`}>
 				About
 			</Menu.Item>
 			<Menu.Menu position='right'>

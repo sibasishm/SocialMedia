@@ -7,8 +7,8 @@ const AuthLinks = ({ logout, userDetails: { name, avatar } }) => (
 		{avatar && <Image avatar spaced='right' src={avatar} />}
 		<Dropdown pointing='top right' text={name}>
 			<Dropdown.Menu>
-				<Dropdown.Item text='Create Event' icon='plus' />
-				<Dropdown.Item text='My Events' icon='calendar' />
+				{/* <Dropdown.Item text='Create Event' icon='plus' />
+				<Dropdown.Item text='My Events' icon='calendar' /> */}
 				<Dropdown.Item text='My Topics' icon='chat' />
 				<Dropdown.Item text='My Network' icon='users' />
 				<Dropdown.Item

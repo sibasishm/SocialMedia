@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Card } from 'semantic-ui-react';
+import { Grid } from 'semantic-ui-react';
 
 import { getProfiles } from '../../actions/profile';
 import Spinner from '../../components/layout/Spinner';
@@ -14,12 +14,14 @@ const People = ({ getProfiles, profile: { all, loading } }) => {
 	return loading ? (
 		<Spinner />
 	) : (
-		<Card.Group itemsPerRow={4}>
+		<Grid>
 			{all &&
 				all.map((profile, index) => (
-					<UserCard key={index} profile={profile} />
+					<Grid.Column stretched mobile={16} tablet={8} computer={4}>
+						<UserCard key={index} profile={profile} />
+					</Grid.Column>
 				))}
-		</Card.Group>
+		</Grid>
 	);
 };
 

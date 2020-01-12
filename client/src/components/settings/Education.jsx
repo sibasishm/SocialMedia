@@ -6,6 +6,7 @@ import { SimpleInput } from '../input/SimpleInput';
 import { TextArea } from '../input/TextArea';
 
 import { required } from '../../utils/formValidators';
+import { DateInput } from '../input/DateInput';
 
 const clearAfterSubmit = (result, dispatch) => dispatch(reset('userEducation'));
 
@@ -21,7 +22,7 @@ const Education = ({ pristine, submitting, handleSubmit, updateProfile }) => (
 				icon='building'
 				validate={required}
 			/>
-			<Form.Group inline widths='equal'>
+			<Form.Group widths='equal'>
 				<Field
 					fluid
 					name='degree'
@@ -40,26 +41,16 @@ const Education = ({ pristine, submitting, handleSubmit, updateProfile }) => (
 					validate={required}
 				/>
 			</Form.Group>
-			{/* <Form.Group inline> */}
-			{/* <label>I am currently studing here: </label> */}
-			<Field
-				// fluid
-				name='from'
-				type='date'
-				component={SimpleInput}
-				placeholder='From'
-				icon='calendar'
-				validate={required}
-			/>
-			<Field
-				// fluid
-				name='to'
-				type='date'
-				component={SimpleInput}
-				placeholder='To'
-				icon='calendar'
-			/>
-			{/* </Form.Group> */}
+			<Form.Group widths='equal'>
+				{/* <label>I am currently studing here: </label> */}
+				<Field
+					name='from'
+					component={DateInput}
+					placeholder='From'
+					validate={required}
+				/>
+				<Field name='to' component={DateInput} placeholder='To' />
+			</Form.Group>
 			<label>Add some details</label>
 			<Field
 				name='description'
