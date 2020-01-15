@@ -14,6 +14,7 @@ export const DateInput = ({
 		<DatePicker
 			{...rest}
 			dateFormat='dd MMM yyyy'
+			maxDate={new Date()}
 			placeholderText={placeholder}
 			selected={input.value ? new Date(input.value) : null}
 			onChange={input.onChange}

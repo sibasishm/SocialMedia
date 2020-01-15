@@ -17,7 +17,7 @@ const PrivateRoute = ({
 		render={props =>
 			!loading ? (
 				!isAuthenticated ? (
-					openModal('Login')
+					openModal('Unauth')
 				) : (
 					<Component {...props} />
 				)
