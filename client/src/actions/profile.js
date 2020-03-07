@@ -2,6 +2,7 @@ import axios from 'axios';
 import { toastr } from 'react-redux-toastr';
 import {
 	GET_PROFILE,
+	GET_MY_PROFILE,
 	GET_PROFILES,
 	PROFILE_ERROR,
 	CLEAR_PROFILE,
@@ -13,7 +14,7 @@ export const getCurrentProfile = () => async dispatch => {
 	try {
 		const res = await axios.get('/api/profiles/me');
 		dispatch({
-			type: GET_PROFILE,
+			type: GET_MY_PROFILE,
 			payload: res.data
 		});
 	} catch (err) {

@@ -24,7 +24,7 @@ const Settings = ({
 	getCurrentProfile,
 	addEducation,
 	addExperience,
-	profile: { current }
+	profile: { me }
 }) => {
 	useEffect(() => {
 		getCurrentProfile();
@@ -41,7 +41,7 @@ const Settings = ({
 						path='/settings/basic'
 						render={() => (
 							<Basics
-								initialValues={current}
+								initialValues={me}
 								updateProfile={updateProfile}
 							/>
 						)}
@@ -50,7 +50,7 @@ const Settings = ({
 						path='/settings/about'
 						render={() => (
 							<About
-								initialValues={current}
+								initialValues={me}
 								updateProfile={updateProfile}
 							/>
 						)}

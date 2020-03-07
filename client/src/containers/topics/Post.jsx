@@ -34,7 +34,7 @@ const Post = ({
 				content='View all posts'
 			/>
 			<PostItem showButtons={false} post={current} />
-			<List />
+			{/* <List /> */}
 			<Comments
 				comments={current.comments}
 				addComment={addComment}

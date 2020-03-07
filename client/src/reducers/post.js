@@ -12,6 +12,7 @@ import {
 
 const initialState = {
 	all: [],
+	mine: [],
 	current: null,
 	loading: true,
 	error: {}
@@ -31,13 +32,20 @@ export default function(state = initialState, action) {
 			return {
 				...state,
 				all: [payload, ...state.all],
+				mine: [payload, ...state.mine],
 				loading: false
 			};
 		case GET_POSTS:
-		case GET_MY_POSTS:
 			return {
 				...state,
 				all: payload,
+				current: null,
+				loading: false
+			};
+		case GET_MY_POSTS:
+			return {
+				...state,
+				mine: payload,
 				current: null,
 				loading: false
 			};
@@ -51,6 +59,11 @@ export default function(state = initialState, action) {
 			return {
 				...state,
 				all: state.all.map(post =>
+					post._id === payload.id
+						? { ...post, likes: payload.likes }
+						: post
+				),
+				mine: state.mine.map(post =>
 					post._id === payload.id
 						? { ...post, likes: payload.likes }
 						: post
@@ -78,6 +91,7 @@ export default function(state = initialState, action) {
 			return {
 				...state,
 				all: state.all.filter(post => post._id !== payload),
+				mine: state.mine.filter(post => post._id !== payload),
 				loading: false
 			};
 		default:

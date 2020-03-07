@@ -22,9 +22,10 @@ const Posts = ({
 	addLike,
 	deletePost,
 	addPost,
-	post: { all, loading }
+	post: { all, mine, loading }
 }) => {
 	const effect = isAuthenticated ? getMyPosts : getPosts;
+	const payload = isAuthenticated ? mine : all;
 	useEffect(() => {
 		effect();
 	}, [effect]);
@@ -35,8 +36,8 @@ const Posts = ({
 		<Fragment>
 			{isAuthenticated && <CreatePost addPost={addPost} />}
 			<Card.Group itemsPerRow={isAuthenticated ? 1 : 2}>
-				{all &&
-					all.map((post, index) => (
+				{payload &&
+					payload.map((post, index) => (
 						<PostItem
 							key={index}
 							post={post}

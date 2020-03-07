@@ -19,13 +19,13 @@ import Topics from '../topics/Posts';
 const Profile = ({
 	getCurrentProfile,
 	auth: { user },
-	profile: { current, loading }
+	profile: { me, loading }
 }) => {
 	useEffect(() => {
 		getCurrentProfile();
 	}, [getCurrentProfile]);
 
-	return loading || current === null ? (
+	return loading || me === null ? (
 		<Spinner />
 	) : (
 		<div className='profile-container'>
@@ -42,7 +42,7 @@ const Profile = ({
 						<p className='info'>{user && user.email}</p>
 						<Stats />
 						<Divider />
-						<p>{current && current.bio}</p>
+						<p>{me && me.bio}</p>
 						<Divider />
 						<Social />
 					</Container>
@@ -58,7 +58,7 @@ const Profile = ({
 							/>
 							<Route
 								path='/me/about'
-								render={() => <About profile={current} />}
+								render={() => <About profile={me} />}
 							/>
 							<Route
 								path='/me/network'

@@ -1,5 +1,6 @@
 import {
 	GET_PROFILE,
+	GET_MY_PROFILE,
 	PROFILE_ERROR,
 	CLEAR_PROFILE,
 	GET_PROFILES,
@@ -8,6 +9,7 @@ import {
 
 const initialState = {
 	current: null,
+	me: null,
 	all: [],
 	loading: true,
 	error: {}
@@ -23,12 +25,16 @@ export default function(state = initialState, action) {
 				current: payload,
 				loading: false
 			};
+		case GET_MY_PROFILE:
+			return {
+				...state,
+				me: payload,
+				loading: false
+			};
 		case UPDATE_PROFILE:
 			return {
 				...state,
-				current: state.current
-					? { ...state.current, ...payload }
-					: payload,
+				me: state.me ? { ...state.me, ...payload } : payload,
 				loading: false
 			};
 		case GET_PROFILES:
@@ -47,6 +53,7 @@ export default function(state = initialState, action) {
 			return {
 				...state,
 				current: null,
+				me: null,
 				loading: false
 			};
 		default:
