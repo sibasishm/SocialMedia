@@ -1,5 +1,4 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Form, Button } from 'semantic-ui-react';
@@ -8,11 +7,7 @@ import { SimpleInput } from '../input/SimpleInput';
 import { login } from '../../actions/auth';
 import { required, email } from '../../utils/formValidators';
 
-const Login = ({ login, auth: { isAuthenticated }, handleSubmit }) => {
-	if (isAuthenticated) {
-		return <Redirect to='/me' />;
-	}
-
+const Login = ({ login, handleSubmit }) => {
 	return (
 		<Form
 			error
@@ -45,14 +40,7 @@ const Login = ({ login, auth: { isAuthenticated }, handleSubmit }) => {
 
 Login.propTypes = {
 	login: PropTypes.func.isRequired,
-	auth: PropTypes.object.isRequired,
 	handleSubmit: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => ({
-	auth: state.auth
-});
-
-export default connect(mapStateToProps, { login })(
-	reduxForm({ form: 'login' })(Login)
-);
+export default connect(null, { login })(reduxForm({ form: 'login' })(Login));

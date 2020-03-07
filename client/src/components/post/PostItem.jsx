@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Image, Button } from 'semantic-ui-react';
+import { formatDate } from '../../utils';
 
 export default ({
 	post: { _id, name, user, avatar, text, date, likes, comments },
@@ -13,7 +14,7 @@ export default ({
 		<Card.Content>
 			<Image src={avatar} floated='left' size='mini' />
 			<Card.Header as={Link} to={`/people/${user}`} content={name} />
-			<Card.Meta>Posted on: {date}</Card.Meta>
+			<Card.Meta>Posted on: {formatDate(date)}</Card.Meta>
 			<Card.Description>{text}</Card.Description>
 		</Card.Content>
 		{showButtons && (

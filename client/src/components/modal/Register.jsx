@@ -6,6 +6,7 @@ import RegisterForm from '../auth/Register';
 
 const Register = ({ closeModal }) => (
 	<Modal size='mini' open={true} onClose={closeModal}>
+		<Modal.Header>Get started now</Modal.Header>
 		<Modal.Content>
 			<Modal.Description>
 				<RegisterForm />

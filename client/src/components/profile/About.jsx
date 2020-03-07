@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { Grid, Header, List } from 'semantic-ui-react';
+import { formatDate } from '../../utils';
 
 export default ({
 	profile: { dob, hobbies, location, topics, education, experience }
@@ -11,7 +12,7 @@ export default ({
 				<List>
 					<List.Item>
 						<List.Icon name='calendar' />
-						<List.Content>{dob}</List.Content>
+						<List.Content>{formatDate(dob)}</List.Content>
 					</List.Item>
 					<List.Item>
 						<List.Icon name='map marker alternate' />
@@ -32,7 +33,7 @@ export default ({
 				<List>
 					<List.Item>
 						<List.Icon name='calendar' />
-						<List.Content>{dob}</List.Content>
+						<List.Content>{formatDate(dob)}</List.Content>
 					</List.Item>
 				</List>
 			</Grid.Column>
@@ -78,7 +79,9 @@ export default ({
 									<List.Content>
 										<List.Header>Date</List.Header>
 										<List.Description>
-											{`${from} - ${to || 'Now'}`}
+											{`${formatDate(
+												from
+											)} - ${formatDate(to) || 'Now'}`}
 										</List.Description>
 									</List.Content>
 								</List.Item>
@@ -126,7 +129,9 @@ export default ({
 									<List.Content>
 										<List.Header>Date</List.Header>
 										<List.Description>
-											{`${from} - ${to || 'Now'}`}
+											{`${formatDate(
+												from
+											)} - ${formatDate(to) || 'Now'}`}
 										</List.Description>
 									</List.Content>
 								</List.Item>

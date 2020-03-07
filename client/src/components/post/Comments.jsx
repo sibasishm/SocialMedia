@@ -2,6 +2,7 @@ import React from 'react';
 import { Comment, Header } from 'semantic-ui-react';
 import AddComment from './AddComment';
 import { Link } from 'react-router-dom';
+import { formatDate } from '../../utils';
 
 export default ({ postId, comments, addComment, deleteComment }) => (
 	<Comment.Group minimal style={{ maxWidth: '100%' }}>
@@ -16,7 +17,7 @@ export default ({ postId, comments, addComment, deleteComment }) => (
 						<Comment.Author as={Link} to={`/people/${user}`}>
 							{name}
 						</Comment.Author>
-						<Comment.Metadata>{date}</Comment.Metadata>
+						<Comment.Metadata>{formatDate(date)}</Comment.Metadata>
 						<Comment.Text>{text}</Comment.Text>
 						<Comment.Actions>
 							<Comment.Action>Reply</Comment.Action>

@@ -17,8 +17,14 @@ const People = ({ getProfiles, profile: { all, loading } }) => {
 		<Grid>
 			{all &&
 				all.map((profile, index) => (
-					<Grid.Column stretched mobile={16} tablet={8} computer={4}>
-						<UserCard key={index} profile={profile} />
+					<Grid.Column
+						key={index}
+						stretched
+						mobile={16}
+						tablet={8}
+						computer={4}
+					>
+						<UserCard profile={profile} />
 					</Grid.Column>
 				))}
 		</Grid>
