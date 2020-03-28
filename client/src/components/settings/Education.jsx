@@ -1,19 +1,64 @@
 import React from 'react';
-import { Segment, Header, Form, Button } from 'semantic-ui-react';
+import { Segment, Header, Form, Button, List } from 'semantic-ui-react';
 import { Field, reduxForm, reset } from 'redux-form';
 
 import { SimpleInput } from '../input/SimpleInput';
 import { TextArea } from '../input/TextArea';
+import Accordion from '../layout/Accordion';
+import { DateInput } from '../input/DateInput';
+import ListItem from '../layout/ListItem';
 
 import { required } from '../../utils/formValidators';
-import { DateInput } from '../input/DateInput';
+import { formatDate } from '../../utils';
 
 const clearAfterSubmit = (result, dispatch) => dispatch(reset('userEducation'));
 
-const Education = ({ pristine, submitting, handleSubmit, updateProfile }) => (
+const createContentForAccordion = payload =>
+	payload.map(({ _id, school, degree, fieldOfStudy, from, to }) => ({
+		title: school,
+		body: (
+			<List key={_id}>
+				<ListItem
+					iconName='building'
+					title='School name'
+					description={school}
+				/>
+				<ListItem
+					iconName='graduation cap'
+					title='Degree'
+					description={degree}
+				/>
+				<ListItem
+					iconName='book'
+					title='Field of study'
+					description={fieldOfStudy}
+				/>
+				<ListItem
+					iconName='calendar'
+					title='Date'
+					description={`${formatDate(from)} - ${formatDate(to) ||
+						'Now'}`}
+				/>
+			</List>
+		)
+	}));
+
+const Education = ({
+	pristine,
+	submitting,
+	handleSubmit,
+	education,
+	updateProfile
+}) => (
 	<Segment>
 		<Header dividing size='large' content='Education background' />
-		<Form onSubmit={handleSubmit(updateProfile)}>
+		{education && (
+			<Accordion content={createContentForAccordion(education)} />
+		)}
+		<Form
+			style={{ marginTop: '1rem' }}
+			onSubmit={handleSubmit(updateProfile)}
+		>
 			<Field
 				name='school'
 				type='text'
@@ -70,6 +115,5 @@ const Education = ({ pristine, submitting, handleSubmit, updateProfile }) => (
 
 export default reduxForm({
 	form: 'userEducation',
-	// enableReinitialize: true,
 	onSubmitSuccess: clearAfterSubmit
 })(Education);

@@ -63,13 +63,19 @@ const Settings = ({
 					<Route
 						path='/settings/education'
 						render={() => (
-							<Education updateProfile={addEducation} />
+							<Education
+								education={me && me.education}
+								updateProfile={addEducation}
+							/>
 						)}
 					/>
 					<Route
 						path='/settings/experience'
 						render={() => (
-							<Experience updateProfile={addExperience} />
+							<Experience
+								experience={me && me.experience}
+								updateProfile={addExperience}
+							/>
 						)}
 					/>
 				</Switch>
