@@ -24,7 +24,7 @@ const Settings = ({
 	getCurrentProfile,
 	addEducation,
 	addExperience,
-	profile: { current }
+	profile: { me }
 }) => {
 	useEffect(() => {
 		getCurrentProfile();
@@ -41,7 +41,7 @@ const Settings = ({
 						path='/settings/basic'
 						render={() => (
 							<Basics
-								initialValues={current}
+								initialValues={me}
 								updateProfile={updateProfile}
 							/>
 						)}
@@ -50,7 +50,7 @@ const Settings = ({
 						path='/settings/about'
 						render={() => (
 							<About
-								initialValues={current}
+								initialValues={me}
 								updateProfile={updateProfile}
 							/>
 						)}
@@ -63,13 +63,19 @@ const Settings = ({
 					<Route
 						path='/settings/education'
 						render={() => (
-							<Education updateProfile={addEducation} />
+							<Education
+								education={me && me.education}
+								updateProfile={addEducation}
+							/>
 						)}
 					/>
 					<Route
 						path='/settings/experience'
 						render={() => (
-							<Experience updateProfile={addExperience} />
+							<Experience
+								experience={me && me.experience}
+								updateProfile={addExperience}
+							/>
 						)}
 					/>
 				</Switch>

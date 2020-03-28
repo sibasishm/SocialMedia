@@ -9,7 +9,6 @@ import PostItem from '../../components/post/PostItem';
 
 import { getPost, addComment, deleteComment } from '../../actions/post';
 import Comments from '../../components/post/Comments';
-import List from '../../components/layout/List';
 
 const Post = ({
 	post: { current, loading },
@@ -34,7 +33,6 @@ const Post = ({
 				content='View all posts'
 			/>
 			<PostItem showButtons={false} post={current} />
-			<List />
 			<Comments
 				comments={current.comments}
 				addComment={addComment}

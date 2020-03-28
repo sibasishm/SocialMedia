@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { Grid, Container, Divider, Segment } from 'semantic-ui-react';
 
 import { getProfileById } from '../../actions/profile';
@@ -14,11 +14,22 @@ import GuestMenu from '../../components/profile/GuestMenu';
 import Activities from '../../components/profile/Activities';
 import About from '../../components/profile/About';
 
-const Profile = ({ getProfileById, profile: { current, loading }, match }) => {
+const Profile = ({
+	getProfileById,
+	profile: { current, loading },
+	match,
+	auth: { user }
+}) => {
 	const userId = match.params.id;
+	const activeUserId = user._id;
+
 	useEffect(() => {
 		getProfileById(userId);
 	}, [getProfileById, userId]);
+
+	if (userId === activeUserId) {
+		return <Redirect to='/me' />;
+	}
 
 	return loading || current === null ? (
 		<Spinner />
@@ -69,11 +80,13 @@ const Profile = ({ getProfileById, profile: { current, loading }, match }) => {
 
 Profile.propTypes = {
 	getProfileById: PropTypes.func.isRequired,
-	profile: PropTypes.object.isRequired
+	profile: PropTypes.object.isRequired,
+	auth: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-	profile: state.profile
+	profile: state.profile,
+	auth: state.auth
 });
 
 export default connect(mapStateToProps, { getProfileById })(Profile);

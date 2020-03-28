@@ -19,13 +19,32 @@ const Landing = ({ auth: { isAuthenticated }, openModal }) => {
 			<Header
 				as='h1'
 				content='Socialize'
-				subheader='The journey of a million miles begin with a single step.'
+				style={{
+					fontSize: '3em',
+					fontWeight: '700',
+					marginBottom: 0,
+					marginTop: '3.5em'
+				}}
+			/>
+			<Header
+				as='h2'
+				content='The journey of a million miles begin with a single step.'
+				style={{
+					fontSize: '1.5em',
+					fontWeight: 'normal',
+					marginTop: '0.5em',
+					marginBottom: '1.5em'
+				}}
 			/>
 			<Button
-				size='large'
+				size='huge'
 				color='teal'
-				content='Get started'
+				content='Explore now'
 				onClick={handleRegister}
+				style={{
+					paddingLeft: '3em',
+					paddingRight: '3em'
+				}}
 			/>
 		</Container>
 	);

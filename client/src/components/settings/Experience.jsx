@@ -1,20 +1,65 @@
 import React from 'react';
-import { Segment, Header, Form, Button } from 'semantic-ui-react';
+import { Segment, Header, Form, Button, List } from 'semantic-ui-react';
 import { Field, reduxForm, reset } from 'redux-form';
 
 import { SimpleInput } from '../input/SimpleInput';
 import { TextArea } from '../input/TextArea';
+import { DateInput } from '../input/DateInput';
+import Accordion from '../layout/Accordion';
+import ListItem from '../layout/ListItem';
 
 import { required } from '../../utils/formValidators';
-import { DateInput } from '../input/DateInput';
+import { formatDate } from '../../utils';
 
 const clearAfterSubmit = (result, dispatch) =>
 	dispatch(reset('userExperience'));
 
-const Experience = ({ pristine, submitting, handleSubmit, updateProfile }) => (
+const createContentForAccordion = payload =>
+	payload.map(({ _id, title, company, description, from, to }) => ({
+		title: company,
+		body: (
+			<List key={_id}>
+				<ListItem
+					iconName='industry'
+					title='Company name'
+					description={company}
+				/>
+				<ListItem
+					iconName='black tie'
+					title='Job title'
+					description={title}
+				/>
+				<ListItem
+					iconName='book'
+					title='Roles & responsibility'
+					description={description}
+				/>
+				<ListItem
+					iconName='calendar'
+					title='Date'
+					description={`${formatDate(from)} - ${formatDate(to) ||
+						'Now'}`}
+				/>
+			</List>
+		)
+	}));
+
+const Experience = ({
+	pristine,
+	submitting,
+	handleSubmit,
+	experience,
+	updateProfile
+}) => (
 	<Segment>
-		<Header dividing size='large' content='Education background' />
-		<Form onSubmit={handleSubmit(updateProfile)}>
+		<Header dividing size='large' content='Work experience' />
+		{experience && (
+			<Accordion content={createContentForAccordion(experience)} />
+		)}
+		<Form
+			style={{ marginTop: '1rem' }}
+			onSubmit={handleSubmit(updateProfile)}
+		>
 			<Form.Group widths='equal'>
 				<Field
 					fluid
@@ -64,6 +109,5 @@ const Experience = ({ pristine, submitting, handleSubmit, updateProfile }) => (
 
 export default reduxForm({
 	form: 'userExperience',
-	// enableReinitialize: true,
 	onSubmitSuccess: clearAfterSubmit
 })(Experience);

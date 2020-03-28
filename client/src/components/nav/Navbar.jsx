@@ -34,7 +34,7 @@ const Navbar = ({
 					/>
 				) : (
 					<GuestLinks
-						signIn={() => openModal('Auth')}
+						signIn={() => openModal('Login')}
 						register={() => openModal('Register')}
 					/>
 				))}
