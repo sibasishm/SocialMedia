@@ -21,13 +21,12 @@ const Profile = ({
 	auth: { user }
 }) => {
 	const userId = match.params.id;
-	const activeUserId = user._id;
 
 	useEffect(() => {
 		getProfileById(userId);
 	}, [getProfileById, userId]);
 
-	if (userId === activeUserId) {
+	if (user && userId === user._id) {
 		return <Redirect to='/me' />;
 	}
 
