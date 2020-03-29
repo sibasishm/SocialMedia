@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import { Container, Header, Button } from 'semantic-ui-react';
 import { openModal } from '../actions/modal';
 
-const Landing = ({ auth: { isAuthenticated }, openModal }) => {
+const Landing = ({ auth: { isAuthenticated }, profile: { me }, openModal }) => {
 	if (isAuthenticated) {
-		return <Redirect to='/me' />;
+		return me ? <Redirect to='/me' /> : <Redirect to='/settings' />;
 	}
 
 	const handleRegister = () => {
@@ -52,11 +52,13 @@ const Landing = ({ auth: { isAuthenticated }, openModal }) => {
 
 Landing.prototype = {
 	auth: PropTypes.object.isRequired,
+	profile: PropTypes.object.isRequired,
 	openModal: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-	auth: state.auth
+	auth: state.auth,
+	profile: state.profile
 });
 
 export default connect(mapStateToProps, { openModal })(Landing);
