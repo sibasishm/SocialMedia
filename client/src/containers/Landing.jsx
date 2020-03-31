@@ -7,7 +7,7 @@ import { openModal } from '../actions/modal';
 
 const Landing = ({ auth: { isAuthenticated }, profile: { me }, openModal }) => {
 	if (isAuthenticated) {
-		return me ? <Redirect to='/me' /> : <Redirect to='/settings' />;
+		return me ? <Redirect to='/me' /> : <Redirect to='/welcome' />;
 	}
 
 	const handleRegister = () => {
