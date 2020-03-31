@@ -13,6 +13,11 @@ import {
 import axios from 'axios';
 import { toastr } from 'react-redux-toastr';
 
+const triggerToastr = err =>
+	toastr.error(
+		err.response.data ? err.response.data.msg : 'Some error occured!'
+	);
+
 // Get all posts
 export const getPosts = () => async dispatch => {
 	try {
@@ -25,6 +30,7 @@ export const getPosts = () => async dispatch => {
 			payload: res.data
 		});
 	} catch (err) {
+		triggerToastr(err);
 		dispatch({
 			type: POST_ERROR,
 			payload: {
@@ -44,6 +50,7 @@ export const getPost = id => async dispatch => {
 			payload: res.data
 		});
 	} catch (err) {
+		triggerToastr(err);
 		dispatch({
 			type: POST_ERROR,
 			payload: {
@@ -63,6 +70,7 @@ export const getMyPosts = () => async dispatch => {
 			payload: res.data
 		});
 	} catch (err) {
+		triggerToastr(err);
 		dispatch({
 			type: POST_ERROR,
 			payload: {
@@ -82,6 +90,7 @@ export const addLike = id => async dispatch => {
 			payload: { id, likes: res.data }
 		});
 	} catch (err) {
+		triggerToastr(err);
 		dispatch({
 			type: POST_ERROR,
 			payload: {
@@ -110,6 +119,7 @@ export const addPost = formData => async dispatch => {
 
 		toastr.success('Success', 'A new Post is added');
 	} catch (err) {
+		triggerToastr(err);
 		dispatch({
 			type: POST_ERROR,
 			payload: {
@@ -139,6 +149,7 @@ export const deletePost = id => dispatch => {
 			toasteConfirmActions
 		);
 	} catch (err) {
+		triggerToastr(err);
 		dispatch({
 			type: POST_ERROR,
 			payload: {
@@ -171,6 +182,7 @@ export const addComment = (postId, formData) => async dispatch => {
 
 		toastr.success('Success', 'Comment added');
 	} catch (err) {
+		triggerToastr(err);
 		dispatch({
 			type: POST_ERROR,
 			payload: {
@@ -192,6 +204,7 @@ export const deleteComment = (postId, commentId) => async dispatch => {
 
 		toastr.info('Comment removed');
 	} catch (err) {
+		triggerToastr(err);
 		dispatch({
 			type: POST_ERROR,
 			payload: {

@@ -11,7 +11,7 @@ const minLength = min => value =>
 	value && value.length < min
 		? `Must be ${min} characters or more`
 		: undefined;
-export const minLength6 = minLength(6);
+export const minLength8 = minLength(8);
 
 export const minLength20 = minLength(20);
 
@@ -45,3 +45,11 @@ export const phoneNumber = value =>
 
 export const matchPasswords = (value, allValues) =>
 	value !== allValues.password ? 'Passwords must match' : undefined;
+
+// ^(?=.*([A-Z]){1,})(?=.*[!@#$&*]{1,})(?=.*[0-9]{1,})(?=.*[a-z]{1,}).{8,100}$
+
+export const strongPassword = value =>
+	value &&
+	!/^([A-Z]{1,})([a-z]{1,})([0-9]{1,})([!@#$&*.-_%]{1,})$/.test(value)
+		? 'Please choose a stronger password'
+		: undefined;

@@ -7,6 +7,7 @@ import People from '../user/People';
 import Profile from '../user/Profile';
 import GuestProfile from '../user/GuestProfile';
 import Settings from '../user/Settings';
+import Welcome from '../user/Welcome';
 import Posts from '../topics/Posts';
 import Post from '../topics/Post';
 import Events from '../events/Events';
@@ -23,6 +24,7 @@ const Routes = () => {
 				<Route exact path='/topics' component={Posts} />
 				<PrivateRoute path='/topics/:id' component={Post} />
 				<PrivateRoute eaxct path='/me' component={Profile} />
+				<PrivateRoute eaxct path='/welcome' component={Welcome} />
 				<PrivateRoute path='/settings' component={Settings} />
 				<Route component={NotFound} />
 			</Switch>
