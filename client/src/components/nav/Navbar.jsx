@@ -11,7 +11,7 @@ import { openModal } from '../../actions/modal';
 import { logout } from '../../actions/auth';
 
 const makeUserInfo = user => ({
-	name: user && user.name ? user.name : 'User name',
+	name: user ? user.firstName : 'User name',
 	avatar: user && user.avatar ? user.avatar : ''
 });
 
@@ -49,11 +49,7 @@ Navbar.propTypes = {
 };
 
 const mapStateToProps = state => ({
-	auth: state.auth,
-	user: {
-		name: state.auth.user ? state.auth.user.name : 'User Name',
-		avatar: state.auth.user ? state.auth.user.avatar : ''
-	}
+	auth: state.auth
 });
 
 export default connect(mapStateToProps, { openModal, logout })(Navbar);

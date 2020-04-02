@@ -4,7 +4,7 @@ import { Card, Image } from 'semantic-ui-react';
 
 export default ({
 	profile: {
-		user: { name, avatar, _id },
+		user: { firstName, avatar, _id },
 		bio,
 		location
 	}
@@ -12,7 +12,11 @@ export default ({
 	<Card>
 		<Image src={avatar} wrapped ui={false} />
 		<Card.Content>
-			<Card.Header as={Link} to={`/people/${_id}`} content={name} />
+			<Card.Header
+				as={Link}
+				to={`/people/${_id}`}
+				content={`${firstName}`}
+			/>
 			<Card.Meta>{location && `From ${location}`}</Card.Meta>
 			<Card.Description>{bio}</Card.Description>
 		</Card.Content>

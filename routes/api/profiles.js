@@ -5,6 +5,7 @@ const { check, validationResult } = require('express-validator');
 
 const Profile = require('../../models/Profile');
 const User = require('../../models/Users');
+const Post = require('../../models/Post');
 
 // ----------- Fetch user profile from token -------------
 // @route   GET api/profiles/me
@@ -14,7 +15,7 @@ router.get('/me', auth, async (req, res) => {
 	try {
 		const profile = await Profile.findOne({
 			user: req.user.id
-		}).populate('user', ['name', 'avatar', 'email']);
+		}).populate('user', ['firstName', 'lastName', 'avatar', 'email']);
 
 		// If profile not found
 		if (!profile) {
@@ -44,69 +45,29 @@ router.post('/', auth, async (req, res) => {
 	// Get the id from x-auth-token set in req.user in auth middleware
 	profileObj.user = req.user.id;
 
-	// Declare the keywords decalred in the schema
-	const profileArrayKewords = [];
 	const profileKeywords = [
-		'firstName',
-		'surname',
 		'bio',
 		'dob',
 		'gender',
 		'location',
 		'topics',
-		'hobbies'
-	];
-	const favouriteKeywords = [
-		'tvShow',
-		'movie',
-		'game',
-		'music',
-		'book',
-		'sport'
-	];
-	const socialKeywords = [
+		'hobbies',
 		'youtube',
 		'twitter',
 		'facebook',
 		'instagram',
-		'linkedin'
-	];
-	const contactKeywords = [
+		'linkedin',
 		'phone',
-		'website',
-		// 'showWorks',
-		'behance',
-		'github'
+		'website'
 	];
 
 	// Check if the fields are filled then init them in profileObj
-	profileKeywords.forEach(keyword =>
-		req.body.hasOwnProperty(keyword) && req.body[keyword]
-			? (profileObj[keyword] = req.body[keyword])
-			: (profileObj[keyword] = keyword === 'dob' ? new Date() : '')
-	);
-	profileArrayKewords.forEach(keyword =>
-		req.body.hasOwnProperty(keyword) && req.body[keyword]
-			? (profileObj[keyword] = converToArray(req.body[keyword]))
-			: (profileObj[keyword] = [])
-	);
-	favouriteKeywords.forEach(keyword =>
-		req.body.hasOwnProperty(keyword) && req.body[keyword]
-			? (profileObj.favourites[keyword] = converToArray(
-					req.body[keyword]
-			  ))
-			: (profileObj.favourites[keyword] = [])
-	);
-	socialKeywords.forEach(keyword =>
-		req.body.hasOwnProperty(keyword) && req.body[keyword]
-			? (profileObj.social[keyword] = req.body[keyword])
-			: (profileObj.social[keyword] = '')
-	);
-	contactKeywords.forEach(keyword =>
-		req.body.hasOwnProperty(keyword) && req.body[keyword]
-			? (profileObj.contact[keyword] = req.body[keyword])
-			: (profileObj.contact[keyword] = '')
-	);
+	profileKeywords.forEach(keyword => {
+		if (req.body.hasOwnProperty(keyword) && req.body[keyword]) {
+			profileObj[keyword] = req.body[keyword];
+		}
+		return;
+	});
 
 	try {
 		let profile = await Profile.findOne({ user: req.user.id });
@@ -141,7 +102,8 @@ router.post('/', auth, async (req, res) => {
 router.get('/', async (req, res) => {
 	try {
 		const profiles = await Profile.find().populate('user', [
-			'name',
+			'firstName',
+			'lastName',
 			'avatar'
 		]);
 		res.json(profiles);
@@ -161,7 +123,7 @@ router.get('/user/:user_id', async (req, res) => {
 		// user_id will come from URL (req.param)
 		const profile = await Profile.findOne({
 			user: req.params.user_id
-		}).populate('user', ['name', 'avatar']);
+		}).populate('user', ['firstName', 'lastName', 'avatar']);
 
 		// Check if the profile exists
 		if (!profile) {
@@ -187,7 +149,8 @@ router.get('/user/:user_id', async (req, res) => {
 router.delete('/', auth, async (req, res) => {
 	try {
 		// Remove users posts
-		//  ----------------
+		await Post.deleteMany({ user: req.user.id });
+
 		// Remove profile
 		await Profile.findOneAndRemove({ user: req.user.id });
 
@@ -353,14 +316,5 @@ router.delete('/education/:edu_id', auth, async (req, res) => {
 		return res.status(500).send('Server Error');
 	}
 });
-
-// Converting comma separated values to array and remove white space at ends
-function converToArray(str) {
-	let resultArray = [];
-	if (str && typeof str === 'string') {
-		resultArray = str.split(',').map(val => val.trim());
-	}
-	return resultArray;
-}
 
 module.exports = router;

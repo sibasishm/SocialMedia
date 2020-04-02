@@ -21,14 +21,25 @@ const Register = ({ register, handleSubmit }) => (
 		onSubmit={handleSubmit(register)}
 		autoComplete='off'
 	>
-		<Field
-			name='name'
-			component={SimpleInput}
-			type='text'
-			placeholder='Your user name'
-			icon='user'
-			validate={required}
-		/>
+		<Form.Group inline widths='equal'>
+			<Field
+				fluid
+				name='firstName'
+				type='text'
+				component={SimpleInput}
+				placeholder='First name'
+				icon='user'
+				validate={required}
+			/>
+			<Field
+				fluid
+				name='lastName'
+				type='text'
+				component={SimpleInput}
+				placeholder='Last name'
+				icon='user'
+			/>
+		</Form.Group>
 		<Field
 			name='email'
 			component={SimpleInput}

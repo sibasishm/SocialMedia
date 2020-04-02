@@ -43,14 +43,15 @@ export const noToken = () => dispatch => {
 };
 
 // payload has token only
-export const register = ({ name, email, password }) => async dispatch => {
+export const register = params => async dispatch => {
 	const config = {
 		headers: {
 			'Content-Type': 'application/json'
 		}
 	};
 
-	const body = JSON.stringify({ name, email, password });
+	delete params['confirmPassword'];
+	const body = JSON.stringify(params);
 
 	try {
 		const res = await axios.post('/api/users', body, config);

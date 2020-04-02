@@ -38,9 +38,6 @@ export const getCurrentProfile = () => async dispatch => {
 // All profiles
 export const getProfiles = () => async dispatch => {
 	try {
-		// Whenever user navigates to all topics or all users page clear his profile in store
-		dispatch({ type: CLEAR_PROFILE });
-
 		const res = await axios.get('/api/profiles');
 		dispatch({
 			type: GET_PROFILES,

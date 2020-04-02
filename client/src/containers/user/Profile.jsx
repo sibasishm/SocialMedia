@@ -38,7 +38,9 @@ const Profile = ({
 							src={user && user.avatar}
 							alt='user'
 						/>
-						<p className='name'>{user && user.name}</p>
+						<p className='name'>
+							{user && `${user.firstName} ${user.lastName || ''}`}
+						</p>
 						<p className='info'>{user && user.email}</p>
 						<Stats />
 						<Divider />

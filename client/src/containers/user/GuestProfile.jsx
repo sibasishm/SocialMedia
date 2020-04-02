@@ -44,7 +44,9 @@ const Profile = ({
 							alt='user'
 						/>
 						<p className='name'>
-							{current.user && current.user.name}
+							{current.user &&
+								`${current.user.firstName} ${current.user
+									.lastName || ''}`}
 						</p>
 						<p className='info'>
 							{current.user && current.user.email}

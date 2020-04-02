@@ -30,7 +30,7 @@ router.post(
 
 			const newPost = {
 				text: req.body.text,
-				name: user.name,
+				name: user.firstName,
 				avatar: user.avatar,
 				user: req.user.id
 			};
@@ -214,7 +214,7 @@ router.post(
 
 			const comment = {
 				text: req.body.text,
-				name: user.name,
+				name: user.firstName,
 				avatar: user.avatar,
 				user: req.user.id
 			};
