@@ -1,25 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Container, Header, Button } from 'semantic-ui-react';
 import { openModal } from '../actions/modal';
-
-import Spinner from '../components/layout/Spinner';
+import { getCurrentProfile } from '../actions/profile';
 
 const Landing = ({
 	auth: { isAuthenticated },
-	profile: { me, loading },
-	openModal
+	openModal,
+	getCurrentProfile
 }) => {
+	useEffect(() => {
+		getCurrentProfile();
+	}, [getCurrentProfile]);
+
 	if (isAuthenticated) {
-		return loading ? (
-			<Spinner />
-		) : me ? (
-			<Redirect to='/me' />
-		) : (
-			<Redirect to='/welcome' />
-		);
+		return <Redirect to='/me' />;
 	}
 
 	const handleRegister = () => {
@@ -65,12 +62,14 @@ const Landing = ({
 Landing.prototype = {
 	auth: PropTypes.object.isRequired,
 	profile: PropTypes.object.isRequired,
-	openModal: PropTypes.func.isRequired
+	openModal: PropTypes.func.isRequired,
+	getCurrentProfile: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-	auth: state.auth,
-	profile: state.profile
+	auth: state.auth
 });
 
-export default connect(mapStateToProps, { openModal })(Landing);
+export default connect(mapStateToProps, { openModal, getCurrentProfile })(
+	Landing
+);

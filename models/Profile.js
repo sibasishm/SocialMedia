@@ -42,6 +42,14 @@ const ProfileSchema = new mongoose.Schema({
 	website: {
 		type: String
 	},
+	followers: [
+		{
+			user: {
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'user'
+			}
+		}
+	],
 	education: [
 		{
 			school: {
@@ -97,8 +105,6 @@ const ProfileSchema = new mongoose.Schema({
 			}
 		}
 	],
-	social: {},
-	contact: {},
 	date: {
 		type: Date,
 		default: Date.now

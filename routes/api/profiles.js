@@ -164,6 +164,44 @@ router.delete('/', auth, async (req, res) => {
 	}
 });
 
+// -------- Follow an user ----------
+// @route /api/follow/:user_id
+// @desc follow an user (if you follow and already following user, you will unfollow him)
+// @access Private
+router.put('/follow/:profile_id', auth, async (req, res) => {
+	try {
+		const profile = await Profile.findById(req.params.profile_id);
+
+		if (!profile) {
+			return res.status(404).json({ msg: 'Profile not found!' });
+		}
+
+		const existingFollowers = profile.followers.filter(
+			follower => follower.user.toString() === req.user.id
+		);
+
+		if (existingFollowers.length === 1) {
+			const updatedProfile = await Profile.findOneAndUpdate(
+				{ _id: req.params.profile_id },
+				{ $pull: { followers: { user: existingFollowers[0].user } } },
+				{ new: true }
+			);
+			return res.json(updatedProfile.followers);
+		}
+
+		profile.followers.unshift({ user: req.user.id });
+
+		await profile.save();
+		res.json(profile.followers);
+	} catch (err) {
+		console.error(err.message);
+		if (err.kind === 'ObjectId') {
+			return res.status(404).json({ msg: 'Profile not found!' });
+		}
+		res.status(500).send('Server Error');
+	}
+});
+
 // --------- Add profile experience --------------
 // @route   PUT /api/profiles/experience
 // @desc    Add profile experience

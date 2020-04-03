@@ -6,7 +6,9 @@ import {
 	GET_PROFILES,
 	PROFILE_ERROR,
 	CLEAR_PROFILE,
-	UPDATE_PROFILE
+	UPDATE_PROFILE,
+	UPDATING_FOLLOWERS,
+	UPDATED_FOLLOWERS
 } from './types';
 
 const triggerToastr = err =>
@@ -99,6 +101,28 @@ export const updateProfile = formData => async dispatch => {
 			errors.forEach(error => toastr.error(error.msg));
 		}
 
+		dispatch({
+			type: PROFILE_ERROR,
+			payload: {
+				msg: err.response.statusText,
+				status: err.response.status
+			}
+		});
+	}
+};
+
+export const addFollower = id => async dispatch => {
+	try {
+		dispatch({ type: UPDATING_FOLLOWERS });
+
+		const res = await axios.put(`/api/profiles/follow/${id}`);
+		dispatch({
+			type: UPDATED_FOLLOWERS,
+			payload: res.data
+		});
+		toastr.success('Success!', 'Your follow list updated');
+	} catch (err) {
+		triggerToastr(err);
 		dispatch({
 			type: PROFILE_ERROR,
 			payload: {

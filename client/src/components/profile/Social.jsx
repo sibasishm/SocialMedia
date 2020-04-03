@@ -15,24 +15,22 @@ export default ({ user = {} }) => {
 	);
 
 	return (
-		socialMediaItems.length && (
-			<Grid columns={socialMediaItems.length} relaxed='very'>
-				{socialMediaItems.map((item, index) => (
-					<Grid.Column key={index}>
-						<Button
-							circular
-							color={item}
-							icon={item}
-							onClick={() =>
-								window.open(
-									`https://${item}.com/${socialMediaObject[item]}`,
-									'_blank'
-								)
-							}
-						/>
-					</Grid.Column>
-				))}
-			</Grid>
-		)
+		<Grid columns={socialMediaItems.length || 1} relaxed='very'>
+			{socialMediaItems.map((item, index) => (
+				<Grid.Column key={index}>
+					<Button
+						circular
+						color={item}
+						icon={item}
+						onClick={() =>
+							window.open(
+								`https://${item}.com/${socialMediaObject[item]}`,
+								'_blank'
+							)
+						}
+					/>
+				</Grid.Column>
+			))}
+		</Grid>
 	);
 };
