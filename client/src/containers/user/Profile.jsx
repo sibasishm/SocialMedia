@@ -44,9 +44,12 @@ const Profile = ({
 						<p className='info'>{user && user.email}</p>
 						<Stats />
 						<Divider />
-						<p>{me && me.bio}</p>
+						<p>
+							{(me && me.bio) ||
+								'The user likes to keep a mystery about himself.'}
+						</p>
 						<Divider />
-						<Social />
+						<Social user={me} />
 					</Container>
 				</Grid.Column>
 				<Grid.Column width={11}>

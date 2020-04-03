@@ -5,9 +5,21 @@ import PropTypes from 'prop-types';
 import { Container, Header, Button } from 'semantic-ui-react';
 import { openModal } from '../actions/modal';
 
-const Landing = ({ auth: { isAuthenticated }, profile: { me }, openModal }) => {
+import Spinner from '../components/layout/Spinner';
+
+const Landing = ({
+	auth: { isAuthenticated },
+	profile: { me, loading },
+	openModal
+}) => {
 	if (isAuthenticated) {
-		return me ? <Redirect to='/me' /> : <Redirect to='/welcome' />;
+		return loading ? (
+			<Spinner />
+		) : me ? (
+			<Redirect to='/me' />
+		) : (
+			<Redirect to='/welcome' />
+		);
 	}
 
 	const handleRegister = () => {

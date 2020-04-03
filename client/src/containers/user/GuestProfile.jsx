@@ -53,9 +53,12 @@ const Profile = ({
 						</p>
 						<Stats />
 						<Divider />
-						<p>{current && current.bio}</p>
+						<p>
+							{(current && current.bio) ||
+								'The user likes to keep a mystery about himself.'}
+						</p>
 						<Divider />
-						<Social />
+						<Social user={current} />
 					</Container>
 				</Grid.Column>
 				<Grid.Column width={11}>
