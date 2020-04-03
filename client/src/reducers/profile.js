@@ -31,6 +31,7 @@ export default function(state = initialState, action) {
 		case GET_MY_PROFILE:
 			return {
 				...state,
+				error: {},
 				me: payload,
 				loading: false
 			};

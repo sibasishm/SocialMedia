@@ -5,7 +5,6 @@ import {
 	GET_MY_PROFILE,
 	GET_PROFILES,
 	PROFILE_ERROR,
-	CLEAR_PROFILE,
 	UPDATE_PROFILE,
 	UPDATING_FOLLOWERS,
 	UPDATED_FOLLOWERS
@@ -15,27 +14,6 @@ const triggerToastr = err =>
 	toastr.error(
 		err.response.data ? err.response.data.msg : 'Some error occured!'
 	);
-
-// Logged in user's profile (token set in local storage)
-export const getCurrentProfile = () => async dispatch => {
-	try {
-		const res = await axios.get('/api/profiles/me');
-		dispatch({
-			type: GET_MY_PROFILE,
-			payload: res.data
-		});
-	} catch (err) {
-		triggerToastr(err);
-		dispatch({ type: CLEAR_PROFILE });
-		dispatch({
-			type: PROFILE_ERROR,
-			payload: {
-				msg: err.response.statusText,
-				status: err.response.status
-			}
-		});
-	}
-};
 
 // All profiles
 export const getProfiles = () => async dispatch => {
@@ -58,15 +36,14 @@ export const getProfiles = () => async dispatch => {
 };
 
 // Any user profile from userId
-export const getProfileById = userId => async dispatch => {
+export const getProfileById = (userId, isAuthenticated) => async dispatch => {
 	try {
 		const res = await axios.get(`/api/profiles/user/${userId}`);
 		dispatch({
-			type: GET_PROFILE,
+			type: isAuthenticated ? GET_MY_PROFILE : GET_PROFILE,
 			payload: res.data
 		});
 	} catch (err) {
-		triggerToastr(err);
 		dispatch({
 			type: PROFILE_ERROR,
 			payload: {

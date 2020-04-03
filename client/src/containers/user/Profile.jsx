@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import { Grid, Segment } from 'semantic-ui-react';
+
+import { getProfileById } from '../../actions/profile';
 
 import Welcome from './Welcome';
 import HeroBanner from '../../components/profile/HeroBanner';
@@ -14,11 +16,19 @@ import About from '../../components/profile/About';
 import Topics from '../topics/Posts';
 import Spinner from '../../components/layout/Spinner';
 
-const Profile = ({ profile: { me, loading } }) => {
-	return loading ? (
-		<Spinner />
-	) : me === null ? (
+const Profile = ({
+	profile: { me, loading, error },
+	auth: { user },
+	getProfileById
+}) => {
+	useEffect(() => {
+		user && getProfileById(user._id, true);
+	}, [getProfileById, user]);
+
+	return error.status === 404 ? (
 		<Welcome />
+	) : loading || me === null ? (
+		<Spinner />
 	) : (
 		<div className='profile-container'>
 			<HeroBanner />
@@ -64,11 +74,14 @@ const Profile = ({ profile: { me, loading } }) => {
 };
 
 Profile.propTypes = {
-	profile: PropTypes.object.isRequired
+	profile: PropTypes.object.isRequired,
+	auth: PropTypes.object.isRequired,
+	getProfileById: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-	profile: state.profile
+	profile: state.profile,
+	auth: state.auth
 });
 
-export default connect(mapStateToProps)(Profile);
+export default connect(mapStateToProps, { getProfileById })(Profile);

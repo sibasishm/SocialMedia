@@ -1,20 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Container, Header, Button } from 'semantic-ui-react';
 import { openModal } from '../actions/modal';
-import { getCurrentProfile } from '../actions/profile';
 
-const Landing = ({
-	auth: { isAuthenticated },
-	openModal,
-	getCurrentProfile
-}) => {
-	useEffect(() => {
-		getCurrentProfile();
-	}, [getCurrentProfile]);
-
+const Landing = ({ auth: { isAuthenticated }, openModal }) => {
 	if (isAuthenticated) {
 		return <Redirect to='/me' />;
 	}
@@ -62,14 +53,11 @@ const Landing = ({
 Landing.prototype = {
 	auth: PropTypes.object.isRequired,
 	profile: PropTypes.object.isRequired,
-	openModal: PropTypes.func.isRequired,
-	getCurrentProfile: PropTypes.func.isRequired
+	openModal: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
 	auth: state.auth
 });
 
-export default connect(mapStateToProps, { openModal, getCurrentProfile })(
-	Landing
-);
+export default connect(mapStateToProps, { openModal })(Landing);

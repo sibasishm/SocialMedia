@@ -7,30 +7,6 @@ const Profile = require('../../models/Profile');
 const User = require('../../models/Users');
 const Post = require('../../models/Post');
 
-// ----------- Fetch user profile from token -------------
-// @route   GET api/profiles/me
-// @desc    Get current user profile
-// @access  Private
-router.get('/me', auth, async (req, res) => {
-	try {
-		const profile = await Profile.findOne({
-			user: req.user.id
-		}).populate('user', ['firstName', 'lastName', 'avatar', 'email']);
-
-		// If profile not found
-		if (!profile) {
-			return res
-				.status(404)
-				.json({ msg: 'There is no profile for this user' });
-		}
-
-		res.json(profile);
-	} catch (err) {
-		console.error(err.message);
-		res.status(500).send('Server Error');
-	}
-});
-
 // --------- Create and update profiles --------------
 // @route POST /api/profiles
 // @desc Create or update an user profile
