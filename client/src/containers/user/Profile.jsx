@@ -2,50 +2,39 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
-import { Grid, Container, Divider, Segment } from 'semantic-ui-react';
+import { Grid, Segment } from 'semantic-ui-react';
 
-import { getCurrentProfile } from '../../actions/profile';
+import { getProfileById } from '../../actions/profile';
 
-import Spinner from '../../components/layout/Spinner';
+import Welcome from './Welcome';
 import HeroBanner from '../../components/profile/HeroBanner';
-import Stats from '../../components/profile/Stats';
-import Social from '../../components/profile/Social';
+import UserInfo from '../../components/profile/UserInfo';
 import Placeholder from '../../components/layout/Placeholder';
 import Menu from '../../components/profile/Menu';
 import Activities from '../../components/profile/Activities';
 import About from '../../components/profile/About';
 import Topics from '../topics/Posts';
+import Spinner from '../../components/layout/Spinner';
 
 const Profile = ({
-	getCurrentProfile,
+	profile: { me, loading, error },
 	auth: { user },
-	profile: { me, loading }
+	getProfileById
 }) => {
 	useEffect(() => {
-		getCurrentProfile();
-	}, [getCurrentProfile]);
+		user && getProfileById(user._id, true);
+	}, [getProfileById, user]);
 
-	return loading || me === null ? (
+	return error.status === 404 ? (
+		<Welcome />
+	) : loading || me === null ? (
 		<Spinner />
 	) : (
 		<div className='profile-container'>
 			<HeroBanner />
 			<Grid columns={2} stackable>
 				<Grid.Column width={5}>
-					<Container textAlign='center'>
-						<img
-							className='profile-image'
-							src={user && user.avatar}
-							alt='user'
-						/>
-						<p className='name'>{user && user.name}</p>
-						<p className='info'>{user && user.email}</p>
-						<Stats />
-						<Divider />
-						<p>{me && me.bio}</p>
-						<Divider />
-						<Social />
-					</Container>
+					<UserInfo user={me} />
 				</Grid.Column>
 				<Grid.Column width={11}>
 					<Menu />
@@ -85,14 +74,14 @@ const Profile = ({
 };
 
 Profile.propTypes = {
-	getCurrentProfile: PropTypes.func.isRequired,
+	profile: PropTypes.object.isRequired,
 	auth: PropTypes.object.isRequired,
-	profile: PropTypes.object.isRequired
+	getProfileById: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-	auth: state.auth,
-	profile: state.profile
+	profile: state.profile,
+	auth: state.auth
 });
 
-export default connect(mapStateToProps, { getCurrentProfile })(Profile);
+export default connect(mapStateToProps, { getProfileById })(Profile);

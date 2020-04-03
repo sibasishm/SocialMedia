@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import { Grid } from 'semantic-ui-react';
@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 
 import {
 	updateProfile,
-	getCurrentProfile,
 	addExperience,
 	addEducation
 } from '../../actions/profile';
@@ -21,14 +20,10 @@ import Experience from '../../components/settings/Experience';
 
 const Settings = ({
 	updateProfile,
-	getCurrentProfile,
 	addEducation,
 	addExperience,
 	profile: { me }
 }) => {
-	useEffect(() => {
-		getCurrentProfile();
-	}, [getCurrentProfile]);
 	return (
 		<Grid columns={2} stackable>
 			<Grid.Column width={4}>
@@ -86,7 +81,6 @@ const Settings = ({
 
 Settings.propTypes = {
 	updateProfile: PropTypes.func.isRequired,
-	getCurrentProfile: PropTypes.func.isRequired,
 	addEducation: PropTypes.func.isRequired,
 	addExperience: PropTypes.func.isRequired,
 	profile: PropTypes.object.isRequired
@@ -98,7 +92,6 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
 	updateProfile,
-	getCurrentProfile,
 	addExperience,
 	addEducation
 })(Settings);

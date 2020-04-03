@@ -5,15 +5,6 @@ const ProfileSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'user'
 	},
-	firstName: {
-		type: String
-	},
-	surname: {
-		type: String
-	},
-	topics: {
-		type: [String]
-	},
 	bio: {
 		type: String
 	},
@@ -30,6 +21,35 @@ const ProfileSchema = new mongoose.Schema({
 	hobbies: {
 		type: [String]
 	},
+	youtube: {
+		type: String
+	},
+	twitter: {
+		type: String
+	},
+	facebook: {
+		type: String
+	},
+	instagram: {
+		type: String
+	},
+	linkedin: {
+		type: String
+	},
+	phone: {
+		type: String
+	},
+	website: {
+		type: String
+	},
+	followers: [
+		{
+			user: {
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'user'
+			}
+		}
+	],
 	education: [
 		{
 			school: {
@@ -85,61 +105,6 @@ const ProfileSchema = new mongoose.Schema({
 			}
 		}
 	],
-	favourites: {
-		tvShow: {
-			type: [String]
-		},
-		movie: {
-			type: [String]
-		},
-		game: {
-			type: [String]
-		},
-		music: {
-			type: [String]
-		},
-		book: {
-			type: [String]
-		},
-		sport: {
-			type: [String]
-		}
-	},
-	social: {
-		youtube: {
-			type: String
-		},
-		twitter: {
-			type: String
-		},
-		facebook: {
-			type: String
-		},
-		instagram: {
-			type: String
-		},
-		linkedin: {
-			type: String
-		}
-	},
-	contact: {
-		phone: {
-			type: String
-		},
-		website: {
-			type: String
-		},
-		showWorks: {
-			type: Boolean,
-			default: false
-		},
-		behance: {
-			type: String
-		},
-		github: {
-			type: String
-		}
-	},
 	date: {
 		type: Date,
 		default: Date.now

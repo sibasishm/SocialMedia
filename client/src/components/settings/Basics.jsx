@@ -12,25 +12,6 @@ const Basics = ({ pristine, submitting, handleSubmit, updateProfile }) => (
 	<Segment>
 		<Header dividing size='large' content='Basic information' />
 		<Form onSubmit={handleSubmit(updateProfile)}>
-			<Form.Group inline widths='equal'>
-				<Field
-					fluid
-					name='firstName'
-					type='text'
-					component={SimpleInput}
-					placeholder='First name'
-					icon='user'
-					validate={required}
-				/>
-				<Field
-					fluid
-					name='surname'
-					type='text'
-					component={SimpleInput}
-					placeholder='Surname'
-					icon='user'
-				/>
-			</Form.Group>
 			<Form.Group inline>
 				<label>Gender: </label>
 				<Field

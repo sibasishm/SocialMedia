@@ -2,21 +2,21 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import { Grid, Container, Divider, Segment } from 'semantic-ui-react';
+import { Grid, Segment } from 'semantic-ui-react';
 
-import { getProfileById } from '../../actions/profile';
+import { getProfileById, addFollower } from '../../actions/profile';
 
 import Spinner from '../../components/layout/Spinner';
 import HeroBanner from '../../components/profile/HeroBanner';
-import Stats from '../../components/profile/Stats';
-import Social from '../../components/profile/Social';
+import UserInfo from '../../components/profile/UserInfo';
 import GuestMenu from '../../components/profile/GuestMenu';
 import Activities from '../../components/profile/Activities';
 import About from '../../components/profile/About';
 
 const Profile = ({
 	getProfileById,
-	profile: { current, loading },
+	addFollower,
+	profile: { current, loading, followerLoading },
 	match,
 	auth: { user }
 }) => {
@@ -30,6 +30,12 @@ const Profile = ({
 		return <Redirect to='/me' />;
 	}
 
+	const isFollowing =
+		current &&
+		current.followers &&
+		current.followers.findIndex(follower => follower.user === user._id) !==
+			-1;
+
 	return loading || current === null ? (
 		<Spinner />
 	) : (
@@ -37,27 +43,16 @@ const Profile = ({
 			<HeroBanner />
 			<Grid columns={2} stackable>
 				<Grid.Column width={5}>
-					<Container textAlign='center'>
-						<img
-							className='profile-image'
-							src={current.user && current.user.avatar}
-							alt='user'
-						/>
-						<p className='name'>
-							{current.user && current.user.name}
-						</p>
-						<p className='info'>
-							{current.user && current.user.email}
-						</p>
-						<Stats />
-						<Divider />
-						<p>{current && current.bio}</p>
-						<Divider />
-						<Social />
-					</Container>
+					<UserInfo user={current} />
 				</Grid.Column>
 				<Grid.Column width={11}>
-					<GuestMenu userId={userId} />
+					<GuestMenu
+						userId={userId}
+						profileId={current._id}
+						follow={addFollower}
+						isFollowing={isFollowing}
+						loading={followerLoading}
+					/>
 					<Segment attached='bottom'>
 						<Switch>
 							<Route
@@ -79,6 +74,7 @@ const Profile = ({
 
 Profile.propTypes = {
 	getProfileById: PropTypes.func.isRequired,
+	addFollower: PropTypes.func.isRequired,
 	profile: PropTypes.object.isRequired,
 	auth: PropTypes.object.isRequired
 };
@@ -88,4 +84,6 @@ const mapStateToProps = state => ({
 	auth: state.auth
 });
 
-export default connect(mapStateToProps, { getProfileById })(Profile);
+export default connect(mapStateToProps, { getProfileById, addFollower })(
+	Profile
+);

@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import { Container, Header, Button } from 'semantic-ui-react';
 import { openModal } from '../actions/modal';
 
-const Landing = ({ auth: { isAuthenticated }, profile: { me }, openModal }) => {
+const Landing = ({ auth: { isAuthenticated }, openModal }) => {
 	if (isAuthenticated) {
-		return me ? <Redirect to='/me' /> : <Redirect to='/welcome' />;
+		return <Redirect to='/me' />;
 	}
 
 	const handleRegister = () => {
@@ -57,8 +57,7 @@ Landing.prototype = {
 };
 
 const mapStateToProps = state => ({
-	auth: state.auth,
-	profile: state.profile
+	auth: state.auth
 });
 
 export default connect(mapStateToProps, { openModal })(Landing);

@@ -7,8 +7,7 @@ import {
 	ADD_POST,
 	GET_POST,
 	ADD_COMMENT,
-	DELETE_COMMENT,
-	CLEAR_PROFILE
+	DELETE_COMMENT
 } from './types';
 import axios from 'axios';
 import { toastr } from 'react-redux-toastr';
@@ -21,9 +20,6 @@ const triggerToastr = err =>
 // Get all posts
 export const getPosts = () => async dispatch => {
 	try {
-		// Whenever user navigates to all topics or all users page clear his profile in store
-		dispatch({ type: CLEAR_PROFILE });
-
 		const res = await axios.get('/api/posts');
 		dispatch({
 			type: GET_POSTS,

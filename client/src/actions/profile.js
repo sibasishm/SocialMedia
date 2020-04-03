@@ -5,8 +5,9 @@ import {
 	GET_MY_PROFILE,
 	GET_PROFILES,
 	PROFILE_ERROR,
-	CLEAR_PROFILE,
-	UPDATE_PROFILE
+	UPDATE_PROFILE,
+	UPDATING_FOLLOWERS,
+	UPDATED_FOLLOWERS
 } from './types';
 
 const triggerToastr = err =>
@@ -14,33 +15,9 @@ const triggerToastr = err =>
 		err.response.data ? err.response.data.msg : 'Some error occured!'
 	);
 
-// Logged in user's profile (token set in local storage)
-export const getCurrentProfile = () => async dispatch => {
-	try {
-		const res = await axios.get('/api/profiles/me');
-		dispatch({
-			type: GET_MY_PROFILE,
-			payload: res.data
-		});
-	} catch (err) {
-		triggerToastr(err);
-		dispatch({ type: CLEAR_PROFILE });
-		dispatch({
-			type: PROFILE_ERROR,
-			payload: {
-				msg: err.response.statusText,
-				status: err.response.status
-			}
-		});
-	}
-};
-
 // All profiles
 export const getProfiles = () => async dispatch => {
 	try {
-		// Whenever user navigates to all topics or all users page clear his profile in store
-		dispatch({ type: CLEAR_PROFILE });
-
 		const res = await axios.get('/api/profiles');
 		dispatch({
 			type: GET_PROFILES,
@@ -59,15 +36,14 @@ export const getProfiles = () => async dispatch => {
 };
 
 // Any user profile from userId
-export const getProfileById = userId => async dispatch => {
+export const getProfileById = (userId, isAuthenticated) => async dispatch => {
 	try {
 		const res = await axios.get(`/api/profiles/user/${userId}`);
 		dispatch({
-			type: GET_PROFILE,
+			type: isAuthenticated ? GET_MY_PROFILE : GET_PROFILE,
 			payload: res.data
 		});
 	} catch (err) {
-		triggerToastr(err);
 		dispatch({
 			type: PROFILE_ERROR,
 			payload: {
@@ -102,6 +78,28 @@ export const updateProfile = formData => async dispatch => {
 			errors.forEach(error => toastr.error(error.msg));
 		}
 
+		dispatch({
+			type: PROFILE_ERROR,
+			payload: {
+				msg: err.response.statusText,
+				status: err.response.status
+			}
+		});
+	}
+};
+
+export const addFollower = id => async dispatch => {
+	try {
+		dispatch({ type: UPDATING_FOLLOWERS });
+
+		const res = await axios.put(`/api/profiles/follow/${id}`);
+		dispatch({
+			type: UPDATED_FOLLOWERS,
+			payload: res.data
+		});
+		toastr.success('Success!', 'Your follow list updated');
+	} catch (err) {
+		triggerToastr(err);
 		dispatch({
 			type: PROFILE_ERROR,
 			payload: {
