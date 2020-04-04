@@ -26,7 +26,7 @@ const Profile = ({
 	}, [getProfileById, user]);
 
 	return error.status === 404 ? (
-		<Welcome />
+		<Welcome user={user} />
 	) : loading || me === null ? (
 		<Spinner />
 	) : (

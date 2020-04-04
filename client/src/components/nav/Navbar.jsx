@@ -22,7 +22,7 @@ const Navbar = ({
 }) => (
 	<Menu pointing secondary size='large'>
 		<Container>
-			<Menu.Item header as={NavLink} exact to='/' name='Socialize' />
+			<Menu.Item header as={NavLink} exact to='/' name='Mitroon' />
 			{/* <Menu.Item as={NavLink} to='/events' name='Events' /> */}
 			<Menu.Item as={NavLink} to='/topics' name='Topics' />
 			<Menu.Item as={NavLink} to='/people' name='People' />

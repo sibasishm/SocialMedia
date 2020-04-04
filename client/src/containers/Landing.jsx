@@ -18,7 +18,7 @@ const Landing = ({ auth: { isAuthenticated }, openModal }) => {
 		<Container text textAlign='center'>
 			<Header
 				as='h1'
-				content='Socialize'
+				content='Mitroon'
 				style={{
 					fontSize: '3em',
 					fontWeight: '700',
@@ -28,7 +28,7 @@ const Landing = ({ auth: { isAuthenticated }, openModal }) => {
 			/>
 			<Header
 				as='h2'
-				content='The journey of a million miles begin with a single step.'
+				content='Make new friends like you always did.'
 				style={{
 					fontSize: '1.5em',
 					fontWeight: 'normal',
