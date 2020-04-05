@@ -54,7 +54,7 @@ const Profile = ({
 								render={() => <Placeholder />}
 							/>
 							<Route
-								path='/me/topics'
+								path='/me/posts'
 								render={() => <Topics isAuthenticated={true} />}
 							/>
 							<Route

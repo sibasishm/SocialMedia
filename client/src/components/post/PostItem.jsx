@@ -13,7 +13,7 @@ export default ({
 	<Card fluid>
 		<Card.Content>
 			<Image src={avatar} floated='left' size='mini' />
-			<Card.Header as={Link} to={`/people/${user}`} content={name} />
+			<Card.Header as={Link} to={`/users/${user}`} content={name} />
 			<Card.Meta>Posted on: {formatDate(date)}</Card.Meta>
 			<Card.Description>{text}</Card.Description>
 		</Card.Content>
@@ -29,8 +29,9 @@ export default ({
 							Likes({likes.length})
 						</Button>
 						<Button
+							id='hide-sm'
 							as={Link}
-							to={`/topics/${_id}`}
+							to={`/posts/${_id}`}
 							basic
 							color='teal'
 						>
@@ -47,7 +48,7 @@ export default ({
 				) : (
 					<Button
 						as={Link}
-						to={`/topics/${_id}`}
+						to={`/posts/${_id}`}
 						color='teal'
 						floated='right'
 					>

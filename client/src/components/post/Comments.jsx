@@ -14,7 +14,7 @@ export default ({ postId, comments, addComment, deleteComment }) => (
 				<Comment key={_id} style={{ marginBottom: '1rem' }}>
 					<Comment.Avatar src={avatar} />
 					<Comment.Content>
-						<Comment.Author as={Link} to={`/people/${user}`}>
+						<Comment.Author as={Link} to={`/users/${user}`}>
 							{name}
 						</Comment.Author>
 						<Comment.Metadata>{formatDate(date)}</Comment.Metadata>

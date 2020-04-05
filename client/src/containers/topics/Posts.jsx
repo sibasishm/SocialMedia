@@ -35,7 +35,7 @@ const Posts = ({
 	) : (
 		<Fragment>
 			{isAuthenticated && <CreatePost addPost={addPost} />}
-			<Card.Group itemsPerRow={isAuthenticated ? 1 : 2}>
+			<Card.Group itemsPerRow={1}>
 				{payload &&
 					payload.map((post, index) => (
 						<PostItem

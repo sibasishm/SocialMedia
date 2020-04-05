@@ -28,7 +28,7 @@ const Post = ({
 		<Segment>
 			<Button
 				as={Link}
-				to='/topics'
+				to='/posts'
 				color='teal'
 				content='View all posts'
 			/>

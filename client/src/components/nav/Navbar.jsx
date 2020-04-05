@@ -24,8 +24,8 @@ const Navbar = ({
 		<Container>
 			<Menu.Item header as={NavLink} exact to='/' name='Mitroon' />
 			{/* <Menu.Item as={NavLink} to='/events' name='Events' /> */}
-			<Menu.Item as={NavLink} to='/topics' name='Topics' />
-			<Menu.Item as={NavLink} to='/people' name='People' />
+			<Menu.Item as={NavLink} to='/posts' name='Posts' />
+			<Menu.Item as={NavLink} to='/users' name='Users' />
 			{!loading &&
 				(isAuthenticated ? (
 					<AuthLinks

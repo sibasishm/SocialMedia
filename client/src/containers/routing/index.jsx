@@ -14,10 +14,10 @@ import NotFound from '../../components/layout/NotFound';
 const Routes = () => (
 	<Container>
 		<Switch>
-			<Route exact path='/people' component={People} />
-			<PrivateRoute path='/people/:id' component={GuestProfile} />
-			<Route exact path='/topics' component={Posts} />
-			<PrivateRoute path='/topics/:id' component={Post} />
+			<Route exact path='/users' component={People} />
+			<PrivateRoute path='/users/:id' component={GuestProfile} />
+			<Route exact path='/posts' component={Posts} />
+			<PrivateRoute path='/posts/:id' component={Post} />
 			<PrivateRoute eaxct path='/me' component={Profile} />
 			<PrivateRoute path='/settings' component={Settings} />
 			<Route component={NotFound} />
