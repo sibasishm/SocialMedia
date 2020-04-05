@@ -1,15 +1,16 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { Button } from 'semantic-ui-react';
 
-const Welcome = props => {
+const Welcome = ({ user = {} }) => {
 	return (
 		<div>
-			<h1>We are so glad to have you on borad!</h1>
+			<h1>{`Welcome, ${user.firstName || ''}!`}</h1>
 			<p>
 				Please set up your profile. A whole new spectrum of awesomeness
 				awaits your arrival.
 			</p>
-			<ol>
+			{/* <ol>
 				<li>Add basic details to confirm that you're not a ghost.</li>
 				<li>
 					Upload a profile picture, ghosts are not allowed beyond this
@@ -23,11 +24,15 @@ const Welcome = props => {
 					Get out of your shell, find new friends, start a discussion
 					thread.
 				</li>
-			</ol>
+			</ol> */}
+			<Button
+				as={Link}
+				to='/settings'
+				color='teal'
+				content='Go to settings'
+			/>
 		</div>
 	);
 };
-
-// Welcome.propTypes = {};
 
 export default Welcome;

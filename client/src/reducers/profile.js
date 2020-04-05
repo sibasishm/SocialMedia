@@ -56,6 +56,7 @@ export default function(state = initialState, action) {
 			return {
 				...state,
 				all: payload,
+				current: null,
 				loading: false
 			};
 		case PROFILE_ERROR:

@@ -26,7 +26,7 @@ const Profile = ({
 	}, [getProfileById, user]);
 
 	return error.status === 404 ? (
-		<Welcome />
+		<Welcome user={user} />
 	) : loading || me === null ? (
 		<Spinner />
 	) : (
@@ -54,7 +54,7 @@ const Profile = ({
 								render={() => <Placeholder />}
 							/>
 							<Route
-								path='/me/topics'
+								path='/me/posts'
 								render={() => <Topics isAuthenticated={true} />}
 							/>
 							<Route

@@ -5,10 +5,10 @@ import { Menu, Button } from 'semantic-ui-react';
 export default ({ userId, follow, profileId, isFollowing, loading }) => {
 	return (
 		<Menu attached='top' tabular>
-			<Menu.Item as={NavLink} exact to={`/people/${userId}`}>
+			<Menu.Item as={NavLink} exact to={`/users/${userId}`}>
 				Activities
 			</Menu.Item>
-			<Menu.Item as={NavLink} to={`/people/${userId}/about`}>
+			<Menu.Item as={NavLink} to={`/users/${userId}/about`}>
 				About
 			</Menu.Item>
 			<Menu.Menu position='right'>

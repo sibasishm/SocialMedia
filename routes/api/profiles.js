@@ -26,7 +26,6 @@ router.post('/', auth, async (req, res) => {
 		'dob',
 		'gender',
 		'location',
-		'topics',
 		'hobbies',
 		'youtube',
 		'twitter',

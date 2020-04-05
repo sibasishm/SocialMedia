@@ -14,7 +14,7 @@ export default ({
 		<Card.Content>
 			<Card.Header
 				as={Link}
-				to={`/people/${_id}`}
+				to={`/users/${_id}`}
 				content={`${firstName}`}
 			/>
 			<Card.Meta>{location && `From ${location}`}</Card.Meta>

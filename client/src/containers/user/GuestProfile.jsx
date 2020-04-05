@@ -57,11 +57,11 @@ const Profile = ({
 						<Switch>
 							<Route
 								exact
-								path={`/people/${userId}`}
+								path={`/users/${userId}`}
 								render={() => <Activities />}
 							/>
 							<Route
-								path={`/people/${userId}/about`}
+								path={`/users/${userId}/about`}
 								render={() => <About profile={current} />}
 							/>
 						</Switch>

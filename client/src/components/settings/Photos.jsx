@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Photos = () => {
-	return <div>My Photos</div>;
+	return <div>Coming soon...</div>;
 };
 
 export default Photos;

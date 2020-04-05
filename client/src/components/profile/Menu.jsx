@@ -11,11 +11,11 @@ export default () => {
 			<Menu.Item as={NavLink} to='/me/about'>
 				About
 			</Menu.Item>
-			<Menu.Item as={NavLink} to='/me/network'>
+			{/* <Menu.Item as={NavLink} to='/me/network'>
 				Network
-			</Menu.Item>
-			<Menu.Item as={NavLink} to='/me/topics'>
-				Topics
+			</Menu.Item> */}
+			<Menu.Item as={NavLink} to='/me/posts'>
+				Posts
 			</Menu.Item>
 			{/* <Menu.Item as={NavLink} to='/me/events'>
 				Events

@@ -11,11 +11,11 @@ const AuthLinks = ({ logout, userDetails: { name, avatar } }) => (
 				<Dropdown.Item text='My Events' icon='calendar' /> */}
 				<Dropdown.Item
 					as={Link}
-					to='/me/topics'
-					text='My Topics'
+					to='/me/posts'
+					text='My Posts'
 					icon='chat'
 				/>
-				<Dropdown.Item text='My Network' icon='users' />
+				{/* <Dropdown.Item text='My Network' icon='users' /> */}
 				<Dropdown.Item
 					as={Link}
 					to='/settings'

@@ -1,7 +1,7 @@
 {
-	"name": "socialmedia",
-	"version": "1.0.0",
-	"description": "The interest group spacific socialize platform",
+	"name": "mitroon",
+	"version": "0.1.0",
+	"description": "A social media platform that lets you make friends online just like you do offline",
 	"main": "server.js",
 	"scripts": {
 		"start": "node server",
@@ -20,6 +20,7 @@
 		"gravatar": "^1.8.0",
 		"jsonwebtoken": "^8.5.1",
 		"mongoose": "^5.7.5",
+		"multer": "^1.4.2",
 		"request": "^2.88.0"
 	},
 	"devDependencies": {

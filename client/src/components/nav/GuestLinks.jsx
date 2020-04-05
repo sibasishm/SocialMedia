@@ -6,7 +6,7 @@ const GuestLinks = ({ signIn, register }) => (
 		<Menu.Item>
 			<Button basic color='teal' content='Sign in' onClick={signIn} />
 		</Menu.Item>
-		<Menu.Item>
+		<Menu.Item id='hide-sm'>
 			<Button color='teal' content='Get started' onClick={register} />
 		</Menu.Item>
 	</Menu.Menu>
