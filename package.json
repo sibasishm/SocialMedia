@@ -1,7 +1,7 @@
 {
 	"name": "mitroon",
-	"version": "0.1.0",
-	"description": "A social media platform that lets you make friends online just like you do offline",
+	"version": "0.1.1",
+	"description": "A social media platform that lets you make friends online just like you do in real life",
 	"main": "server.js",
 	"scripts": {
 		"start": "node server",
