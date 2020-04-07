@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('../../middleware/auth');
+const auth = require('../middleware/auth');
 const { check, validationResult } = require('express-validator');
 
-const Profile = require('../../models/Profile');
-const User = require('../../models/Users');
-const Post = require('../../models/Post');
+const Profile = require('../models/Profile');
+const User = require('../models/Users');
+const Post = require('../models/Post');
 
 // --------- Create and update profiles --------------
 // @route POST /api/profiles
