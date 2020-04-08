@@ -3,7 +3,6 @@ const router = express.Router();
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const config = require('config');
 const { check, validationResult } = require('express-validator');
 
 const Users = require('../models/Users');
@@ -19,16 +18,16 @@ const Users = require('../models/Users');
 // @apiSuccess (200) {Object} user object with name, email and password
 router.post(
 	'/',
-	// [
-	// 	check('firstName', 'Name is required')
-	// 		.not()
-	// 		.isEmpty(),
-	// 	check('email', 'Please include a valid email').isEmail(),
-	// 	check(
-	// 		'password',
-	// 		'Password needs to be atleast 6 characters long'
-	// 	).isLength({ min: 6 })
-	// ],
+	[
+		check('firstName', 'Name is required')
+			.not()
+			.isEmpty(),
+		check('email', 'Please include a valid email').isEmail(),
+		check(
+			'password',
+			'Password needs to be atleast 6 characters long'
+		).isLength({ min: 6 })
+	],
 	async (req, res) => {
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {
@@ -79,7 +78,7 @@ router.post(
 
 			jwt.sign(
 				payload,
-				config.get('jwtSecret'),
+				process.env.JWT_SECRET,
 				{ expiresIn: 360000 }, //Change it to 3600
 				(err, token) => {
 					if (err) throw err;

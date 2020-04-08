@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
-const config = require('config');
 
-const uri = config.get('mongoURI');
+const uri = process.env.DATABASE.replace(
+	'<PASSWORD>',
+	process.env.DATABASE_PASSWORD
+);
 
 const connectDB = async () => {
 	try {
@@ -14,7 +16,6 @@ const connectDB = async () => {
 		console.log('MongoDB Connection established successfully...');
 	} catch (err) {
 		console.error(err.message);
-		// exit process with failure
 		process.exit(1);
 	}
 };

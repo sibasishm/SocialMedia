@@ -1,17 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const auth = require('../middleware/auth');
-const User = require('../models/Users');
 const jwt = require('jsonwebtoken');
-const config = require('config');
 const { check, validationResult } = require('express-validator');
+
+const User = require('../models/Users');
+const { checkAuthToken } = require('../controllers/auth');
 
 // ----------- User Fetching by token -------------
 // @route   GET api/auth
 // @desc    Get users data (except password) from token
 // @access  Public (Protected with auth middleware)
-router.get('/', auth, async (req, res) => {
+router.get('/', checkAuthToken, async (req, res) => {
 	try {
 		// get user data from it's id (sent from token) but not the password
 		const user = await User.findById(req.user.id).select('-password');
@@ -66,7 +66,7 @@ router.post(
 
 			jwt.sign(
 				payload,
-				config.get('jwtSecret'),
+				process.env.JWT_SECRET,
 				{ expiresIn: 3600 },
 				(err, token) => {
 					if (err) throw err;
