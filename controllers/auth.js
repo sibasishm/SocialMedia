@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
-
 const User = require('../models/Users');
+
+const { catchAsync } = require('../utils/helper');
 
 exports.checkAuthToken = (req, res, next) => {
 	// Get token from the request header
@@ -22,13 +23,11 @@ exports.checkAuthToken = (req, res, next) => {
 	}
 };
 
-exports.signup = async (req, res, next) => {
+exports.signup = catchAsync(async (req, res, next) => {
 	const newUser = await User.create(req.body);
 
 	res.status(201).json({
 		status: 'success',
-		data: {
-			user: newUser
-		}
+		data: newUser
 	});
-};
+});

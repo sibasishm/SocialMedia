@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
-const UserSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
 	firstName: {
 		type: String,
 		required: [true, 'Please tell us your name']
@@ -11,13 +12,12 @@ const UserSchema = new mongoose.Schema({
 		required: [true, 'Please provide your mail'],
 		unique: true,
 		lowercase: true,
-		validate: [
-			value => {
-				value &&
-					!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value);
+		validate: {
+			validator: function(value) {
+				return /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value);
 			},
-			'Please provide a valid email'
-		]
+			message: 'Please provide a valid email'
+		}
 	},
 	avatar: String,
 	password: {
@@ -27,7 +27,13 @@ const UserSchema = new mongoose.Schema({
 	},
 	passwordConfirm: {
 		type: String,
-		required: [true, 'Please confirm your password']
+		required: [true, 'Please confirm your password'],
+		validate: {
+			validator: function(value) {
+				return value === this.password;
+			},
+			message: 'Please enter the same password'
+		}
 	},
 	date: {
 		type: Date,
@@ -35,4 +41,15 @@ const UserSchema = new mongoose.Schema({
 	}
 });
 
-module.exports = Users = mongoose.model('user', UserSchema);
+userSchema.pre('save', async function(next) {
+	if (!this.isModified('password')) {
+		return next();
+	}
+
+	this.password = await bcrypt.hash(this.password, 12);
+	this.passwordConfirm = undefined;
+
+	next();
+});
+
+module.exports = Users = mongoose.model('user', userSchema);
