@@ -6,18 +6,13 @@ const uri = process.env.DATABASE.replace(
 );
 
 const connectDB = async () => {
-	try {
-		await mongoose.connect(uri, {
-			useNewUrlParser: true,
-			useCreateIndex: true,
-			useFindAndModify: false,
-			useUnifiedTopology: true
-		});
-		console.log('MongoDB Connection established successfully...');
-	} catch (err) {
-		console.error(err.message);
-		process.exit(1);
-	}
+	await mongoose.connect(uri, {
+		useNewUrlParser: true,
+		useCreateIndex: true,
+		useFindAndModify: false,
+		useUnifiedTopology: true,
+	});
+	console.log('MongoDB connection established successfully...');
 };
 
 module.exports = connectDB;

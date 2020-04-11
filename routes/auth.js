@@ -33,7 +33,7 @@ router.post(
 	'/',
 	[
 		check('email', 'Please enter your email').isEmail(),
-		check('password', 'Password is required').exists()
+		check('password', 'Password is required').exists(),
 	],
 	async (req, res) => {
 		const errors = validationResult(req);
@@ -47,21 +47,21 @@ router.post(
 			// Check if user doesn't exist
 			if (!user) {
 				return res.status(400).json({
-					errors: [{ msg: 'Invalid credentials' }]
+					errors: [{ msg: 'Invalid credentials' }],
 				});
 			}
 			// Match password (entered password and the encrypted password)
 			const isMatch = await bcrypt.compare(password, user.password);
 			if (!isMatch) {
 				return res.status(400).json({
-					errors: [{ msg: 'Invalid credentials' }]
+					errors: [{ msg: 'Invalid credentials' }],
 				});
 			}
 			// Return JWT
 			const payload = {
 				user: {
-					id: user.id //_id of mongoDb
-				}
+					id: user.id, //_id of mongoDb
+				},
 			};
 
 			jwt.sign(
