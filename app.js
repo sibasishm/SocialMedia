@@ -6,7 +6,6 @@ const AppError = require('./utils/appError');
 const globalErrorController = require('./controllers/error');
 
 const userRouter = require('./routes/users');
-const authRouter = require('./routes/auth');
 const profileRouter = require('./routes/profiles');
 const postRouter = require('./routes/posts');
 
@@ -17,7 +16,6 @@ connectDB();
 app.use(express.json({ extended: false }));
 
 // Define Routes
-app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
 app.use('/api/profiles', profileRouter);
 app.use('/api/posts', postRouter);
