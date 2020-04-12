@@ -3,7 +3,7 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 
 const Post = require('../models/Post');
-const User = require('../models/Users');
+const User = require('../models/User');
 
 const { checkAuthToken } = require('../controllers/auth');
 const { getAllPosts, getPost } = require('../controllers/posts');
@@ -15,11 +15,7 @@ router.post(
 	'/',
 	[
 		checkAuthToken,
-		[
-			check('text', "You can't create empty posts")
-				.not()
-				.isEmpty()
-		]
+		[check('text', "You can't create empty posts").not().isEmpty()],
 	],
 	async (req, res) => {
 		try {
@@ -34,7 +30,7 @@ router.post(
 				text: req.body.text,
 				name: user.firstName,
 				avatar: user.avatar,
-				user: req.user.id
+				user: req.user.id,
 			};
 
 			// Create and save a new post
@@ -57,7 +53,7 @@ router.get('/me', checkAuthToken, async (req, res) => {
 	try {
 		// Show newest posts first
 		const posts = await Post.find({
-			user: req.user.id
+			user: req.user.id,
 		}).sort({ date: -1 });
 
 		if (!posts) {
@@ -124,7 +120,7 @@ router.put('/like/:post_id', checkAuthToken, async (req, res) => {
 		// If true remove the user from likes array else add
 
 		const likedUserObjectArray = post.likes.filter(
-			like => like.user.toString() === req.user.id
+			(like) => like.user.toString() === req.user.id
 		);
 
 		// Since the likes are unique there will always be one entry in the likedUserObjectArray
@@ -160,11 +156,7 @@ router.post(
 	'/comments/:post_id',
 	[
 		checkAuthToken,
-		[
-			check('text', "You can't post empty comments")
-				.not()
-				.isEmpty()
-		]
+		[check('text', "You can't post empty comments").not().isEmpty()],
 	],
 	async (req, res) => {
 		try {
@@ -186,7 +178,7 @@ router.post(
 				text: req.body.text,
 				name: user.firstName,
 				avatar: user.avatar,
-				user: req.user.id
+				user: req.user.id,
 			};
 			post.comments.push(comment);
 
@@ -222,7 +214,7 @@ router.delete(
 
 			// Pull out the comment
 			const comment = post.comments.find(
-				comment => comment.id === req.params.comment_id
+				(comment) => comment.id === req.params.comment_id
 			);
 
 			// Make sure comment exists
@@ -233,12 +225,12 @@ router.delete(
 			// Check user
 			if (comment.user.toString() !== req.user.id) {
 				return res.status(401).json({
-					msg: 'You are not authorized to delete the comment'
+					msg: 'You are not authorized to delete the comment',
 				});
 			}
 
 			const removeIndex = post.comments
-				.map(comment => comment.user.toString())
+				.map((comment) => comment.user.toString())
 				.indexOf(req.user.id);
 
 			post.comments.splice(removeIndex, 1);

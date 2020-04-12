@@ -7,12 +7,15 @@ exports.getAllPosts = catchAsync(async (req, res, next) => {
 	res.status(200).json({
 		status: 'success',
 		results: posts.length,
-		data: posts
+		data: posts,
 	});
 });
 
 exports.getPost = catchAsync(async (req, res, next) => {
-	const post = await Post.findById(req.params.id);
+	const post = await Post.findById(req.params.id).populate(
+		'comments',
+		'likes'
+	);
 
 	if (!post) {
 		return next(new AppError('Post not found', 404));
@@ -20,6 +23,6 @@ exports.getPost = catchAsync(async (req, res, next) => {
 
 	res.status(200).json({
 		status: 'success',
-		data: post
+		data: post,
 	});
 });

@@ -3,7 +3,7 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 
 const Profile = require('../models/Profile');
-const User = require('../models/Users');
+const User = require('../models/User');
 const Post = require('../models/Post');
 const { checkAuthToken } = require('../controllers/auth');
 
@@ -33,11 +33,11 @@ router.post('/', checkAuthToken, async (req, res) => {
 		'instagram',
 		'linkedin',
 		'phone',
-		'website'
+		'website',
 	];
 
 	// Check if the fields are filled then init them in profileObj
-	profileKeywords.forEach(keyword => {
+	profileKeywords.forEach((keyword) => {
 		if (req.body.hasOwnProperty(keyword) && req.body[keyword]) {
 			profileObj[keyword] = req.body[keyword];
 		}
@@ -79,7 +79,7 @@ router.get('/', async (req, res) => {
 		const profiles = await Profile.find().populate('user', [
 			'firstName',
 			'lastName',
-			'avatar'
+			'avatar',
 		]);
 		res.json(profiles);
 	} catch (err) {
@@ -97,7 +97,7 @@ router.get('/user/:user_id', async (req, res) => {
 	try {
 		// user_id will come from URL (req.param)
 		const profile = await Profile.findOne({
-			user: req.params.user_id
+			user: req.params.user_id,
 		}).populate('user', ['firstName', 'lastName', 'avatar']);
 
 		// Check if the profile exists
@@ -152,7 +152,7 @@ router.put('/follow/:profile_id', checkAuthToken, async (req, res) => {
 		}
 
 		const existingFollowers = profile.followers.filter(
-			follower => follower.user.toString() === req.user.id
+			(follower) => follower.user.toString() === req.user.id
 		);
 
 		if (existingFollowers.length === 1) {
@@ -187,16 +187,10 @@ router.put(
 	[
 		checkAuthToken,
 		[
-			check('title', 'Title is required')
-				.not()
-				.isEmpty(),
-			check('company', 'Company is required')
-				.not()
-				.isEmpty(),
-			check('from', 'From date is required')
-				.not()
-				.isEmpty()
-		]
+			check('title', 'Title is required').not().isEmpty(),
+			check('company', 'Company is required').not().isEmpty(),
+			check('from', 'From date is required').not().isEmpty(),
+		],
 	],
 	async (req, res) => {
 		const errors = validationResult(req);
@@ -212,7 +206,7 @@ router.put(
 			from,
 			to,
 			isCurrent,
-			description
+			description,
 		};
 
 		try {
@@ -259,16 +253,10 @@ router.put(
 	[
 		checkAuthToken,
 		[
-			check('school', 'School is required')
-				.not()
-				.isEmpty(),
-			check('fieldOfStudy', 'Field of study is required')
-				.not()
-				.isEmpty(),
-			check('from', 'From date is required')
-				.not()
-				.isEmpty()
-		]
+			check('school', 'School is required').not().isEmpty(),
+			check('fieldOfStudy', 'Field of study is required').not().isEmpty(),
+			check('from', 'From date is required').not().isEmpty(),
+		],
 	],
 	async (req, res) => {
 		const errors = validationResult(req);
@@ -283,7 +271,7 @@ router.put(
 			from,
 			to,
 			isCurrent,
-			description
+			description,
 		} = req.body;
 
 		const newEducation = {
@@ -293,7 +281,7 @@ router.put(
 			from,
 			to,
 			isCurrent,
-			description
+			description,
 		};
 
 		try {
