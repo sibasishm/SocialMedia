@@ -32,6 +32,8 @@ likeSchema.pre(/^find/, function (next) {
 		path: 'user',
 		select: 'firstName lastName avatar',
 	});
+
+	next();
 });
 
 module.exports = Like = mongoose.model('like', likeSchema);

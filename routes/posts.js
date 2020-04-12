@@ -6,45 +6,9 @@ const Post = require('../models/Post');
 const User = require('../models/User');
 
 const { checkAuthToken } = require('../controllers/auth');
-const { getAllPosts, getPost } = require('../controllers/posts');
+const { addPost, getAllPosts, getPost } = require('../controllers/posts');
 
-// @route   POST api/posts
-// @desc    Create a post
-// @access  Private
-router.post(
-	'/',
-	[
-		checkAuthToken,
-		[check('text', "You can't create empty posts").not().isEmpty()],
-	],
-	async (req, res) => {
-		try {
-			const error = validationResult(req);
-			if (!error.isEmpty()) {
-				return res.status(400).json({ errors: error.array() });
-			}
-
-			const user = await User.findById(req.user.id).select('-password');
-
-			const newPost = {
-				text: req.body.text,
-				name: user.firstName,
-				avatar: user.avatar,
-				user: req.user.id,
-			};
-
-			// Create and save a new post
-			const post = new Post(newPost);
-			await post.save();
-			res.json(post);
-		} catch (err) {
-			console.error(err.message);
-			res.status(500).send('Server Error');
-		}
-	}
-);
-
-router.get('/', getAllPosts);
+router.route('/').get(getAllPosts).post(checkAuthToken, addPost);
 
 // @route   GET api/posts/me
 // @desc    get logged in user'posts

@@ -2,11 +2,11 @@ const Like = require('../models/Like');
 const { catchAsync } = require('../utils/helper');
 
 exports.addLike = catchAsync(async (req, res, next) => {
-	const newlike = await Like.create(req.body);
+	const newLike = await Like.create(req.body);
 
 	res.status(201).json({
 		status: 'success',
-		data: newlike,
+		data: newLike,
 	});
 });
 
