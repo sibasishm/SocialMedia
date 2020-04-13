@@ -18,7 +18,6 @@ router.post('/', checkAuthToken, async (req, res) => {
 	profileObj.contact = {};
 	profileObj.social = {};
 
-	// Get the id from x-auth-token set in req.user in auth middleware
 	profileObj.user = req.user.id;
 
 	const profileKeywords = [

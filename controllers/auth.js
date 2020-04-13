@@ -12,7 +12,12 @@ const signToken = (id) =>
 
 exports.checkAuthToken = catchAsync(async (req, res, next) => {
 	// Get token from the request header
-	const token = req.header('x-auth-token');
+	let token;
+	const auth = req.headers.authorization;
+	if (auth && auth.startsWith('Bearer')) {
+		token = auth.split(' ')[1];
+	}
+
 	if (!token) {
 		return next(new AppError('Please login to get access.', 401));
 	}
@@ -78,6 +83,6 @@ exports.login = catchAsync(async (req, res, next) => {
 
 	res.status(200).json({
 		status: 'success',
-		data: signToken(user._id),
+		token: signToken(user._id),
 	});
 });

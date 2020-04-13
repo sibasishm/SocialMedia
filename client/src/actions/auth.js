@@ -9,15 +9,14 @@ import {
 	LOGIN_FAIL,
 	LOGOUT,
 	CLEAR_PROFILE,
-	NO_TOKEN
+	NO_TOKEN,
 } from './types';
 import { closeModal } from './modal';
 
 import { setAuthToken } from '../utils';
 
-// Set x-auth-token in axios defaults header
 // Get user data from /api/auth and set to payload
-export const loadUser = () => async dispatch => {
+export const loadUser = () => async (dispatch) => {
 	if (localStorage.token) {
 		setAuthToken(localStorage.token);
 	}
@@ -27,27 +26,27 @@ export const loadUser = () => async dispatch => {
 
 		dispatch({
 			type: USER_LOADED,
-			payload: res.data
+			payload: res.data,
 		});
 	} catch (err) {
 		dispatch({
-			type: AUTH_ERROR
+			type: AUTH_ERROR,
 		});
 	}
 };
 
-export const noToken = () => dispatch => {
+export const noToken = () => (dispatch) => {
 	dispatch({
-		type: NO_TOKEN
+		type: NO_TOKEN,
 	});
 };
 
 // payload has token only
-export const register = params => async dispatch => {
+export const register = (params) => async (dispatch) => {
 	const config = {
 		headers: {
-			'Content-Type': 'application/json'
-		}
+			'Content-Type': 'application/json',
+		},
 	};
 
 	delete params['confirmPassword'];
@@ -57,7 +56,7 @@ export const register = params => async dispatch => {
 		const res = await axios.post('/api/users', body, config);
 		dispatch({
 			type: REGISTER_SUCCESS,
-			payload: res.data
+			payload: res.data,
 		});
 
 		dispatch(loadUser());
@@ -69,21 +68,21 @@ export const register = params => async dispatch => {
 		dispatch(closeModal());
 
 		if (errors) {
-			errors.forEach(error => toastr.error(error.msg));
+			errors.forEach((error) => toastr.error(error.msg));
 		}
 
 		dispatch({
-			type: REGISTER_FAIL
+			type: REGISTER_FAIL,
 		});
 	}
 };
 
 // payload has token only
-export const login = ({ email, password }) => async dispatch => {
+export const login = ({ email, password }) => async (dispatch) => {
 	const config = {
 		headers: {
-			'Content-Type': 'application/json'
-		}
+			'Content-Type': 'application/json',
+		},
 	};
 
 	const body = JSON.stringify({ email, password });
@@ -92,7 +91,7 @@ export const login = ({ email, password }) => async dispatch => {
 		const res = await axios.post('/api/auth', body, config);
 		dispatch({
 			type: LOGIN_SUCCESS,
-			payload: res.data
+			payload: res.data,
 		});
 
 		dispatch(loadUser());
@@ -104,16 +103,16 @@ export const login = ({ email, password }) => async dispatch => {
 		dispatch(closeModal());
 
 		if (errors) {
-			errors.forEach(error => toastr.error(error.msg));
+			errors.forEach((error) => toastr.error(error.msg));
 		}
 
 		dispatch({
-			type: LOGIN_FAIL
+			type: LOGIN_FAIL,
 		});
 	}
 };
 
-export const logout = () => dispatch => {
+export const logout = () => (dispatch) => {
 	dispatch({ type: CLEAR_PROFILE });
 	dispatch({ type: LOGOUT });
 };
