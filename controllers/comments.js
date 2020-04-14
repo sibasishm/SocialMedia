@@ -1,17 +1,23 @@
 const Comment = require('../models/Comment');
 const { catchAsync } = require('../utils/helper');
+const factory = require('./factory');
 
-exports.addComment = catchAsync(async (req, res, next) => {
-	const newComment = await Comment.create(req.body);
+// Allow nested routes
+exports.setNestedIds = (req, res, next) => {
+	req.body.user = req.user._id;
+	// if postId is not specified in body then take it from params
+	if (!req.body.post) req.body.post = req.params.postId;
 
-	res.status(201).json({
-		status: 'success',
-		data: newComment,
-	});
-});
+	next();
+};
+
+exports.addComment = factory.createOne(Comment);
+exports.updateComment = factory.updateOne(Comment);
+exports.deleteComment = factory.deleteOne(Comment);
 
 exports.getAllComments = catchAsync(async (req, res, next) => {
-	const comments = await Comment.find();
+	const filter = req.params.postId ? { post: req.params.postId } : {};
+	const comments = await Comment.find(filter);
 
 	res.status(200).json({
 		status: 'success',

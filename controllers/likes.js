@@ -1,14 +1,19 @@
 const Like = require('../models/Like');
 const { catchAsync } = require('../utils/helper');
+const factory = require('./factory');
 
-exports.addLike = catchAsync(async (req, res, next) => {
-	const newLike = await Like.create(req.body);
+// Allow nested routes
+exports.setNestedIds = (req, res, next) => {
+	if (!req.body.user) req.body.user = req.user._id;
+	if (!req.body.post && req.params.postId) req.body.post = req.params.postId;
+	if (!req.body.comment && req.params.commentId)
+		req.body.comment = req.params.commentId;
 
-	res.status(201).json({
-		status: 'success',
-		data: newLike,
-	});
-});
+	next();
+};
+
+exports.addLike = factory.createOne(Like);
+exports.deleteLike = factory.deleteOne(Like);
 
 exports.getAllLikes = catchAsync(async (req, res, next) => {
 	const likes = await Like.find();

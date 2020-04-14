@@ -9,3 +9,12 @@ exports.getCurrentUser = catchAsync(async (req, res, next) => {
 		data: user,
 	});
 });
+
+exports.getAllUser = catchAsync(async (req, res, next) => {
+	const users = await User.find();
+	return res.status(200).json({
+		status: 'success',
+		results: users.length,
+		data: users,
+	});
+});

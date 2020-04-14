@@ -1,12 +1,14 @@
 const express = require('express');
-const router = express.Router();
-const { check, validationResult } = require('express-validator');
 
 const Post = require('../models/Post');
-const User = require('../models/User');
 
+const commentsRouter = require('../routes/comments');
 const { checkAuthToken } = require('../controllers/auth');
 const { addPost, getAllPosts, getPost } = require('../controllers/posts');
+
+const router = express.Router();
+
+router.use('/:postId/comments', commentsRouter);
 
 router.route('/').get(getAllPosts).post(checkAuthToken, addPost);
 
@@ -112,52 +114,6 @@ router.put('/like/:post_id', checkAuthToken, async (req, res) => {
 		res.status(500).send('Server Error');
 	}
 });
-
-// @route   PUT api/posts/comments/:post_id
-// @desc    add a comment to a post
-// @access  Private (Logged in users can only view)
-router.post(
-	'/comments/:post_id',
-	[
-		checkAuthToken,
-		[check('text', "You can't post empty comments").not().isEmpty()],
-	],
-	async (req, res) => {
-		try {
-			const error = validationResult(req);
-			if (!error.isEmpty()) {
-				return res.status(400).json({ errors: error.array() });
-			}
-
-			const user = await User.findById(req.user.id).select('-password');
-
-			const post = await Post.findById(req.params.post_id);
-
-			// Posts existance
-			if (!post) {
-				return res.status(404).json({ msg: 'Post not found!' });
-			}
-
-			const comment = {
-				text: req.body.text,
-				name: user.firstName,
-				avatar: user.avatar,
-				user: req.user.id,
-			};
-			post.comments.push(comment);
-
-			await post.save();
-			res.json(post.comments);
-		} catch (err) {
-			console.error(err.message);
-			// in case of invalid objectId show post not found
-			if (err.kind == 'ObjectId') {
-				return res.status(404).json({ msg: 'Post not found!' });
-			}
-			res.status(500).send('Server Error');
-		}
-	}
-);
 
 // --------- DELETE comment --------------
 // @route   DELETE /api/posts/comments/:post_id/:comment_id
