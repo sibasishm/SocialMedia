@@ -2,6 +2,15 @@ const Post = require('../models/Post');
 const AppError = require('../utils/appError');
 const { catchAsync } = require('../utils/helper');
 
+exports.isPostFound = catchAsync(async (req, res, next, id) => {
+	const post = await Post.findById(id);
+
+	if (!post) {
+		return next(new AppError('Post not found', 404));
+	}
+	next();
+});
+
 exports.addPost = catchAsync(async (req, res, next) => {
 	const newPost = await Post.create(req.body);
 
@@ -21,13 +30,9 @@ exports.getAllPosts = catchAsync(async (req, res, next) => {
 });
 
 exports.getPost = catchAsync(async (req, res, next) => {
-	const post = await Post.findById(req.params.id)
-		.populate('likes')
+	const post = await Post.findById(req.params.postId)
+		.populate('reactions')
 		.populate('comments');
-
-	if (!post) {
-		return next(new AppError('Post not found', 404));
-	}
 
 	res.status(200).json({
 		status: 'success',

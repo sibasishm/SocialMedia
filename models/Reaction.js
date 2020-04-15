@@ -1,25 +1,24 @@
 const mongoose = require('mongoose');
 
-const likeSchema = new mongoose.Schema({
+const reactionSchema = new mongoose.Schema({
+	type: {
+		type: 'String',
+		enum: ['like', 'love', 'angry'],
+		default: 'like',
+	},
 	user: {
 		type: mongoose.Schema.ObjectId,
 		ref: 'user',
-		unique: true,
-		required: [true, 'A like must belong to a user.'],
+		required: [true, 'A reaction must belong to a user.'],
 	},
 	post: {
 		type: mongoose.Schema.ObjectId,
 		ref: 'post',
-		required: function () {
-			return this.comment ? false : true;
-		},
+		required: [true, 'A reaction must belong to a post or comment'],
 	},
 	comment: {
 		type: mongoose.Schema.ObjectId,
 		ref: 'comment',
-		required: function () {
-			return this.post ? false : true;
-		},
 	},
 	date: {
 		type: Date,
@@ -27,7 +26,7 @@ const likeSchema = new mongoose.Schema({
 	},
 });
 
-likeSchema.pre(/^find/, function (next) {
+reactionSchema.pre(/^find/, function (next) {
 	this.populate({
 		path: 'user',
 		select: 'firstName lastName avatar',
@@ -36,4 +35,4 @@ likeSchema.pre(/^find/, function (next) {
 	next();
 });
 
-module.exports = Like = mongoose.model('like', likeSchema);
+module.exports = Like = mongoose.model('reaction', reactionSchema);

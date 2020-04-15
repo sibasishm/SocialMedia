@@ -27,8 +27,8 @@ postSchema.virtual('comments', {
 	localField: '_id',
 });
 
-postSchema.virtual('likes', {
-	ref: 'like',
+postSchema.virtual('reactions', {
+	ref: 'reaction',
 	foreignField: 'post',
 	localField: '_id',
 });

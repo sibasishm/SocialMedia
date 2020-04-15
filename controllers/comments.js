@@ -5,8 +5,7 @@ const factory = require('./factory');
 // Allow nested routes
 exports.setNestedIds = (req, res, next) => {
 	req.body.user = req.user._id;
-	// if postId is not specified in body then take it from params
-	if (!req.body.post) req.body.post = req.params.postId;
+	req.body.post = req.params.postId;
 
 	next();
 };

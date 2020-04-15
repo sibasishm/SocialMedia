@@ -14,7 +14,7 @@ const commentSchema = new mongoose.Schema({
 	post: {
 		type: mongoose.Schema.ObjectId,
 		ref: 'post',
-		required: [true, 'A comment must belong to a tour.'],
+		required: [true, 'A comment must belong to a post.'],
 	},
 	date: {
 		type: Date,

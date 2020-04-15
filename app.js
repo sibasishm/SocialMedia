@@ -8,7 +8,7 @@ const globalErrorController = require('./controllers/error');
 const userRouter = require('./routes/users');
 const profileRouter = require('./routes/profiles');
 const postRouter = require('./routes/posts');
-const likeRouter = require('./routes/likes');
+const reactionRouter = require('./routes/reactions');
 const commentRouter = require('./routes/comments');
 
 const app = express();
@@ -21,7 +21,7 @@ app.use(express.json({ extended: false }));
 app.use('/api/users', userRouter);
 app.use('/api/profiles', profileRouter);
 app.use('/api/posts', postRouter);
-app.use('/api/likes', likeRouter);
+app.use('/api/reactions', reactionRouter);
 app.use('/api/comments', commentRouter);
 
 // Catch unhandled routes

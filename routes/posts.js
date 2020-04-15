@@ -3,12 +3,22 @@ const express = require('express');
 const Post = require('../models/Post');
 
 const commentsRouter = require('../routes/comments');
+const reactionsRouter = require('../routes/reactions');
+
 const { checkAuthToken } = require('../controllers/auth');
-const { addPost, getAllPosts, getPost } = require('../controllers/posts');
+const {
+	addPost,
+	getAllPosts,
+	getPost,
+	isPostFound,
+} = require('../controllers/posts');
 
 const router = express.Router();
 
+router.param('postId', isPostFound);
+
 router.use('/:postId/comments', commentsRouter);
+router.use('/:postId/reactions', reactionsRouter);
 
 router.route('/').get(getAllPosts).post(checkAuthToken, addPost);
 
@@ -35,7 +45,7 @@ router.get('/me', checkAuthToken, async (req, res) => {
 	}
 });
 
-router.get('/:id', checkAuthToken, getPost);
+router.get('/:postId', checkAuthToken, getPost);
 
 // @route   DELETE api/posts/:post_id
 // @desc    delete a post
