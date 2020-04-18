@@ -41,3 +41,9 @@ exports.createOne = (Model) =>
 			data: doc,
 		});
 	});
+
+exports.getOne = (Model, populateOptions) => {
+	catchAsync(async (req, res, next) => {
+		const query = Model.findById(req.params.id);
+	});
+};

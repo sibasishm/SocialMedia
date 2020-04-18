@@ -1,5 +1,5 @@
 const express = require('express');
-const { checkAuthToken } = require('../controllers/auth');
+const { protect } = require('../controllers/auth');
 const {
 	addComment,
 	getAllComments,
@@ -10,10 +10,7 @@ const {
 
 const router = express.Router({ mergeParams: true });
 
-router
-	.route('/')
-	.post(checkAuthToken, setNestedIds, addComment)
-	.get(getAllComments);
+router.route('/').post(protect, setNestedIds, addComment).get(getAllComments);
 router.route('/:id').patch(updateComment).delete(deleteComment);
 
 module.exports = router;

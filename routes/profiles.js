@@ -5,13 +5,13 @@ const { check, validationResult } = require('express-validator');
 const Profile = require('../models/Profile');
 const User = require('../models/User');
 const Post = require('../models/Post');
-const { checkAuthToken } = require('../controllers/auth');
+const { protect } = require('../controllers/auth');
 
 // --------- Create and update profiles --------------
 // @route POST /api/profiles
 // @desc Create or update an user profile
 // @access Private
-router.post('/', checkAuthToken, async (req, res) => {
+router.post('/', protect, async (req, res) => {
 	// Build the profileObj
 	let profileObj = {};
 	profileObj.favourites = {};
@@ -120,7 +120,7 @@ router.get('/user/:user_id', async (req, res) => {
 // @desc    Delete profile,user and his posts
 // @access  Private
 
-router.delete('/', checkAuthToken, async (req, res) => {
+router.delete('/', protect, async (req, res) => {
 	try {
 		// Remove users posts
 		await Post.deleteMany({ user: req.user.id });
@@ -142,7 +142,7 @@ router.delete('/', checkAuthToken, async (req, res) => {
 // @route /api/follow/:user_id
 // @desc follow an user (if you follow and already following user, you will unfollow him)
 // @access Private
-router.put('/follow/:profile_id', checkAuthToken, async (req, res) => {
+router.put('/follow/:profile_id', protect, async (req, res) => {
 	try {
 		const profile = await Profile.findById(req.params.profile_id);
 
@@ -184,7 +184,7 @@ router.put('/follow/:profile_id', checkAuthToken, async (req, res) => {
 router.put(
 	'/experience',
 	[
-		checkAuthToken,
+		protect,
 		[
 			check('title', 'Title is required').not().isEmpty(),
 			check('company', 'Company is required').not().isEmpty(),
@@ -226,7 +226,7 @@ router.put(
 // @desc    Delete a particular experince from profile
 // @access  Private
 
-router.delete('/experience/:exp_id', checkAuthToken, async (req, res) => {
+router.delete('/experience/:exp_id', protect, async (req, res) => {
 	try {
 		// remove the experince from the array of experince with the given exp_id from URL
 		const profile = await Profile.findOneAndUpdate(
@@ -250,7 +250,7 @@ router.delete('/experience/:exp_id', checkAuthToken, async (req, res) => {
 router.put(
 	'/education',
 	[
-		checkAuthToken,
+		protect,
 		[
 			check('school', 'School is required').not().isEmpty(),
 			check('fieldOfStudy', 'Field of study is required').not().isEmpty(),
@@ -301,7 +301,7 @@ router.put(
 // @desc    Delete a particular education from profile
 // @access  Private
 
-router.delete('/education/:edu_id', checkAuthToken, async (req, res) => {
+router.delete('/education/:edu_id', protect, async (req, res) => {
 	try {
 		// remove the education from the array of education with the given exp_id from URL
 		const profile = await Profile.findOneAndUpdate(

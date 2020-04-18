@@ -1,6 +1,7 @@
 const Post = require('../models/Post');
 const AppError = require('../utils/appError');
 const { catchAsync } = require('../utils/helper');
+const factory = require('./factory');
 
 exports.isPostFound = catchAsync(async (req, res, next, id) => {
 	const post = await Post.findById(id);
@@ -11,14 +12,9 @@ exports.isPostFound = catchAsync(async (req, res, next, id) => {
 	next();
 });
 
-exports.addPost = catchAsync(async (req, res, next) => {
-	const newPost = await Post.create(req.body);
-
-	res.status(201).json({
-		status: 'success',
-		data: newPost,
-	});
-});
+exports.addPost = factory.createOne(Post);
+exports.deletePost = factory.deleteOne(Post);
+exports.updatePost = factory.updateOne(Post);
 
 exports.getAllPosts = catchAsync(async (req, res, next) => {
 	const posts = await Post.find().sort({ date: -1 });

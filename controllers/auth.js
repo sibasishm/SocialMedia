@@ -10,7 +10,7 @@ const signToken = (id) =>
 		expiresIn: process.env.JWT_EXPIRES_IN,
 	});
 
-exports.checkAuthToken = catchAsync(async (req, res, next) => {
+exports.protect = catchAsync(async (req, res, next) => {
 	// Get token from the request header
 	let token;
 	const auth = req.headers.authorization;

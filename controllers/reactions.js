@@ -4,11 +4,8 @@ const { catchAsync } = require('../utils/helper');
 // Allow nested routes
 exports.setNestedIds = (req, res, next) => {
 	req.body.user = req.user._id;
-	if (!req.body.post && req.params.postId) {
-		req.body.post = req.params.postId;
-	} else if (!req.body.comment && req.params.commentId) {
-		req.body.comment = req.params.commentId;
-	}
+	req.body.post = req.params.postId;
+	req.body.comment = req.params.commentId;
 
 	next();
 };

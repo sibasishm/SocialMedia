@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { checkAuthToken } = require('../controllers/auth');
+const { protect } = require('../controllers/auth');
 const {
 	updateReaction,
 	getAllReactions,
@@ -11,7 +11,7 @@ const router = express.Router({ mergeParams: true });
 
 router
 	.route('/')
-	.post(checkAuthToken, setNestedIds, updateReaction)
+	.post(protect, setNestedIds, updateReaction)
 	.get(getAllReactions);
 
 module.exports = router;
