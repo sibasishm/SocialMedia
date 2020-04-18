@@ -49,8 +49,8 @@ router.get('/me', protect, async (req, res) => {
 
 router
 	.route('/:postId')
-	.get('/:postId', protect, getPost)
-	.delete('/:postId', protect, deletePost)
+	.get(protect, getPost)
+	.delete(protect, deletePost)
 	.patch(protect, updatePost);
 
 module.exports = router;

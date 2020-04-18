@@ -42,8 +42,18 @@ exports.createOne = (Model) =>
 		});
 	});
 
-exports.getOne = (Model, populateOptions) => {
+exports.getOne = (Model, populateOptions = []) => {
 	catchAsync(async (req, res, next) => {
 		const query = Model.findById(req.params.id);
+		populateOptions.forEach((option) => {
+			query.populate(option);
+		});
+
+		const doc = await query;
+
+		res.status(200).json({
+			status: 'success',
+			data: doc,
+		});
 	});
 };
