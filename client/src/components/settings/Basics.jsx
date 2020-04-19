@@ -1,7 +1,7 @@
 import React from 'react';
 import { Segment, Header, Form, Button } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
-
+import { addYears } from 'date-fns';
 import { SimpleInput } from '../input/SimpleInput';
 import { RadioInput } from '../input/RadioInput';
 
@@ -43,7 +43,9 @@ const Basics = ({ pristine, submitting, handleSubmit, updateProfile }) => (
 				peekNextMonth
 				showMonthDropdown
 				showYearDropdown
-				dropdownMode='scroll'
+				dropdownMode='select'
+				minDate={addYears(new Date(), -45)}
+				maxDate={addYears(new Date(), -15)}
 				validate={required}
 			/>
 			<Field
@@ -65,5 +67,5 @@ const Basics = ({ pristine, submitting, handleSubmit, updateProfile }) => (
 
 export default reduxForm({
 	form: 'userBasics',
-	enableReinitialize: true
+	enableReinitialize: true,
 })(Basics);
