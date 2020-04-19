@@ -44,6 +44,7 @@ const Basics = ({ pristine, submitting, handleSubmit, updateProfile }) => (
 				showMonthDropdown
 				showYearDropdown
 				dropdownMode='select'
+				minDate={addYears(new Date(), -45)}
 				maxDate={addYears(new Date(), -15)}
 				validate={required}
 			/>
