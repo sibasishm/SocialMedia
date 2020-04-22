@@ -50,6 +50,13 @@ exports.protect = catchAsync(async (req, res, next) => {
 	next();
 });
 
+exports.restrictTo = (...allowedRoles) => (req, res, next) => {
+	if (!allowedRoles.includes(req.user.role)) {
+		next(new AppError('You are not allowed to perform this action.', 403));
+	}
+	next();
+};
+
 exports.signup = catchAsync(async (req, res, next) => {
 	const { firstName, lastName, email, password, passwordConfirm } = req.body;
 	const newUser = await User.create({

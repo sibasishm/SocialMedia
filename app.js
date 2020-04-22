@@ -6,6 +6,7 @@ const AppError = require('./utils/appError');
 const globalErrorController = require('./controllers/error');
 
 const userRouter = require('./routes/users');
+const groupRouter = require('./routes/groups');
 const profileRouter = require('./routes/profiles');
 const postRouter = require('./routes/posts');
 const reactionRouter = require('./routes/reactions');
@@ -19,6 +20,7 @@ app.use(express.json({ extended: false }));
 
 // Define Routes
 app.use('/api/users', userRouter);
+app.use('/api/groups', groupRouter);
 app.use('/api/profiles', profileRouter);
 app.use('/api/posts', postRouter);
 app.use('/api/reactions', reactionRouter);
