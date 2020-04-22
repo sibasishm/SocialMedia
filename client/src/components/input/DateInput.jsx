@@ -12,14 +12,14 @@ export const DateInput = ({
 }) => (
 	<Form.Field error={touched && !!error}>
 		<DatePicker
-			{...rest}
 			dateFormat='dd MMM yyyy'
 			maxDate={new Date()}
 			placeholderText={placeholder}
 			selected={input.value ? new Date(input.value) : null}
 			onChange={input.onChange}
 			onBlur={input.onBlur}
-			onChangeRaw={e => e.preventDefault()}
+			onChangeRaw={(e) => e.preventDefault()}
+			{...rest}
 		/>
 		{touched && error && (
 			<Label basic pointing color='red'>
