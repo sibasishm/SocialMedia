@@ -6,6 +6,7 @@ const {
 	updateGroup,
 	deleteGroup,
 	getGroup,
+	joinGroup,
 } = require('../controllers/groups');
 const { protect, restrictTo } = require('../controllers/auth');
 
@@ -22,5 +23,7 @@ router
 	.get(protect, getGroup)
 	.patch(protect, restrictTo('admin'), updateGroup)
 	.delete(protect, restrictTo('admin'), deleteGroup);
+
+router.post('/:id/join', protect, restrictTo('user', 'admin'), joinGroup);
 
 module.exports = router;

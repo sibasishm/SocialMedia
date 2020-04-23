@@ -1,12 +1,18 @@
 const Group = require('../models/Group');
 const AppError = require('../utils/appError');
-const { catchAsync } = require('../utils/helper');
+const { catchAsync, filterObject } = require('../utils/helper');
 
 exports.isGroupFound = catchAsync(async (req, res, next, id) => {
 	const group = await Group.findById(id);
 
 	if (!group) {
-		next(new AppError('Group not found', 404));
+		return next(new AppError('Group not found', 404));
+	}
+
+	if (group.privateGroup || group.members.length === group.maxGroupSize) {
+		return next(
+			new AppError('You are not allowed to join this group', 403)
+		);
 	}
 
 	next();
@@ -44,6 +50,13 @@ exports.getGroup = catchAsync(async (req, res, next) => {
 });
 
 exports.updateGroup = catchAsync(async (req, res, next) => {
+	const { members, admin } = req.body;
+
+	if (members || admin) {
+		return next(
+			new AppError('Please add members using the /join route.', 400)
+		);
+	}
 	const updatedGroup = await Group.findByIdAndUpdate(
 		req.params.id,
 		req.body,
@@ -56,6 +69,31 @@ exports.updateGroup = catchAsync(async (req, res, next) => {
 	res.status(200).json({
 		status: 'success',
 		data: updatedGroup,
+	});
+});
+
+exports.joinGroup = catchAsync(async (req, res, next) => {
+	const group = await Group.findById(req.params.id);
+
+	isAlreadyJoined = group.members.includes(req.user._id);
+	if (isAlreadyJoined) {
+		const updatedGroup = await Group.findByIdAndUpdate(
+			req.params.id,
+			{ $pull: { members: req.user._id } },
+			{ new: true }
+		);
+		return res.status(200).json({
+			status: 'success',
+			data: updatedGroup,
+		});
+	}
+
+	group.members.unshift(req.user._id);
+
+	await group.save();
+	return res.status(200).json({
+		status: 'success',
+		data: group,
 	});
 });
 
