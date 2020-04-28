@@ -6,7 +6,8 @@ const {
 	getMe,
 	deleteMe,
 	updateMe,
-	getAllUser,
+	getAllUsers,
+	getUser,
 } = require('../controllers/users');
 
 router.post('/signup', signup);
@@ -18,6 +19,7 @@ router
 	.delete(protect, deleteMe)
 	.patch(protect, updateMe);
 
-router.route('/').get(getAllUser);
+router.route('/').get(getAllUsers);
+router.route('/:id').get(getUser);
 
 module.exports = router;

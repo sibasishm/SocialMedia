@@ -3,112 +3,36 @@ const mongoose = require('mongoose');
 const ProfileSchema = new mongoose.Schema({
 	user: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'user'
+		ref: 'user',
+		unique: true,
 	},
 	bio: {
-		type: String
+		type: String,
+		trim: true,
 	},
 	dob: {
 		type: Date,
-		default: new Date()
+		required: [true, 'Please provide your date of birth.'],
 	},
 	gender: {
-		type: String
+		type: String,
+		enum: ['male', 'female', 'other'],
+		required: [true, 'Please specify your gender.'],
 	},
-	location: {
-		type: String
-	},
-	hobbies: {
-		type: [String]
-	},
-	youtube: {
-		type: String
-	},
-	twitter: {
-		type: String
-	},
-	facebook: {
-		type: String
-	},
-	instagram: {
-		type: String
-	},
-	linkedin: {
-		type: String
-	},
-	phone: {
-		type: String
-	},
-	website: {
-		type: String
-	},
-	followers: [
-		{
-			user: {
-				type: mongoose.Schema.Types.ObjectId,
-				ref: 'user'
-			}
-		}
-	],
-	education: [
-		{
-			school: {
-				type: String,
-				required: true
-			},
-			degree: {
-				type: String
-			},
-			fieldOfStudy: {
-				type: String,
-				required: true
-			},
-			from: {
-				type: Date,
-				required: true
-			},
-			to: {
-				type: Date
-			},
-			isCurrent: {
-				type: Boolean,
-				default: false
-			},
-			description: {
-				type: String
-			}
-		}
-	],
-	experience: [
-		{
-			title: {
-				type: String,
-				required: true
-			},
-			company: {
-				type: String,
-				required: true
-			},
-			from: {
-				type: Date,
-				required: true
-			},
-			to: {
-				type: Date
-			},
-			isCurrent: {
-				type: Boolean,
-				default: false
-			},
-			description: {
-				type: String
-			}
-		}
-	],
+	location: String,
+	nativePlace: String,
+	hobbies: [String],
+	youtube: String,
+	twitter: String,
+	facebook: String,
+	instagram: String,
+	linkedin: String,
+	phone: String,
+	website: String,
 	date: {
 		type: Date,
-		default: Date.now
-	}
+		default: Date.now,
+	},
 });
 
 module.exports = Profile = mongoose.model('profile', ProfileSchema);

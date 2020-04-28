@@ -1,9 +1,9 @@
 const User = require('../models/User');
 
 const AppError = require('../utils/appError');
-const { catchAsync, filterObject } = require('../utils/helper');
+const { catchAsync, filterObject, select } = require('../utils/helper');
 
-exports.getAllUser = catchAsync(async (req, res, next) => {
+exports.getAllUsers = catchAsync(async (req, res, next) => {
 	const users = await User.find();
 	return res.status(200).json({
 		status: 'success',
@@ -12,8 +12,27 @@ exports.getAllUser = catchAsync(async (req, res, next) => {
 	});
 });
 
+exports.getUser = catchAsync(async (req, res, next) => {
+	const user = await User.findById(req.params.id).populate({
+		path: 'profile',
+		select,
+	});
+
+	if (!user) {
+		return next(new AppError('User not found', 404));
+	}
+
+	res.status(200).json({
+		status: 'success',
+		data: user,
+	});
+});
+
 exports.getMe = catchAsync(async (req, res, next) => {
-	const user = await User.findById(req.user._id);
+	const user = await User.findById(req.user._id).populate({
+		path: 'profile',
+		select,
+	});
 	return res.status(200).json({
 		status: 'success',
 		data: user,

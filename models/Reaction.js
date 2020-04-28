@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const reactionSchema = new mongoose.Schema({
 	type: {
-		type: 'String',
+		type: String,
 		enum: ['like', 'love', 'angry'],
 		default: 'like',
 	},

@@ -9,3 +9,5 @@ exports.filterObject = (obj, ...allowedKeys) => {
 	});
 	return filteredObj;
 };
+
+exports.select = '-__v';

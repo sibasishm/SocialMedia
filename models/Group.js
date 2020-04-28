@@ -6,8 +6,8 @@ const groupSchema = new mongoose.Schema({
 		required: true,
 		unique: true,
 		trim: true,
-		maxlength: [30, 'A group name can not be more than 30 characters.'],
-		minlength: [10, 'A group name can not be less than 10 characters.'],
+		maxlength: [20, 'A group name can not be more than 20 characters.'],
+		minlength: [6, 'A group name can not be less than 6 characters.'],
 	},
 	maxGroupSize: {
 		type: Number,

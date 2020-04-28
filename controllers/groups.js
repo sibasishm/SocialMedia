@@ -1,18 +1,12 @@
 const Group = require('../models/Group');
 const AppError = require('../utils/appError');
-const { catchAsync, filterObject } = require('../utils/helper');
+const { catchAsync, select } = require('../utils/helper');
 
 exports.isGroupFound = catchAsync(async (req, res, next, id) => {
 	const group = await Group.findById(id);
 
 	if (!group) {
 		return next(new AppError('Group not found', 404));
-	}
-
-	if (group.privateGroup || group.members.length === group.maxGroupSize) {
-		return next(
-			new AppError('You are not allowed to join this group', 403)
-		);
 	}
 
 	next();
@@ -38,7 +32,6 @@ exports.getAllGroups = catchAsync(async (req, res, next) => {
 });
 
 exports.getGroup = catchAsync(async (req, res, next) => {
-	const select = '-__v';
 	const group = await Group.findById(req.params.id)
 		.populate({ path: 'members', select })
 		.populate({ path: 'admin', select });
@@ -74,6 +67,12 @@ exports.updateGroup = catchAsync(async (req, res, next) => {
 
 exports.joinGroup = catchAsync(async (req, res, next) => {
 	const group = await Group.findById(req.params.id);
+
+	if (group.privateGroup || group.members.length === group.maxGroupSize) {
+		return next(
+			new AppError('You are not allowed to join this group', 403)
+		);
+	}
 
 	isAlreadyJoined = group.members.includes(req.user._id);
 	if (isAlreadyJoined) {
