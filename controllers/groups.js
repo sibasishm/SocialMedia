@@ -26,7 +26,6 @@ exports.isPrivateGroup = (req, res, next) => {
 };
 
 exports.restrictToGroupRole = (role) => (req, res, next) => {
-	console.log(typeof req.group[role]);
 	if (
 		(Array.isArray(req.group[role]) &&
 			!req.group[role].includes(req.user._id)) ||
