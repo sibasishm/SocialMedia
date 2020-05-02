@@ -5,7 +5,8 @@ const { catchAsync, filterObject, select } = require('../utils/helper');
 
 exports.getAllUsers = catchAsync(async (req, res, next) => {
 	const users = await User.find();
-	return res.status(200).json({
+
+	res.status(200).json({
 		status: 'success',
 		results: users.length,
 		data: users,
@@ -33,7 +34,8 @@ exports.getMe = catchAsync(async (req, res, next) => {
 		path: 'profile',
 		select,
 	});
-	return res.status(200).json({
+
+	res.status(200).json({
 		status: 'success',
 		data: user,
 	});
@@ -75,7 +77,8 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 
 exports.deleteMe = catchAsync(async (req, res, next) => {
 	await User.findByIdAndUpdate(req.user._id, { active: false });
-	return res.status(204).json({
+
+	res.status(204).json({
 		status: 'success',
 		data: null,
 	});

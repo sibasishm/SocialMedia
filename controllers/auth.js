@@ -57,6 +57,14 @@ exports.restrictTo = (...allowedRoles) => (req, res, next) => {
 	next();
 };
 
+exports.restricToSelf = (modelName) => (req, res, next) => {
+	console.log(req.user._id, req[modelName].user._id);
+	if (!req.user._id.equals(req[modelName].user._id)) {
+		next(new AppError('You are not allowed to perform this action.', 403));
+	}
+	next();
+};
+
 exports.signup = catchAsync(async (req, res, next) => {
 	const { firstName, lastName, email, password, passwordConfirm } = req.body;
 	const newUser = await User.create({

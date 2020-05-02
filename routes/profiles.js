@@ -7,12 +7,15 @@ const {
 	doIHaveProfile,
 	getMyProfile,
 	updateMyProfile,
+	deleteMyProfile,
 } = require('../controllers/profiles');
 
 router.route('/').post(protect, createMyProfile);
+
 router
 	.route('/me')
 	.get(protect, doIHaveProfile, getMyProfile)
-	.patch(protect, doIHaveProfile, updateMyProfile);
+	.patch(protect, doIHaveProfile, updateMyProfile)
+	.delete(protect, doIHaveProfile, deleteMyProfile);
 
 module.exports = router;

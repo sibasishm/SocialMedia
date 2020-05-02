@@ -12,6 +12,6 @@ const router = express.Router({ mergeParams: true });
 router
 	.route('/')
 	.post(protect, setNestedIds, updateReaction)
-	.get(getAllReactions);
+	.get(protect, getAllReactions);
 
 module.exports = router;

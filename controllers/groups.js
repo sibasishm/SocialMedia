@@ -108,11 +108,19 @@ exports.updateMembers = catchAsync(async (req, res, next) => {
 		);
 	}
 
-	isAlreadyJoined = group.members.includes(req.user._id);
+	const userId = req.originalUrl.includes('/join')
+		? req.user._id
+		: req.body.member;
+
+	if (!userId) {
+		return next(new AppError('Please provide a valid user id.', 400));
+	}
+
+	isAlreadyJoined = group.members.includes(userId);
 	if (isAlreadyJoined) {
 		const updatedGroup = await Group.findByIdAndUpdate(
 			req.group._id,
-			{ $pull: { members: req.user._id } },
+			{ $pull: { members: userId } },
 			{ new: true }
 		);
 		return res.status(200).json({
@@ -121,10 +129,10 @@ exports.updateMembers = catchAsync(async (req, res, next) => {
 		});
 	}
 
-	group.members.unshift(req.user._id);
-
+	group.members.unshift(userId);
 	await group.save();
-	return res.status(200).json({
+
+	res.status(200).json({
 		status: 'success',
 		data: group,
 	});

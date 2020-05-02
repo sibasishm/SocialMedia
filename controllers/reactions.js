@@ -4,7 +4,7 @@ const { catchAsync } = require('../utils/helper');
 // Allow nested routes
 exports.setNestedIds = (req, res, next) => {
 	req.body.user = req.user._id;
-	req.body.post = req.params.postId;
+	req.body.post = req.params.id;
 	req.body.comment = req.params.commentId;
 
 	next();
@@ -33,7 +33,7 @@ exports.updateReaction = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllReactions = catchAsync(async (req, res, next) => {
-	const filter = req.params.postId ? { post: req.params.postId } : {};
+	const filter = req.params.id ? { post: req.params.id } : {};
 	const reactions = await Reaction.find(filter);
 
 	res.status(200).json({

@@ -15,7 +15,7 @@ exports.createMyProfile = catchAsync(async (req, res, next) => {
 	req.body.user = req.user;
 	const profile = await Profile.create(req.body);
 
-	return res.status(201).json({
+	res.status(201).json({
 		status: 'success',
 		data: profile,
 	});
@@ -27,7 +27,7 @@ exports.getMyProfile = catchAsync(async (req, res, next) => {
 		select: 'firstName lastName email avatar',
 	});
 
-	return res.status(200).json({
+	res.status(200).json({
 		status: 'succcess',
 		data: profile,
 	});
@@ -43,8 +43,17 @@ exports.updateMyProfile = catchAsync(async (req, res, next) => {
 		}
 	);
 
-	return res.status(200).json({
+	res.status(200).json({
 		status: 'success',
 		data: profile,
+	});
+});
+
+exports.deleteMyProfile = catchAsync(async (req, res, next) => {
+	await Profile.findOneAndDelete({ user: req.user._id });
+
+	res.status(204).json({
+		status: 'success',
+		data: null,
 	});
 });
