@@ -22,7 +22,7 @@ exports.addPost = catchAsync(async (req, res, next) => {
 	});
 });
 exports.deletePost = factory.deleteOne(Post);
-exports.updatePost = factory.updateOne(Post);
+exports.updatePost = factory.updateOne(Post, ['content']);
 
 exports.getAllPosts = catchAsync(async (req, res, next) => {
 	const posts = await Post.find().sort({ date: -1 });

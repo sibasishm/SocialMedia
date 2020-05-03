@@ -22,7 +22,7 @@ exports.checkIfExists = catchAsync(async (req, res, next, id) => {
 });
 
 exports.addComment = factory.createOne(Comment);
-exports.updateComment = factory.updateOne(Comment);
+exports.updateComment = factory.updateOne(Comment, ['text']);
 exports.deleteComment = factory.deleteOne(Comment);
 
 exports.getAllComments = catchAsync(async (req, res, next) => {

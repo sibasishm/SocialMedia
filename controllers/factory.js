@@ -1,5 +1,5 @@
 const AppError = require('../utils/appError');
-const { catchAsync } = require('../utils/helper');
+const { catchAsync, filterObject } = require('../utils/helper');
 
 exports.deleteOne = (Model) =>
 	catchAsync(async (req, res, next) => {
@@ -15,12 +15,20 @@ exports.deleteOne = (Model) =>
 		});
 	});
 
-exports.updateOne = (Model) =>
+exports.updateOne = (Model, allowedFields = []) =>
 	catchAsync(async (req, res, next) => {
-		const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
-			new: true,
-			runValidators: true,
-		});
+		const filteredResponse =
+			allowedFields.length > 0
+				? filterObject(req.body, ...allowedFields)
+				: req.body;
+		const doc = await Model.findByIdAndUpdate(
+			req.params.id,
+			filteredResponse,
+			{
+				new: true,
+				runValidators: true,
+			}
+		);
 
 		if (!doc) {
 			return next(new AppError('Document not found', 404));
