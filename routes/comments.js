@@ -1,12 +1,12 @@
 const express = require('express');
-const { protect, restricToSelf } = require('../controllers/auth');
+const { protect, restrictTo } = require('../controllers/auth');
 const {
 	addComment,
 	getAllComments,
 	updateComment,
 	deleteComment,
 	setNestedIds,
-	checkIfExists,
+	isCommentFound,
 } = require('../controllers/comments');
 
 const router = express.Router({ mergeParams: true });
@@ -16,11 +16,11 @@ router
 	.post(protect, setNestedIds, addComment)
 	.get(protect, getAllComments);
 
-router.param('id', checkIfExists);
+router.param('id', isCommentFound);
 
 router
 	.route('/:id')
-	.patch(protect, restricToSelf('comment'), updateComment)
-	.delete(protect, restricToSelf('comment'), deleteComment);
+	.patch(protect, restrictTo('self'), updateComment)
+	.delete(protect, restrictTo('self'), deleteComment);
 
 module.exports = router;

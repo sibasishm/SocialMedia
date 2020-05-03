@@ -3,15 +3,7 @@ const AppError = require('../utils/appError');
 const { catchAsync } = require('../utils/helper');
 const factory = require('./factory');
 
-exports.isPostFound = catchAsync(async (req, res, next, id) => {
-	const post = await Post.findById(id);
-
-	if (!post) {
-		return next(new AppError('Post not found', 404));
-	}
-	req.post = post;
-	next();
-});
+exports.isPostFound = factory.isDocumentFound(Post);
 
 exports.addPost = catchAsync(async (req, res, next) => {
 	const doc = await Post.create({ ...req.body, user: req.user._id });

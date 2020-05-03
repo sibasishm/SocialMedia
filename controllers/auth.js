@@ -51,18 +51,14 @@ exports.protect = catchAsync(async (req, res, next) => {
 });
 
 exports.restrictTo = (...allowedRoles) => (req, res, next) => {
-	if (!allowedRoles.includes(req.user.role)) {
-		next(new AppError('You are not allowed to perform this action.', 403));
+	if (
+		(allowedRoles.includes('self') &&
+			req.user._id.equals(req.document.user._id)) ||
+		allowedRoles.includes(req.user.role)
+	) {
+		return next();
 	}
-	next();
-};
-
-exports.restricToSelf = (modelName) => (req, res, next) => {
-	console.log(req.user._id, req[modelName].user._id);
-	if (!req.user._id.equals(req[modelName].user._id)) {
-		next(new AppError('You are not allowed to perform this action.', 403));
-	}
-	next();
+	next(new AppError('You are not allowed to perform this action.', 403));
 };
 
 exports.signup = catchAsync(async (req, res, next) => {

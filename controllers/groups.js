@@ -2,19 +2,12 @@ var ObjectId = require('mongoose').Types.ObjectId;
 const Group = require('../models/Group');
 const AppError = require('../utils/appError');
 const { catchAsync, select } = require('../utils/helper');
+const factory = require('./factory');
 
-exports.isGroupFound = catchAsync(async (req, res, next, id) => {
-	const group = await Group.findById(id);
-
-	if (!group) {
-		return next(new AppError('Group not found.', 404));
-	}
-	req.group = group;
-	next();
-});
+exports.isGroupFound = factory.isDocumentFound(Group);
 
 exports.isPrivateGroup = (req, res, next) => {
-	if (req.group.privateGroup) {
+	if (req.document.privateGroup) {
 		return next(
 			new AppError(
 				'This is a private group. You are not allowed to perform this action.',
@@ -26,11 +19,10 @@ exports.isPrivateGroup = (req, res, next) => {
 };
 
 exports.restrictToGroupRole = (role) => (req, res, next) => {
+	const groupRole = req.document[role];
 	if (
-		(Array.isArray(req.group[role]) &&
-			!req.group[role].includes(req.user._id)) ||
-		(ObjectId.isValid(req.group[role]) &&
-			!req.group[role].equals(req.user._id))
+		(Array.isArray(groupRole) && !groupRole.includes(req.user._id)) ||
+		(ObjectId.isValid(groupRole) && !groupRole.equals(req.user._id))
 	) {
 		return next(
 			new AppError('You are not allowed to perform this action.', 403)
@@ -63,7 +55,7 @@ exports.getAllGroups = catchAsync(async (req, res, next) => {
 });
 
 exports.getGroup = catchAsync(async (req, res, next) => {
-	const group = await Group.findById(req.group._id)
+	const group = await Group.findById(req.document._id)
 		.populate({ path: 'members', select })
 		.populate({ path: 'admin', select });
 
@@ -85,7 +77,7 @@ exports.updateGroup = catchAsync(async (req, res, next) => {
 		);
 	}
 	const updatedGroup = await Group.findByIdAndUpdate(
-		req.group._id,
+		req.document._id,
 		req.body,
 		{
 			new: true,
@@ -100,7 +92,7 @@ exports.updateGroup = catchAsync(async (req, res, next) => {
 });
 
 exports.updateMembers = catchAsync(async (req, res, next) => {
-	const group = req.group;
+	const group = req.document;
 
 	if (group.members.length === group.maxGroupSize) {
 		return next(
@@ -119,7 +111,7 @@ exports.updateMembers = catchAsync(async (req, res, next) => {
 	isAlreadyJoined = group.members.includes(userId);
 	if (isAlreadyJoined) {
 		const updatedGroup = await Group.findByIdAndUpdate(
-			req.group._id,
+			req.document._id,
 			{ $pull: { members: userId } },
 			{ new: true }
 		);
@@ -139,7 +131,7 @@ exports.updateMembers = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteGroup = catchAsync(async (req, res, next) => {
-	await Group.findByIdAndDelete(req.group._id);
+	await Group.findByIdAndDelete(req.document._id);
 
 	res.status(204).json({
 		status: 'success',

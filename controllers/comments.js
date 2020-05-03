@@ -1,5 +1,4 @@
 const Comment = require('../models/Comment');
-const AppError = require('../utils/appError');
 const { catchAsync } = require('../utils/helper');
 const factory = require('./factory');
 
@@ -11,16 +10,7 @@ exports.setNestedIds = (req, res, next) => {
 	next();
 };
 
-exports.checkIfExists = catchAsync(async (req, res, next, id) => {
-	const comment = await Comment.findById(id);
-
-	if (!comment) {
-		return next(new AppError('Comment not found', 404));
-	}
-	req.comment = comment;
-	next();
-});
-
+exports.isCommentFound = factory.isDocumentFound(Comment);
 exports.addComment = factory.createOne(Comment);
 exports.updateComment = factory.updateOne(Comment, ['text']);
 exports.deleteComment = factory.deleteOne(Comment);
