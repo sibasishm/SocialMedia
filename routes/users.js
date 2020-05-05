@@ -6,7 +6,8 @@ const {
 	getMe,
 	deleteMe,
 	updateMe,
-	updateAvatar,
+	uploadImageToCloudinary,
+	uploadImageToServer,
 	getAllUsers,
 	getUser,
 } = require('../controllers/users');
@@ -20,7 +21,13 @@ router
 	.delete(protect, deleteMe)
 	.patch(protect, updateMe);
 
-router.patch('/updateAvatar', protect, updateAvatar);
+router.patch(
+	'/updateAvatar',
+	protect,
+	uploadImageToServer,
+	uploadImageToCloudinary,
+	updateMe
+);
 
 router.get('/', getAllUsers);
 router.get('/:id', getUser);

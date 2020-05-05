@@ -4,6 +4,7 @@ const path = require('path');
 
 const AppError = require('./utils/appError');
 const globalErrorController = require('./controllers/error');
+const { cloudinaryConfig } = require('./utils/cloudinaryConfig');
 
 const userRouter = require('./routes/users');
 const groupRouter = require('./routes/groups');
@@ -17,6 +18,7 @@ connectDB();
 
 // Init middleware
 app.use(express.json({ extended: false }));
+app.use('*', cloudinaryConfig);
 
 // Define Routes
 app.use('/api/users', userRouter);
