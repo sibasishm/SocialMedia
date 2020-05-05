@@ -22,7 +22,10 @@ const userSchema = new mongoose.Schema(
 				message: 'Please provide a valid email',
 			},
 		},
-		avatar: String,
+		avatar: {
+			type: String,
+			default: process.env.DEFAULT_AVATAR,
+		},
 		role: {
 			type: String,
 			enum: ['user', 'admin', 'group-member'],
