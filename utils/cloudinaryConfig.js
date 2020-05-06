@@ -13,7 +13,14 @@ exports.cloudinaryUpload = (file, fileName, tags) =>
 	new Promise((resolve, reject) => {
 		uploader.upload(
 			file,
-			{ public_id: `${tags}/${fileName}`, tags },
+			{
+				public_id: `${tags}/${fileName}`,
+				tags,
+				width: 400,
+				height: 400,
+				gravity: 'face',
+				crop: 'fill',
+			},
 			(err, result) => {
 				if (err) return reject(err);
 				return resolve(result);
