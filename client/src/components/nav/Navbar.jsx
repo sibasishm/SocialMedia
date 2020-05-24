@@ -10,15 +10,11 @@ import AuthLinks from './AuthLinks';
 import { openModal } from '../../actions/modal';
 import { logout } from '../../actions/auth';
 
-const makeUserInfo = user => ({
-	name: user ? user.firstName : 'User name',
-	avatar: user && user.avatar ? user.avatar : ''
-});
-
 const Navbar = ({
-	auth: { isAuthenticated, loading, user },
+	auth: { isAuthenticated, loading },
+	user: { me },
 	openModal,
-	logout
+	logout,
 }) => (
 	<Menu pointing secondary size='large'>
 		<Container>
@@ -28,10 +24,7 @@ const Navbar = ({
 			<Menu.Item as={NavLink} to='/users' name='Users' />
 			{!loading &&
 				(isAuthenticated ? (
-					<AuthLinks
-						logout={logout}
-						userDetails={makeUserInfo(user)}
-					/>
+					<AuthLinks logout={logout} userDetails={me} />
 				) : (
 					<GuestLinks
 						signIn={() => openModal('Login')}
@@ -44,12 +37,14 @@ const Navbar = ({
 
 Navbar.propTypes = {
 	auth: PropTypes.object.isRequired,
+	user: PropTypes.object.isRequired,
 	openModal: PropTypes.func.isRequired,
-	logout: PropTypes.func.isRequired
+	logout: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-	auth: state.auth
+const mapStateToProps = (state) => ({
+	auth: state.auth,
+	user: state.user,
 });
 
 export default connect(mapStateToProps, { openModal, logout })(Navbar);

@@ -3,20 +3,21 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Grid } from 'semantic-ui-react';
 
-import { getProfiles } from '../../actions/profile';
+import { getAllUsers } from '../../actions/user';
 import Spinner from '../../components/layout/Spinner';
 import UserCard from '../../components/profile/UserCard';
 
-const People = ({ getProfiles, profile: { all, loading } }) => {
+const People = ({ getAllUsers, user: { all, loading } }) => {
 	useEffect(() => {
-		getProfiles();
-	}, [getProfiles]);
+		getAllUsers();
+	}, [getAllUsers]);
+
 	return loading ? (
 		<Spinner />
 	) : (
 		<Grid>
 			{all &&
-				all.map((profile, index) => (
+				all.map((user, index) => (
 					<Grid.Column
 						key={index}
 						stretched
@@ -24,7 +25,7 @@ const People = ({ getProfiles, profile: { all, loading } }) => {
 						tablet={8}
 						computer={4}
 					>
-						<UserCard profile={profile} />
+						<UserCard user={user} />
 					</Grid.Column>
 				))}
 		</Grid>
@@ -32,12 +33,12 @@ const People = ({ getProfiles, profile: { all, loading } }) => {
 };
 
 People.propTypes = {
-	getProfiles: PropTypes.func.isRequired,
-	profile: PropTypes.object.isRequired
+	getAllUsers: PropTypes.func.isRequired,
+	user: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
-	profile: state.profile
+const mapStateToProps = (state) => ({
+	user: state.user,
 });
 
-export default connect(mapStateToProps, { getProfiles })(People);
+export default connect(mapStateToProps, { getAllUsers })(People);

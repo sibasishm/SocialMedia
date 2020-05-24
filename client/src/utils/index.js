@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { format, parseISO } from 'date-fns';
 
-export const setAuthToken = token => {
+export const setAuthToken = (token) => {
 	if (token) {
-		axios.defaults.headers.common['x-auth-token'] = token;
+		axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 	} else {
-		delete axios.defaults.headers.common['x-auth-token'];
+		delete axios.defaults.headers.common['Authorization'];
 	}
 };
 

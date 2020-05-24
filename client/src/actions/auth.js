@@ -3,8 +3,6 @@ import { toastr } from 'react-redux-toastr';
 import {
 	REGISTER_SUCCESS,
 	REGISTER_FAIL,
-	USER_LOADED,
-	AUTH_ERROR,
 	LOGIN_SUCCESS,
 	LOGIN_FAIL,
 	LOGOUT,
@@ -12,28 +10,8 @@ import {
 	NO_TOKEN,
 } from './types';
 import { closeModal } from './modal';
-
-import { setAuthToken } from '../utils';
-
-// Get user data from /api/auth and set to payload
-export const loadUser = () => async (dispatch) => {
-	if (localStorage.token) {
-		setAuthToken(localStorage.token);
-	}
-
-	try {
-		const res = await axios.get('/api/auth');
-
-		dispatch({
-			type: USER_LOADED,
-			payload: res.data,
-		});
-	} catch (err) {
-		dispatch({
-			type: AUTH_ERROR,
-		});
-	}
-};
+import { getCurrentUser } from './user';
+import routesConfig from './routesConfig';
 
 export const noToken = () => (dispatch) => {
 	dispatch({
@@ -53,13 +31,17 @@ export const register = (params) => async (dispatch) => {
 	const body = JSON.stringify(params);
 
 	try {
-		const res = await axios.post('/api/users', body, config);
+		const res = await axios.post(
+			`${routesConfig.users}/signup`,
+			body,
+			config
+		);
 		dispatch({
 			type: REGISTER_SUCCESS,
 			payload: res.data,
 		});
 
-		dispatch(loadUser());
+		dispatch(getCurrentUser());
 
 		dispatch(closeModal());
 		toastr.success('Welcome', 'Registered successfully!');
@@ -88,13 +70,17 @@ export const login = ({ email, password }) => async (dispatch) => {
 	const body = JSON.stringify({ email, password });
 
 	try {
-		const res = await axios.post('/api/auth', body, config);
+		const res = await axios.post(
+			`${routesConfig.users}/login`,
+			body,
+			config
+		);
 		dispatch({
 			type: LOGIN_SUCCESS,
 			payload: res.data,
 		});
 
-		dispatch(loadUser());
+		dispatch(getCurrentUser());
 
 		dispatch(closeModal());
 		toastr.success('Welcome back', 'Signed in successfully!');

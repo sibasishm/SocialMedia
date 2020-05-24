@@ -5,12 +5,14 @@ import auth from './auth';
 import profile from './profile';
 import modal from './modal';
 import post from './post';
+import user from './user';
 
 export default combineReducers({
 	toastr,
 	auth,
+	user,
 	profile,
 	form,
 	modal,
-	post
+	post,
 });

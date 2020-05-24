@@ -1,14 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Image } from 'semantic-ui-react';
+import { formatDate } from '../../utils';
 
-export default ({
-	profile: {
-		user: { firstName, avatar, _id },
-		bio,
-		location
-	}
-}) => (
+export default ({ user: { firstName, avatar, _id, date } }) => (
 	<Card>
 		<Image src={avatar} wrapped ui={false} />
 		<Card.Content>
@@ -17,11 +12,8 @@ export default ({
 				to={`/users/${_id}`}
 				content={`${firstName}`}
 			/>
-			<Card.Meta>{location && `From ${location}`}</Card.Meta>
-			<Card.Description>{bio}</Card.Description>
-		</Card.Content>
-		<Card.Content extra>
-			<p>Extra Info...</p>
+			<Card.Meta>{`Member since ${formatDate(date)}`}</Card.Meta>
+			{/* <Card.Description>{bio}</Card.Description> */}
 		</Card.Content>
 	</Card>
 );
