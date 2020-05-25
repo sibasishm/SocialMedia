@@ -4,9 +4,9 @@ import { Field, reduxForm } from 'redux-form';
 import { addYears } from 'date-fns';
 import { SimpleInput } from '../input/SimpleInput';
 import { RadioInput } from '../input/RadioInput';
+import { DateInput } from '../input/DateInput';
 
 import { required } from '../../utils/formValidators';
-import { DateInput } from '../input/DateInput';
 
 const Basics = ({ pristine, submitting, handleSubmit, updateProfile }) => (
 	<Segment>

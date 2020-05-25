@@ -6,9 +6,17 @@ import Social from '../profile/Social';
 
 const UserInfo = ({
 	user: { avatar, firstName, lastName, email, profile },
+	updateAvatar,
 }) => (
 	<Container textAlign='center'>
 		<img className='profile-image' src={avatar} alt='user' />
+		<input
+			type='file'
+			name='avatar'
+			id='avatar'
+			accept='.jpeg, .jpg, .png'
+			onChange={(e) => updateAvatar(e.target.files[0])}
+		/>
 		<p className='name'>{`${firstName} ${lastName || ''}`}</p>
 		<p className='info'>{email}</p>
 		<Stats followers={profile[0].followers} />

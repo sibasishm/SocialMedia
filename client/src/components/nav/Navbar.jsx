@@ -24,7 +24,7 @@ const Navbar = ({
 			<Menu.Item as={NavLink} to='/users' name='Users' />
 			{!loading &&
 				(isAuthenticated ? (
-					<AuthLinks logout={logout} userDetails={me} />
+					me && <AuthLinks logout={logout} userDetails={me} />
 				) : (
 					<GuestLinks
 						signIn={() => openModal('Login')}

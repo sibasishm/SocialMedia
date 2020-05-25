@@ -26,7 +26,7 @@ const Profile = ({ getUser, user: { current, me, loading }, match }) => {
 
 	return loading || current === null ? (
 		<Spinner />
-	) : !current.profile[0] ? (
+	) : !(current.profile && current.profile[0]) ? (
 		<p>The user doesn't have a profile.</p>
 	) : (
 		<div className='profile-container'>

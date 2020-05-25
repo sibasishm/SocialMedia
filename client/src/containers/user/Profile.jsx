@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import { Grid, Segment } from 'semantic-ui-react';
 
+import { updateUserAvatar } from '../../actions/user';
+
 import Welcome from './Welcome';
 import HeroBanner from '../../components/profile/HeroBanner';
 import UserInfo from '../../components/profile/UserInfo';
@@ -14,17 +16,17 @@ import About from '../../components/profile/About';
 import Topics from '../topics/Posts';
 import Spinner from '../../components/layout/Spinner';
 
-const Profile = ({ user: { me, loading } }) => {
+const Profile = ({ user: { me, loading }, updateUserAvatar }) => {
 	return loading || me === null ? (
 		<Spinner />
-	) : !(me.profile || me.profile[0]) ? (
+	) : !(me.profile && me.profile[0]) ? (
 		<Welcome user={me} />
 	) : (
 		<div className='profile-container'>
 			<HeroBanner />
 			<Grid columns={2} stackable>
 				<Grid.Column width={5}>
-					<UserInfo user={me} />
+					<UserInfo user={me} updateAvatar={updateUserAvatar} />
 				</Grid.Column>
 				<Grid.Column width={11}>
 					<Menu />
@@ -65,10 +67,11 @@ const Profile = ({ user: { me, loading } }) => {
 
 Profile.propTypes = {
 	user: PropTypes.object.isRequired,
+	updateUserAvatar: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
 	user: state.user,
 });
 
-export default connect(mapStateToProps)(Profile);
+export default connect(mapStateToProps, { updateUserAvatar })(Profile);

@@ -6,15 +6,16 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOUT = 'LOGOUT';
 export const NO_TOKEN = 'NO_TOKEN';
+
 // User
 export const USER_LOADED = 'USER_LOADED';
 export const GET_USERS = 'GET_USERS';
 export const GET_USER = 'GET_USER';
+export const UPDATE_USER = 'UPDATE_USER';
 
 // Profile
-export const GET_PROFILE = 'GET_PROFILE';
-export const GET_MY_PROFILE = 'GET_MY_PROFILE';
 export const UPDATE_PROFILE = 'UPDATE_PROFILE';
+export const DELETE_PROFILE = 'DELETE_PROFILE';
 export const UPDATED_FOLLOWERS = 'UPDATED_FOLLOWERS';
 export const UPDATING_FOLLOWERS = 'UPDATING_FOLLOWERS';
 export const GET_PROFILES = 'GET_PROFILES';
