@@ -1,5 +1,6 @@
 import React, { useEffect, Fragment } from 'react';
 import { connect } from 'react-redux';
+import { useQuery } from 'react-query';
 import PropTypes from 'prop-types';
 import { Card } from 'semantic-ui-react';
 
@@ -12,8 +13,10 @@ import {
 	getMyPosts,
 	addLike,
 	deletePost,
-	addPost
+	addPost,
 } from '../../actions/post';
+
+import { getAllPosts } from '../../apis/posts';
 
 const Posts = ({
 	isAuthenticated = false,
@@ -22,30 +25,31 @@ const Posts = ({
 	addLike,
 	deletePost,
 	addPost,
-	post: { all, mine, loading }
+	post: { all, mine, loading },
 }) => {
-	const effect = isAuthenticated ? getMyPosts : getPosts;
-	const payload = isAuthenticated ? mine : all;
-	useEffect(() => {
-		effect();
-	}, [effect]);
+	// const effect = isAuthenticated ? getMyPosts : getPosts;
+	// const payload = isAuthenticated ? mine : all;
+	// useEffect(() => {
+	// 	effect();
+	// }, [effect]);
 
-	return loading ? (
+	const { status, data, error } = useQuery('posts', getAllPosts);
+
+	return status === 'loading' ? (
 		<Spinner />
 	) : (
 		<Fragment>
-			{isAuthenticated && <CreatePost addPost={addPost} />}
+			{/* {isAuthenticated && <CreatePost addPost={addPost} />} */}
 			<Card.Group itemsPerRow={1}>
-				{payload &&
-					payload.map((post, index) => (
-						<PostItem
-							key={index}
-							post={post}
-							addLike={addLike}
-							deletePost={deletePost}
-							isAuthenticated={isAuthenticated}
-						/>
-					))}
+				{data.data.map((post) => (
+					<PostItem
+						key={post.id}
+						post={post}
+						addLike={addLike}
+						deletePost={deletePost}
+						isAuthenticated={isAuthenticated}
+					/>
+				))}
 			</Card.Group>
 		</Fragment>
 	);
@@ -58,11 +62,11 @@ Posts.propTypes = {
 	getMyPosts: PropTypes.func.isRequired,
 	addLike: PropTypes.func.isRequired,
 	deletePost: PropTypes.func.isRequired,
-	addPost: PropTypes.func.isRequired
+	addPost: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-	post: state.post
+const mapStateToProps = (state) => ({
+	post: state.post,
 });
 
 export default connect(mapStateToProps, {
@@ -70,5 +74,5 @@ export default connect(mapStateToProps, {
 	getMyPosts,
 	addLike,
 	deletePost,
-	addPost
+	addPost,
 })(Posts);
