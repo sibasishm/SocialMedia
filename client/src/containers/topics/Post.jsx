@@ -1,30 +1,25 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
+import { useQuery } from 'react-query';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Segment, Button } from 'semantic-ui-react';
 
 import Spinner from '../../components/layout/Spinner';
 import PostItem from '../../components/post/PostItem';
-
-import { getPost, addComment, deleteComment } from '../../actions/post';
 import Comments from '../../components/post/Comments';
 
-const Post = ({
-	post: { current, loading },
-	getPost,
-	addComment,
-	deleteComment,
-	match
-}) => {
-	const postId = match.params.id;
-	useEffect(() => {
-		getPost(postId);
-	}, [getPost, postId]);
+import { addComment, deleteComment } from '../../actions/post';
+import { getAPost } from '../../apis/posts';
 
-	return loading || current === null ? (
-		<Spinner />
-	) : (
+const Post = ({ addComment, deleteComment, match }) => {
+	const postId = match.params.id;
+	const { status, data, error } = useQuery(['post', postId], getAPost);
+
+	console.log(data, error);
+	if (status === 'loading') return <Spinner />;
+	if (status === 'error') return <p>Error: {error.message}</p>;
+	return (
 		<Segment>
 			<Button
 				as={Link}
@@ -32,9 +27,9 @@ const Post = ({
 				color='teal'
 				content='View all posts'
 			/>
-			<PostItem showButtons={false} post={current} />
+			<PostItem showButtons={false} post={data.data} />
 			<Comments
-				comments={current.comments}
+				comments={data.data.comments}
 				addComment={addComment}
 				deleteComment={deleteComment}
 				postId={postId}
@@ -44,16 +39,8 @@ const Post = ({
 };
 
 Post.propTypes = {
-	post: PropTypes.object.isRequired,
-	getPost: PropTypes.func.isRequired,
 	addComment: PropTypes.func.isRequired,
-	deleteComment: PropTypes.func.isRequired
+	deleteComment: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-	post: state.post
-});
-
-export default connect(mapStateToProps, { getPost, addComment, deleteComment })(
-	Post
-);
+export default connect(null, { addComment, deleteComment })(Post);

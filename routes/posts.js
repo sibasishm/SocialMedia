@@ -28,7 +28,7 @@ router.use('/:id/reactions', reactionsRouter);
 router
 	.route('/:id')
 	.get(protect, getPost)
-	.delete(protect, restrictTo('self'), deletePost)
+	.delete(protect, restrictTo('self', 'admin'), deletePost)
 	.patch(protect, restrictTo('self'), updatePost);
 
 module.exports = router;
