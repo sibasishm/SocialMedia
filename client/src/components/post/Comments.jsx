@@ -4,7 +4,7 @@ import AddComment from './AddComment';
 import { Link } from 'react-router-dom';
 import { formatDate } from '../../utils';
 
-export default ({ postId, comments, addComment, deleteComment }) => (
+export default ({ postId, comments }) => (
 	<Comment.Group minimal style={{ maxWidth: '100%' }}>
 		<Header size='small' dividing>
 			Comments
@@ -21,11 +21,11 @@ export default ({ postId, comments, addComment, deleteComment }) => (
 						<Comment.Text>{text}</Comment.Text>
 						<Comment.Actions>
 							<Comment.Action>Reply</Comment.Action>
-							<Comment.Action
+							{/* <Comment.Action
 								onClick={() => deleteComment(postId, _id)}
 							>
 								Remove
-							</Comment.Action>
+							</Comment.Action> */}
 						</Comment.Actions>
 					</Comment.Content>
 				</Comment>
@@ -35,6 +35,6 @@ export default ({ postId, comments, addComment, deleteComment }) => (
 				There are no comments for this post yet.
 			</Header>
 		)}
-		<AddComment addComment={addComment} postId={postId} />
+		<AddComment postId={postId} />
 	</Comment.Group>
 );

@@ -16,3 +16,6 @@ export const getAPost = async (key, id) => {
 	const { data } = await axios.get(`${routes.posts}/${id}`);
 	return data;
 };
+
+export const addAComment = (text, postId) =>
+	axios.post(`/api/posts/${postId}/comments`, { text });
