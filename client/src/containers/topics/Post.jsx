@@ -13,7 +13,6 @@ const Post = ({ match }) => {
 	const postId = match.params.id;
 	const { status, data, error } = useQuery(['post', postId], getAPost);
 
-	console.log(data, error);
 	if (status === 'loading') return <Spinner />;
 	if (status === 'error') return <p>Error: {error.message}</p>;
 	return (

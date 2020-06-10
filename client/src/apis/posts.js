@@ -17,5 +17,5 @@ export const getAPost = async (key, id) => {
 	return data;
 };
 
-export const addAComment = (text, postId) =>
+export const addAComment = ({ text, postId }) =>
 	axios.post(`/api/posts/${postId}/comments`, { text });

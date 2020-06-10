@@ -8,7 +8,7 @@ import { addAComment } from '../../apis/posts';
 
 const AddComment = ({ postId }) => {
 	const [text, setText] = useState('');
-	const [addComment] = useMutation((text) => addAComment(text, postId), {
+	const [addComment] = useMutation(addAComment, {
 		// onMutate: text => {
 		// 	queryCache.cancelQueries(['post', postId]);
 
@@ -20,22 +20,33 @@ const AddComment = ({ postId }) => {
 
 		// 	return previousPostContent;
 		// },
-		onSuccess: () => {
+		onSuccess: (data) => {
 			setText('');
+			queryCache.setQueryData(['post', postId], (old) => {
+				console.log(data);
+				return {
+					status: old.status,
+					data: {
+						...old.data,
+						comments: [...old.data.comments, data.data.data],
+					},
+				};
+			});
 		},
 		onError: (err) => console.log(err),
-		onSettled: () => queryCache.refetchQueries(['post', postId]),
+		// onSettled: () => queryCache.refetchQueries(['post', postId]),
 	});
 
 	return (
 		<Form
 			onSubmit={(e) => {
 				e.preventDefault();
-				addComment(text);
+				addComment({ text, postId });
 			}}
 		>
 			<textarea value={text} onChange={(e) => setText(e.target.value)} />
 			<Button
+				disabled={!Boolean(text)}
 				content='Add reply'
 				labelPosition='left'
 				icon='edit'
