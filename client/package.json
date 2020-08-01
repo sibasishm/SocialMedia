@@ -32,7 +32,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "prettier": "prettier --write \"**/*.{html,js,json,md,mdx,yml}\""
+    "prettier": "prettier --write \"**/*.{html,js,json,jsx}\""
   },
   "husky": {
     "hooks": {
