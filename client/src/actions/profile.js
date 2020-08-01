@@ -1,196 +1,181 @@
 import axios from 'axios';
 import { toastr } from 'react-redux-toastr';
-import {
-	PROFILE_ERROR,
-	UPDATE_PROFILE,
-	UPDATING_FOLLOWERS,
-	UPDATED_FOLLOWERS,
-} from './types';
+import { PROFILE_ERROR, UPDATE_PROFILE, UPDATING_FOLLOWERS, UPDATED_FOLLOWERS } from './types';
 
 const triggerToastr = (err) =>
-	toastr.error(
-		err.response.data ? err.response.data.msg : 'Some error occured!'
-	);
+  toastr.error(err.response.data ? err.response.data.msg : 'Some error occured!');
 
 // Get OR Update profile data
 export const updateProfile = (formData) => async (dispatch) => {
-	try {
-		const config = {
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		};
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
 
-		const res = await axios.post('/api/profiles', formData, config);
+    const res = await axios.post('/api/profiles', formData, config);
 
-		dispatch({
-			type: UPDATE_PROFILE,
-			payload: res.data,
-		});
+    dispatch({
+      type: UPDATE_PROFILE,
+      payload: res.data
+    });
 
-		toastr.info('Profile updated');
-	} catch (err) {
-		const errors = err.response.data.errors;
+    toastr.info('Profile updated');
+  } catch (err) {
+    const errors = err.response.data.errors;
 
-		if (errors) {
-			errors.forEach((error) => toastr.error(error.msg));
-		}
+    if (errors) {
+      errors.forEach((error) => toastr.error(error.msg));
+    }
 
-		dispatch({
-			type: PROFILE_ERROR,
-			payload: {
-				msg: err.response.statusText,
-				status: err.response.status,
-			},
-		});
-	}
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        msg: err.response.statusText,
+        status: err.response.status
+      }
+    });
+  }
 };
 
 export const addFollower = (id) => async (dispatch) => {
-	try {
-		dispatch({ type: UPDATING_FOLLOWERS });
+  try {
+    dispatch({ type: UPDATING_FOLLOWERS });
 
-		const res = await axios.put(`/api/profiles/follow/${id}`);
-		dispatch({
-			type: UPDATED_FOLLOWERS,
-			payload: res.data,
-		});
-		toastr.success('Success!', 'Your follow list updated');
-	} catch (err) {
-		triggerToastr(err);
-		dispatch({
-			type: PROFILE_ERROR,
-			payload: {
-				msg: err.response.statusText,
-				status: err.response.status,
-			},
-		});
-	}
+    const res = await axios.put(`/api/profiles/follow/${id}`);
+    dispatch({
+      type: UPDATED_FOLLOWERS,
+      payload: res.data
+    });
+    toastr.success('Success!', 'Your follow list updated');
+  } catch (err) {
+    triggerToastr(err);
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        msg: err.response.statusText,
+        status: err.response.status
+      }
+    });
+  }
 };
 
 export const addExperience = (formData) => async (dispatch) => {
-	try {
-		const config = {
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		};
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
 
-		const res = await axios.put(
-			'/api/profiles/experience',
-			formData,
-			config
-		);
+    const res = await axios.put('/api/profiles/experience', formData, config);
 
-		dispatch({
-			type: UPDATE_PROFILE,
-			payload: res.data,
-		});
+    dispatch({
+      type: UPDATE_PROFILE,
+      payload: res.data
+    });
 
-		toastr.success('Success!', 'A new experience added');
-	} catch (err) {
-		const errors = err.response.data.errors;
+    toastr.success('Success!', 'A new experience added');
+  } catch (err) {
+    const errors = err.response.data.errors;
 
-		if (errors) {
-			errors.forEach((error) => toastr.error(error.msg));
-		}
+    if (errors) {
+      errors.forEach((error) => toastr.error(error.msg));
+    }
 
-		dispatch({
-			type: PROFILE_ERROR,
-			payload: {
-				msg: err.response.statusText,
-				status: err.response.status,
-			},
-		});
-	}
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        msg: err.response.statusText,
+        status: err.response.status
+      }
+    });
+  }
 };
 
 export const deleteExperience = (id) => async (dispatch) => {
-	try {
-		const res = await axios.delete(`api/profile/experience/${id}`);
+  try {
+    const res = await axios.delete(`api/profile/experience/${id}`);
 
-		dispatch({
-			type: UPDATE_PROFILE,
-			payload: res.data,
-		});
+    dispatch({
+      type: UPDATE_PROFILE,
+      payload: res.data
+    });
 
-		toastr.info('Profile updated');
-	} catch (err) {
-		const errors = err.response.data.errors;
+    toastr.info('Profile updated');
+  } catch (err) {
+    const errors = err.response.data.errors;
 
-		if (errors) {
-			errors.forEach((error) => toastr.error(error.msg));
-		}
+    if (errors) {
+      errors.forEach((error) => toastr.error(error.msg));
+    }
 
-		dispatch({
-			type: PROFILE_ERROR,
-			payload: {
-				msg: err.response.statusText,
-				status: err.response.status,
-			},
-		});
-	}
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        msg: err.response.statusText,
+        status: err.response.status
+      }
+    });
+  }
 };
 
 export const addEducation = (formData) => async (dispatch) => {
-	try {
-		const config = {
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		};
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
 
-		const res = await axios.put(
-			'/api/profiles/education',
-			formData,
-			config
-		);
+    const res = await axios.put('/api/profiles/education', formData, config);
 
-		dispatch({
-			type: UPDATE_PROFILE,
-			payload: res.data,
-		});
-		toastr.success('Success!', 'A new education added');
-	} catch (err) {
-		const errors = err.response.data.errors;
+    dispatch({
+      type: UPDATE_PROFILE,
+      payload: res.data
+    });
+    toastr.success('Success!', 'A new education added');
+  } catch (err) {
+    const errors = err.response.data.errors;
 
-		if (errors) {
-			errors.forEach((error) => toastr.error(error.msg));
-		}
+    if (errors) {
+      errors.forEach((error) => toastr.error(error.msg));
+    }
 
-		dispatch({
-			type: PROFILE_ERROR,
-			payload: {
-				msg: err.response.statusText,
-				status: err.response.status,
-			},
-		});
-	}
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        msg: err.response.statusText,
+        status: err.response.status
+      }
+    });
+  }
 };
 
 export const deleteEducation = (id) => async (dispatch) => {
-	try {
-		const res = await axios.delete(`api/profile/education/${id}`);
+  try {
+    const res = await axios.delete(`api/profile/education/${id}`);
 
-		dispatch({
-			type: UPDATE_PROFILE,
-			payload: res.data,
-		});
+    dispatch({
+      type: UPDATE_PROFILE,
+      payload: res.data
+    });
 
-		toastr.info('Profile updated');
-	} catch (err) {
-		const errors = err.response.data.errors;
+    toastr.info('Profile updated');
+  } catch (err) {
+    const errors = err.response.data.errors;
 
-		if (errors) {
-			errors.forEach((error) => toastr.error(error.msg));
-		}
+    if (errors) {
+      errors.forEach((error) => toastr.error(error.msg));
+    }
 
-		dispatch({
-			type: PROFILE_ERROR,
-			payload: {
-				msg: err.response.statusText,
-				status: err.response.status,
-			},
-		});
-	}
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        msg: err.response.statusText,
+        status: err.response.status
+      }
+    });
+  }
 };

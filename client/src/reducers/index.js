@@ -8,11 +8,11 @@ import post from './post';
 import user from './user';
 
 export default combineReducers({
-	toastr,
-	auth,
-	user,
-	profile,
-	form,
-	modal,
-	post,
+  toastr,
+  auth,
+  user,
+  profile,
+  form,
+  modal,
+  post
 });
