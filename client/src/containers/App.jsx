@@ -14,7 +14,8 @@ import Modal from './modal';
 // Redux
 import { Provider } from 'react-redux';
 import store from '../store';
-import { loadUser, noToken } from '../actions/auth';
+import { noToken } from '../actions/auth';
+import { getCurrentUser } from '../actions/user';
 
 import { setAuthToken } from '../utils';
 
@@ -25,7 +26,7 @@ if (localStorage.token) {
 const App = () => {
 	useEffect(() => {
 		if (localStorage.token) {
-			store.dispatch(loadUser());
+			store.dispatch(getCurrentUser());
 		} else {
 			store.dispatch(noToken());
 		}

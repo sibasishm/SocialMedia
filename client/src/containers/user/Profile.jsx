@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import { Grid, Segment } from 'semantic-ui-react';
 
-import { getProfileById } from '../../actions/profile';
+import { updateUserAvatar } from '../../actions/user';
 
 import Welcome from './Welcome';
 import HeroBanner from '../../components/profile/HeroBanner';
@@ -16,25 +16,17 @@ import About from '../../components/profile/About';
 import Topics from '../topics/Posts';
 import Spinner from '../../components/layout/Spinner';
 
-const Profile = ({
-	profile: { me, loading, error },
-	auth: { user },
-	getProfileById
-}) => {
-	useEffect(() => {
-		user && getProfileById(user._id, true);
-	}, [getProfileById, user]);
-
-	return error.status === 404 ? (
-		<Welcome user={user} />
-	) : loading || me === null ? (
+const Profile = ({ user: { me, loading }, updateUserAvatar }) => {
+	return loading || me === null ? (
 		<Spinner />
+	) : !(me.profile && me.profile[0]) ? (
+		<Welcome user={me} />
 	) : (
 		<div className='profile-container'>
 			<HeroBanner />
 			<Grid columns={2} stackable>
 				<Grid.Column width={5}>
-					<UserInfo user={me} />
+					<UserInfo user={me} updateAvatar={updateUserAvatar} />
 				</Grid.Column>
 				<Grid.Column width={11}>
 					<Menu />
@@ -47,7 +39,7 @@ const Profile = ({
 							/>
 							<Route
 								path='/me/about'
-								render={() => <About profile={me} />}
+								render={() => <About profile={me.profile[0]} />}
 							/>
 							<Route
 								path='/me/network'
@@ -74,14 +66,12 @@ const Profile = ({
 };
 
 Profile.propTypes = {
-	profile: PropTypes.object.isRequired,
-	auth: PropTypes.object.isRequired,
-	getProfileById: PropTypes.func.isRequired
+	user: PropTypes.object.isRequired,
+	updateUserAvatar: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-	profile: state.profile,
-	auth: state.auth
+const mapStateToProps = (state) => ({
+	user: state.user,
 });
 
-export default connect(mapStateToProps, { getProfileById })(Profile);
+export default connect(mapStateToProps, { updateUserAvatar })(Profile);

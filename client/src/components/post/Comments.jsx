@@ -4,28 +4,28 @@ import AddComment from './AddComment';
 import { Link } from 'react-router-dom';
 import { formatDate } from '../../utils';
 
-export default ({ postId, comments, addComment, deleteComment }) => (
+export default ({ postId, comments }) => (
 	<Comment.Group minimal style={{ maxWidth: '100%' }}>
 		<Header size='small' dividing>
 			Comments
 		</Header>
 		{comments && comments.length > 0 ? (
-			comments.map(({ _id, user, name, avatar, text, date }) => (
+			comments.map(({ _id, user, text, date }) => (
 				<Comment key={_id} style={{ marginBottom: '1rem' }}>
-					<Comment.Avatar src={avatar} />
+					<Comment.Avatar src={user.avatar} />
 					<Comment.Content>
-						<Comment.Author as={Link} to={`/users/${user}`}>
-							{name}
+						<Comment.Author as={Link} to={`/users/${user._id}`}>
+							{user.firstName}
 						</Comment.Author>
 						<Comment.Metadata>{formatDate(date)}</Comment.Metadata>
 						<Comment.Text>{text}</Comment.Text>
 						<Comment.Actions>
 							<Comment.Action>Reply</Comment.Action>
-							<Comment.Action
+							{/* <Comment.Action
 								onClick={() => deleteComment(postId, _id)}
 							>
 								Remove
-							</Comment.Action>
+							</Comment.Action> */}
 						</Comment.Actions>
 					</Comment.Content>
 				</Comment>
@@ -35,6 +35,6 @@ export default ({ postId, comments, addComment, deleteComment }) => (
 				There are no comments for this post yet.
 			</Header>
 		)}
-		<AddComment addComment={addComment} postId={postId} />
+		<AddComment postId={postId} />
 	</Comment.Group>
 );

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { Grid, Segment } from 'semantic-ui-react';
 
-import { getProfileById, addFollower } from '../../actions/profile';
+import { getUser } from '../../actions/user';
 
 import Spinner from '../../components/layout/Spinner';
 import HeroBanner from '../../components/profile/HeroBanner';
@@ -13,31 +13,21 @@ import GuestMenu from '../../components/profile/GuestMenu';
 import Activities from '../../components/profile/Activities';
 import About from '../../components/profile/About';
 
-const Profile = ({
-	getProfileById,
-	addFollower,
-	profile: { current, loading, followerLoading },
-	match,
-	auth: { user }
-}) => {
+const Profile = ({ getUser, user: { current, me, loading }, match }) => {
 	const userId = match.params.id;
 
 	useEffect(() => {
-		getProfileById(userId);
-	}, [getProfileById, userId]);
+		getUser(userId);
+	}, [getUser, userId]);
 
-	if (user && userId === user._id) {
+	if (me && userId === me._id) {
 		return <Redirect to='/me' />;
 	}
 
-	const isFollowing =
-		current &&
-		current.followers &&
-		current.followers.findIndex(follower => follower.user === user._id) !==
-			-1;
-
 	return loading || current === null ? (
 		<Spinner />
+	) : !(current.profile && current.profile[0]) ? (
+		<p>The user doesn't have a profile.</p>
 	) : (
 		<div className='profile-container'>
 			<HeroBanner />
@@ -46,13 +36,7 @@ const Profile = ({
 					<UserInfo user={current} />
 				</Grid.Column>
 				<Grid.Column width={11}>
-					<GuestMenu
-						userId={userId}
-						profileId={current._id}
-						follow={addFollower}
-						isFollowing={isFollowing}
-						loading={followerLoading}
-					/>
+					<GuestMenu userId={userId} />
 					<Segment attached='bottom'>
 						<Switch>
 							<Route
@@ -62,7 +46,9 @@ const Profile = ({
 							/>
 							<Route
 								path={`/users/${userId}/about`}
-								render={() => <About profile={current} />}
+								render={() => (
+									<About profile={current.profile[0]} />
+								)}
 							/>
 						</Switch>
 					</Segment>
@@ -73,17 +59,13 @@ const Profile = ({
 };
 
 Profile.propTypes = {
-	getProfileById: PropTypes.func.isRequired,
-	addFollower: PropTypes.func.isRequired,
-	profile: PropTypes.object.isRequired,
-	auth: PropTypes.object.isRequired
+	user: PropTypes.object.isRequired,
+	getUser: PropTypes.func.isRequired,
+	match: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
-	profile: state.profile,
-	auth: state.auth
+const mapStateToProps = (state) => ({
+	user: state.user,
 });
 
-export default connect(mapStateToProps, { getProfileById, addFollower })(
-	Profile
-);
+export default connect(mapStateToProps, { getUser })(Profile);

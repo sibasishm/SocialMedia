@@ -1,5 +1,6 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
+import { useQuery } from 'react-query';
 import PropTypes from 'prop-types';
 import { Card } from 'semantic-ui-react';
 
@@ -7,45 +8,31 @@ import Spinner from '../../components/layout/Spinner';
 import PostItem from '../../components/post/PostItem';
 import CreatePost from '../../components/post/CreatePost';
 
-import {
-	getPosts,
-	getMyPosts,
-	addLike,
-	deletePost,
-	addPost
-} from '../../actions/post';
+import { addLike, deletePost, addPost } from '../../actions/post';
 
-const Posts = ({
-	isAuthenticated = false,
-	getPosts,
-	getMyPosts,
-	addLike,
-	deletePost,
-	addPost,
-	post: { all, mine, loading }
-}) => {
-	const effect = isAuthenticated ? getMyPosts : getPosts;
-	const payload = isAuthenticated ? mine : all;
-	useEffect(() => {
-		effect();
-	}, [effect]);
+import { getAllPosts, getMyPosts } from '../../apis/posts';
 
-	return loading ? (
-		<Spinner />
-	) : (
+const Posts = ({ isAuthenticated = false, addLike, deletePost, addPost }) => {
+	const { status, data, error } = useQuery(
+		'posts',
+		isAuthenticated ? getMyPosts : getAllPosts
+	);
+
+	if (status === 'loading') return <Spinner />;
+	if (status === 'error') return <p>Error: {error.message}</p>;
+	return (
 		<Fragment>
 			{isAuthenticated && <CreatePost addPost={addPost} />}
 			<Card.Group itemsPerRow={1}>
-				{payload &&
-					payload.map((post, index) => (
-						<PostItem
-							key={index}
-							post={post}
-							addLike={addLike}
-							deletePost={deletePost}
-							isAuthenticated={isAuthenticated}
-						/>
-					))}
+				{data.data.map((post) => (
+					<PostItem
+						key={post.id}
+						post={post}
+						addLike={addLike}
+						deletePost={deletePost}
+						isAuthenticated={isAuthenticated}
+					/>
+				))}
 			</Card.Group>
 		</Fragment>
 	);
@@ -53,22 +40,13 @@ const Posts = ({
 
 Posts.propTypes = {
 	isAuthenticated: PropTypes.bool,
-	post: PropTypes.object.isRequired,
-	getPosts: PropTypes.func.isRequired,
-	getMyPosts: PropTypes.func.isRequired,
 	addLike: PropTypes.func.isRequired,
 	deletePost: PropTypes.func.isRequired,
-	addPost: PropTypes.func.isRequired
+	addPost: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-	post: state.post
-});
-
-export default connect(mapStateToProps, {
-	getPosts,
-	getMyPosts,
+export default connect(null, {
 	addLike,
 	deletePost,
-	addPost
+	addPost,
 })(Posts);

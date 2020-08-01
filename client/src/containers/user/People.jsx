@@ -1,43 +1,33 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import React from 'react';
+import { useQuery } from 'react-query';
 import { Grid } from 'semantic-ui-react';
 
-import { getProfiles } from '../../actions/profile';
+import { getAllUsers } from '../../apis/users';
 import Spinner from '../../components/layout/Spinner';
 import UserCard from '../../components/profile/UserCard';
 
-const People = ({ getProfiles, profile: { all, loading } }) => {
-	useEffect(() => {
-		getProfiles();
-	}, [getProfiles]);
-	return loading ? (
+const People = () => {
+	const { status, data, error } = useQuery('users', getAllUsers);
+
+	return status === 'loading' ? (
 		<Spinner />
+	) : status === 'error' ? (
+		<p>Some error occured. {error.message}</p>
 	) : (
 		<Grid>
-			{all &&
-				all.map((profile, index) => (
-					<Grid.Column
-						key={index}
-						stretched
-						mobile={16}
-						tablet={8}
-						computer={4}
-					>
-						<UserCard profile={profile} />
-					</Grid.Column>
-				))}
+			{data.data.map((user) => (
+				<Grid.Column
+					key={user.id}
+					stretched
+					mobile={16}
+					tablet={8}
+					computer={4}
+				>
+					<UserCard user={user} />
+				</Grid.Column>
+			))}
 		</Grid>
 	);
 };
 
-People.propTypes = {
-	getProfiles: PropTypes.func.isRequired,
-	profile: PropTypes.object.isRequired
-};
-
-const mapStateToProps = state => ({
-	profile: state.profile
-});
-
-export default connect(mapStateToProps, { getProfiles })(People);
+export default People;

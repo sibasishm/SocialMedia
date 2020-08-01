@@ -4,22 +4,23 @@ import { Card, Image, Button } from 'semantic-ui-react';
 import { formatDate } from '../../utils';
 
 export default ({
-	post: { _id, name, user, avatar, text, date, likes, comments },
-	addLike,
-	deletePost,
-	isAuthenticated,
-	showButtons = true
+	post: { _id, user, content, date, reactions, comments },
+	showButtons = true,
 }) => (
 	<Card fluid>
 		<Card.Content>
-			<Image src={avatar} floated='left' size='mini' />
-			<Card.Header as={Link} to={`/users/${user}`} content={name} />
+			<Image src={user.avatar} floated='left' size='mini' />
+			<Card.Header
+				as={Link}
+				to={`/users/${user._id}`}
+				content={user.firstName}
+			/>
 			<Card.Meta>Posted on: {formatDate(date)}</Card.Meta>
-			<Card.Description>{text}</Card.Description>
+			<Card.Description>{content}</Card.Description>
 		</Card.Content>
 		{showButtons && (
 			<Card.Content extra>
-				{isAuthenticated ? (
+				{/* {isAuthenticated ? (
 					<div className='ui three buttons'>
 						<Button
 							basic
@@ -45,16 +46,15 @@ export default ({
 							Delete
 						</Button>
 					</div>
-				) : (
-					<Button
-						as={Link}
-						to={`/posts/${_id}`}
-						color='teal'
-						floated='right'
-					>
-						View
-					</Button>
-				)}
+				) : ( */}
+				<Button
+					as={Link}
+					to={`/posts/${_id}`}
+					color='teal'
+					floated='right'
+				>
+					View
+				</Button>
 			</Card.Content>
 		)}
 	</Card>

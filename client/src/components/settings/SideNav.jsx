@@ -18,15 +18,6 @@ const SideNav = () => (
 			<Menu.Item as={NavLink} to='/settings/about'>
 				About Me
 			</Menu.Item>
-			<Menu.Item as={NavLink} to='/settings/photos'>
-				My Photos
-			</Menu.Item>
-			<Menu.Item as={NavLink} to='/settings/education'>
-				Education
-			</Menu.Item>
-			<Menu.Item as={NavLink} to='/settings/experience'>
-				Experiences
-			</Menu.Item>
 		</Menu>
 		<Menu vertical>
 			<Header

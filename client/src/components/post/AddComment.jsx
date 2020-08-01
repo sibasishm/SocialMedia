@@ -1,36 +1,59 @@
 import React from 'react';
-import { reduxForm, Field, reset } from 'redux-form';
-import { Form, Button } from 'semantic-ui-react';
+import { useMutation, queryCache } from 'react-query';
+import { useFormik } from 'formik';
 
 import { TextArea } from '../input/TextArea';
+import { addAComment } from '../../apis/posts';
 
-const clearAfterSubmit = (result, dispatch) => dispatch(reset('addComment'));
+const validate = (values) => {
+	const errors = {};
+	if (!values.text) {
+		errors.text = `You can not post empty comments.`;
+	}
+	return errors;
+};
 
-const AddComment = ({
-	pristine,
-	submitting,
-	handleSubmit,
-	addComment,
-	postId
-}) => (
-	<Form onSubmit={handleSubmit(formData => addComment(postId, formData))}>
-		<Field
-			name='text'
-			component={TextArea}
-			placeholder='Leave a comment'
-			rows={3}
-		/>
-		<Button
-			disabled={pristine || submitting}
-			content='Add reply'
-			labelPosition='left'
-			icon='edit'
-			primary
-		/>
-	</Form>
-);
+const CommentsForm = ({ postId }) => {
+	const [addComment] = useMutation(addAComment, {
+		onSuccess: (data) => {
+			queryCache.setQueryData(['post', postId], (old) => {
+				return {
+					status: old.status,
+					data: {
+						...old.data,
+						comments: [...old.data.comments, data.data.data],
+					},
+				};
+			});
+		},
+		onError: (err) => console.log(err),
+	});
 
-export default reduxForm({
-	form: 'addComment',
-	onSubmitSuccess: clearAfterSubmit
-})(AddComment);
+	const { values, errors, handleSubmit, handleChange } = useFormik({
+		initialValues: {
+			text: '',
+		},
+		validate,
+		onSubmit: ({ text }, { setSubmitting, resetForm }) => {
+			setSubmitting(false);
+			addComment({ text, postId });
+			resetForm();
+		},
+	});
+
+	return (
+		<form onSubmit={handleSubmit}>
+			<label htmlFor='comment'></label>
+			<TextArea
+				id='comment'
+				name='text'
+				value={values.text}
+				onChange={handleChange}
+				errors={errors.text}
+			/>
+			<button type='submit'>Add Comment</button>
+		</form>
+	);
+};
+
+export default CommentsForm;

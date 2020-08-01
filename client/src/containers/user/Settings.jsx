@@ -4,26 +4,16 @@ import { Route, Redirect, Switch } from 'react-router-dom';
 import { Grid } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
-import {
-	updateProfile,
-	addExperience,
-	addEducation
-} from '../../actions/profile';
+import { updateProfile } from '../../actions/profile';
+
+import { updateCurrentUser } from '../../actions/user';
 
 import SideNav from '../../components/settings/SideNav';
 import Basics from '../../components/settings/Basics';
-import Photos from '../../components/settings/Photos';
 import Account from '../../components/settings/Account';
 import About from '../../components/settings/About';
-import Education from '../../components/settings/Education';
-import Experience from '../../components/settings/Experience';
 
-const Settings = ({
-	updateProfile,
-	addEducation,
-	addExperience,
-	profile: { me }
-}) => {
+const Settings = ({ updateProfile, updateCurrentUser, user: { me } }) => {
 	return (
 		<Grid columns={2} stackable>
 			<Grid.Column width={4}>
@@ -50,26 +40,12 @@ const Settings = ({
 							/>
 						)}
 					/>
-					<Route path='/settings/photos' component={Photos} />
 					<Route
 						path='/settings/account'
-						render={() => <Account />}
-					/>
-					<Route
-						path='/settings/education'
 						render={() => (
-							<Education
-								education={me && me.education}
-								updateProfile={addEducation}
-							/>
-						)}
-					/>
-					<Route
-						path='/settings/experience'
-						render={() => (
-							<Experience
-								experience={me && me.experience}
-								updateProfile={addExperience}
+							<Account
+								initialValues={me}
+								updateUserData={updateCurrentUser}
 							/>
 						)}
 					/>
@@ -81,17 +57,15 @@ const Settings = ({
 
 Settings.propTypes = {
 	updateProfile: PropTypes.func.isRequired,
-	addEducation: PropTypes.func.isRequired,
-	addExperience: PropTypes.func.isRequired,
-	profile: PropTypes.object.isRequired
+	user: PropTypes.object.isRequired,
+	updateCurrentUser: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-	profile: state.profile
+const mapStateToProps = (state) => ({
+	user: state.user,
 });
 
 export default connect(mapStateToProps, {
 	updateProfile,
-	addExperience,
-	addEducation
+	updateCurrentUser,
 })(Settings);
