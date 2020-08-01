@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import React, {useEffect} from 'react';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import ReduxToastr from 'react-redux-toastr';
 
 // StyleSheets
@@ -12,12 +12,12 @@ import Routes from './routing';
 import Modal from './modal';
 
 // Redux
-import { Provider } from 'react-redux';
+import {Provider} from 'react-redux';
 import store from '../store';
-import { getCurrentUser } from '../actions/user';
-import { noToken } from '../actions/auth';
+import {getCurrentUser} from '../actions/user';
+import {noToken} from '../actions/auth';
 
-import { setAuthToken } from '../utils';
+import {setAuthToken} from '../utils';
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
