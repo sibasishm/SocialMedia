@@ -7,34 +7,26 @@ import Spinner from '../../components/layout/Spinner';
 import { openModal } from '../../actions/modal';
 
 const PrivateRoute = ({
-	component: Component,
-	auth: { isAuthenticated, loading },
-	openModal,
-	...rest
+  component: Component,
+  auth: { isAuthenticated, loading },
+  openModal,
+  ...rest
 }) => (
-	<Route
-		{...rest}
-		render={props =>
-			!loading ? (
-				!isAuthenticated ? (
-					openModal('Unauth')
-				) : (
-					<Component {...props} />
-				)
-			) : (
-				<Spinner />
-			)
-		}
-	/>
+  <Route
+    {...rest}
+    render={(props) =>
+      !loading ? !isAuthenticated ? openModal('Unauth') : <Component {...props} /> : <Spinner />
+    }
+  />
 );
 
 PrivateRoute.propTypes = {
-	auth: PropTypes.object.isRequired,
-	openModal: PropTypes.func.isRequired
+  auth: PropTypes.object.isRequired,
+  openModal: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => ({
-	auth: state.auth
+const mapStateToProps = (state) => ({
+  auth: state.auth
 });
 
 export default connect(mapStateToProps, { openModal })(PrivateRoute);

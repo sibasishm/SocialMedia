@@ -14,58 +14,43 @@ import Account from '../../components/settings/Account';
 import About from '../../components/settings/About';
 
 const Settings = ({ updateProfile, updateCurrentUser, user: { me } }) => {
-	return (
-		<Grid columns={2} stackable>
-			<Grid.Column width={4}>
-				<SideNav />
-			</Grid.Column>
-			<Grid.Column width={12}>
-				<Switch>
-					<Redirect exact from='/settings' to='/settings/basic' />
-					<Route
-						path='/settings/basic'
-						render={() => (
-							<Basics
-								initialValues={me}
-								updateProfile={updateProfile}
-							/>
-						)}
-					/>
-					<Route
-						path='/settings/about'
-						render={() => (
-							<About
-								initialValues={me}
-								updateProfile={updateProfile}
-							/>
-						)}
-					/>
-					<Route
-						path='/settings/account'
-						render={() => (
-							<Account
-								initialValues={me}
-								updateUserData={updateCurrentUser}
-							/>
-						)}
-					/>
-				</Switch>
-			</Grid.Column>
-		</Grid>
-	);
+  return (
+    <Grid columns={2} stackable>
+      <Grid.Column width={4}>
+        <SideNav />
+      </Grid.Column>
+      <Grid.Column width={12}>
+        <Switch>
+          <Redirect exact from="/settings" to="/settings/basic" />
+          <Route
+            path="/settings/basic"
+            render={() => <Basics initialValues={me} updateProfile={updateProfile} />}
+          />
+          <Route
+            path="/settings/about"
+            render={() => <About initialValues={me} updateProfile={updateProfile} />}
+          />
+          <Route
+            path="/settings/account"
+            render={() => <Account initialValues={me} updateUserData={updateCurrentUser} />}
+          />
+        </Switch>
+      </Grid.Column>
+    </Grid>
+  );
 };
 
 Settings.propTypes = {
-	updateProfile: PropTypes.func.isRequired,
-	user: PropTypes.object.isRequired,
-	updateCurrentUser: PropTypes.func.isRequired,
+  updateProfile: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  updateCurrentUser: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-	user: state.user,
+  user: state.user
 });
 
 export default connect(mapStateToProps, {
-	updateProfile,
-	updateCurrentUser,
+  updateProfile,
+  updateCurrentUser
 })(Settings);

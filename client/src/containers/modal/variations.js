@@ -4,8 +4,8 @@ import Auth from '../../components/modal/Auth';
 import Unauth from '../../components/modal/Unauth';
 
 export const variations = {
-	Login,
-	Register,
-	Auth,
-	Unauth
+  Login,
+  Register,
+  Auth,
+  Unauth
 };
