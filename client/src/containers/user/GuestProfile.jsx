@@ -14,58 +14,52 @@ import Activities from '../../components/profile/Activities';
 import About from '../../components/profile/About';
 
 const Profile = ({ getUser, user: { current, me, loading }, match }) => {
-	const userId = match.params.id;
+  const userId = match.params.id;
 
-	useEffect(() => {
-		getUser(userId);
-	}, [getUser, userId]);
+  useEffect(() => {
+    getUser(userId);
+  }, [getUser, userId]);
 
-	if (me && userId === me._id) {
-		return <Redirect to='/me' />;
-	}
+  if (me && userId === me._id) {
+    return <Redirect to="/me" />;
+  }
 
-	return loading || current === null ? (
-		<Spinner />
-	) : !(current.profile && current.profile[0]) ? (
-		<p>The user doesn't have a profile.</p>
-	) : (
-		<div className='profile-container'>
-			<HeroBanner />
-			<Grid columns={2} stackable>
-				<Grid.Column width={5}>
-					<UserInfo user={current} />
-				</Grid.Column>
-				<Grid.Column width={11}>
-					<GuestMenu userId={userId} />
-					<Segment attached='bottom'>
-						<Switch>
-							<Route
-								exact
-								path={`/users/${userId}`}
-								render={() => <Activities />}
-							/>
-							<Route
-								path={`/users/${userId}/about`}
-								render={() => (
-									<About profile={current.profile[0]} />
-								)}
-							/>
-						</Switch>
-					</Segment>
-				</Grid.Column>
-			</Grid>
-		</div>
-	);
+  return loading || current === null ? (
+    <Spinner />
+  ) : !(current.profile && current.profile[0]) ? (
+    <p>The user doesn't have a profile.</p>
+  ) : (
+    <div className="profile-container">
+      <HeroBanner />
+      <Grid columns={2} stackable>
+        <Grid.Column width={5}>
+          <UserInfo user={current} />
+        </Grid.Column>
+        <Grid.Column width={11}>
+          <GuestMenu userId={userId} />
+          <Segment attached="bottom">
+            <Switch>
+              <Route exact path={`/users/${userId}`} render={() => <Activities />} />
+              <Route
+                path={`/users/${userId}/about`}
+                render={() => <About profile={current.profile[0]} />}
+              />
+            </Switch>
+          </Segment>
+        </Grid.Column>
+      </Grid>
+    </div>
+  );
 };
 
 Profile.propTypes = {
-	user: PropTypes.object.isRequired,
-	getUser: PropTypes.func.isRequired,
-	match: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  getUser: PropTypes.func.isRequired,
+  match: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
-	user: state.user,
+  user: state.user
 });
 
 export default connect(mapStateToProps, { getUser })(Profile);

@@ -10,23 +10,18 @@ import Comments from '../../components/post/Comments';
 import { getAPost } from '../../apis/posts';
 
 const Post = ({ match }) => {
-	const postId = match.params.id;
-	const { status, data, error } = useQuery(['post', postId], getAPost);
+  const postId = match.params.id;
+  const { status, data, error } = useQuery(['post', postId], getAPost);
 
-	if (status === 'loading') return <Spinner />;
-	if (status === 'error') return <p>Error: {error.message}</p>;
-	return (
-		<Segment>
-			<Button
-				as={Link}
-				to='/posts'
-				color='teal'
-				content='View all posts'
-			/>
-			<PostItem showButtons={false} post={data.data} />
-			<Comments comments={data.data.comments} postId={postId} />
-		</Segment>
-	);
+  if (status === 'loading') return <Spinner />;
+  if (status === 'error') return <p>Error: {error.message}</p>;
+  return (
+    <Segment>
+      <Button as={Link} to="/posts" color="teal" content="View all posts" />
+      <PostItem showButtons={false} post={data.data} />
+      <Comments comments={data.data.comments} postId={postId} />
+    </Segment>
+  );
 };
 
 export default Post;
