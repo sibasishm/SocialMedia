@@ -1,29 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useMutation, queryCache } from 'react-query';
-import { Form, Button } from 'semantic-ui-react';
+import { useFormik } from 'formik';
 
 import { TextArea } from '../input/TextArea';
-
 import { addAComment } from '../../apis/posts';
 
-const AddComment = ({ postId }) => {
-	const [text, setText] = useState('');
+const validate = (values) => {
+	const errors = {};
+	if (!values.text) {
+		errors.text = `You can not post empty comments.`;
+	}
+	return errors;
+};
+
+const CommentsForm = ({ postId }) => {
 	const [addComment] = useMutation(addAComment, {
-		// onMutate: text => {
-		// 	queryCache.cancelQueries(['post', postId]);
-
-		// 	const previousPostContent = queryCache.getQueryData(['post', postId]);
-
-		// 	queryCache.setQueryData(['post', postId], old => {
-		// 		console.log('old', old)
-		// 	});
-
-		// 	return previousPostContent;
-		// },
 		onSuccess: (data) => {
-			setText('');
 			queryCache.setQueryData(['post', postId], (old) => {
-				console.log(data);
 				return {
 					status: old.status,
 					data: {
@@ -34,26 +27,33 @@ const AddComment = ({ postId }) => {
 			});
 		},
 		onError: (err) => console.log(err),
-		// onSettled: () => queryCache.refetchQueries(['post', postId]),
+	});
+
+	const { values, errors, handleSubmit, handleChange } = useFormik({
+		initialValues: {
+			text: '',
+		},
+		validate,
+		onSubmit: ({ text }, { setSubmitting, resetForm }) => {
+			setSubmitting(false);
+			addComment({ text, postId });
+			resetForm();
+		},
 	});
 
 	return (
-		<Form
-			onSubmit={(e) => {
-				e.preventDefault();
-				addComment({ text, postId });
-			}}
-		>
-			<textarea value={text} onChange={(e) => setText(e.target.value)} />
-			<Button
-				disabled={!Boolean(text)}
-				content='Add reply'
-				labelPosition='left'
-				icon='edit'
-				primary
+		<form onSubmit={handleSubmit}>
+			<label htmlFor='comment'></label>
+			<TextArea
+				id='comment'
+				name='text'
+				value={values.text}
+				onChange={handleChange}
+				errors={errors.text}
 			/>
-		</Form>
+			<button type='submit'>Add Comment</button>
+		</form>
 	);
 };
 
-export default AddComment;
+export default CommentsForm;

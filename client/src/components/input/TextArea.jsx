@@ -1,29 +1,18 @@
 import React from 'react';
 import { Form, Label } from 'semantic-ui-react';
 
-export const TextArea = ({
-	input,
-	rows,
-	placeholder,
-	meta: { touched, error, warning }
-}) => (
-	<Form.Field error={touched && !!error}>
+export const TextArea = ({ error, rows, placeholder, ...rest }) => (
+	<Form.Field error={!!error}>
 		<textarea
-			{...input}
+			{...rest}
 			rows={rows}
 			placeholder={placeholder}
 			style={{ minHeight: 50 }}
 		/>
-		{touched &&
-			((error && (
-				<Label basic pointing color='red'>
-					{error}
-				</Label>
-			)) ||
-				(warning && (
-					<Label basic pointing color='orange'>
-						{warning}
-					</Label>
-				)))}
+		{error && (
+			<Label basic pointing color='red'>
+				{error}
+			</Label>
+		)}
 	</Form.Field>
 );

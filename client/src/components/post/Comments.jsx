@@ -10,12 +10,12 @@ export default ({ postId, comments }) => (
 			Comments
 		</Header>
 		{comments && comments.length > 0 ? (
-			comments.map(({ _id, user, name, avatar, text, date }) => (
+			comments.map(({ _id, user, text, date }) => (
 				<Comment key={_id} style={{ marginBottom: '1rem' }}>
-					<Comment.Avatar src={avatar} />
+					<Comment.Avatar src={user.avatar} />
 					<Comment.Content>
-						<Comment.Author as={Link} to={`/users/${user}`}>
-							{name}
+						<Comment.Author as={Link} to={`/users/${user._id}`}>
+							{user.firstName}
 						</Comment.Author>
 						<Comment.Metadata>{formatDate(date)}</Comment.Metadata>
 						<Comment.Text>{text}</Comment.Text>
