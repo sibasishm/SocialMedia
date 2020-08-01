@@ -1,6 +1,6 @@
 {
   "name": "mitroon",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "dependencies": {
     "@chakra-ui/core": "^0.8.0",
@@ -10,8 +10,6 @@
     "date-fns": "^2.9.0",
     "emotion-theming": "^10.0.27",
     "formik": "^2.1.4",
-    "husky": "^4.2.5",
-    "lint-staged": "^10.2.11",
     "react": "^16.9.0",
     "react-datepicker": "^2.11.0",
     "react-dom": "^16.9.0",
@@ -31,8 +29,13 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "prettier": "prettier --write \"**/*.{html,js,json,jsx}\""
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "plugin:prettier/recommended"
+    ]
   },
   "husky": {
     "hooks": {
@@ -40,8 +43,13 @@
     }
   },
   "lint-staged": {
-    "*.{html,js,json,jsx}": [
-      "npm run prettier"
+    "*.+(js|jsx)": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.+(json|css|md)": [
+      "prettier --write",
+      "git add"
     ]
   },
   "browserslist": {
@@ -59,7 +67,10 @@
   "proxy": "http://localhost:5000",
   "devDependencies": {
     "eslint": "^7.6.0",
-    "eslint-config-get-off-my-lawn": "^5.0.1",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.11",
     "prettier": "^2.0.5"
   }
 }
