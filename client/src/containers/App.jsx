@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import ReduxToastr from 'react-redux-toastr';
+import {ThemeProvider, CSSReset, theme} from '@chakra-ui/core';
 
 // StyleSheets
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
@@ -34,20 +35,23 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <Router>
-        <Modal />
-        <Navbar />
-        <ReduxToastr
-          timeOut={3000}
-          position="top-center"
-          transitionIn="fadeIn"
-          transitionOut="fadeOut"
-        />
-        <Switch>
-          <Route exact path="/" component={Landing} />
-          <Route component={Routes} />
-        </Switch>
-      </Router>
+      <ThemeProvider theme={theme}>
+        <CSSReset />
+        <Router>
+          <Modal />
+          <Navbar />
+          <ReduxToastr
+            timeOut={3000}
+            position="top-center"
+            transitionIn="fadeIn"
+            transitionOut="fadeOut"
+          />
+          <Switch>
+            <Route exact path="/" component={Landing} />
+            <Route component={Routes} />
+          </Switch>
+        </Router>
+      </ThemeProvider>
     </Provider>
   );
 };

@@ -1,41 +1,55 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Form, Button } from 'semantic-ui-react';
-import { Field, reduxForm } from 'redux-form';
-import { SimpleInput } from '../input/SimpleInput';
-import { login } from '../../actions/auth';
-import { required, email } from '../../utils/formValidators';
+import {connect} from 'react-redux';
+import {useForm} from 'react-hook-form';
+import {
+  FormErrorMessage,
+  FormLabel,
+  FormControl,
+  Input,
+  Button,
+} from '@chakra-ui/core';
 
-const Login = ({ login, handleSubmit }) => {
+import {login} from '../../actions/auth';
+
+const Login = ({login}) => {
+  const {register, handleSubmit, errors, formState} = useForm();
   return (
-    <Form error size="large" onSubmit={handleSubmit(login)} autoComplete="off">
-      <Field
-        name="email"
-        component={SimpleInput}
-        type="email"
-        placeholder="Your email"
-        icon="mail"
-        validate={[required, email]}
-      />
-      <Field
-        name="password"
-        component={SimpleInput}
-        type="password"
-        placeholder="Your password"
-        icon="key"
-        validate={required}
-      />
-      <Button fluid size="medium" color="teal">
+    <form onSubmit={handleSubmit(login)}>
+      <FormControl isInvalid={errors.email}>
+        <FormLabel htmlFor="email">Email</FormLabel>
+        <Input
+          name="email"
+          type="email"
+          placeholder="Enter your email"
+          ref={register()}
+        />
+        <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
+      </FormControl>
+      <FormControl isInvalid={errors.password}>
+        <FormLabel htmlFor="password">Password</FormLabel>
+        <Input
+          name="password"
+          type="password"
+          placeholder="Enter your password"
+          ref={register()}
+        />
+        <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
+      </FormControl>
+      <Button
+        mt={4}
+        variantColor="teal"
+        isLoading={formState.isSubmitting}
+        type="submit"
+      >
         Sign in
       </Button>
-    </Form>
+    </form>
   );
 };
 
 Login.propTypes = {
   login: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired
 };
 
-export default connect(null, { login })(reduxForm({ form: 'login' })(Login));
+export default connect(null, {login})(Login);

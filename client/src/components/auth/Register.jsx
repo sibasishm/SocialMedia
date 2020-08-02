@@ -1,77 +1,87 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Form, Button } from 'semantic-ui-react';
-import { Field, reduxForm } from 'redux-form';
-import { SimpleInput } from '../input/SimpleInput';
-import { register } from '../../actions/auth';
+import {connect} from 'react-redux';
+import {useForm} from 'react-hook-form';
 import {
-  required,
-  email,
-  minLength8,
-  notGmail,
-  matchPasswords,
-  strongPassword
-} from '../../utils/formValidators';
+  FormErrorMessage,
+  FormLabel,
+  FormControl,
+  Input,
+  Button,
+} from '@chakra-ui/core';
 
-const Register = ({ register, handleSubmit }) => (
-  <Form error size="large" onSubmit={handleSubmit(register)} autoComplete="off">
-    <Form.Group inline widths="equal">
-      <Field
-        fluid
-        name="firstName"
-        type="text"
-        component={SimpleInput}
-        placeholder="First name"
-        icon="user"
-        validate={required}
-      />
-      <Field
-        fluid
-        name="lastName"
-        type="text"
-        component={SimpleInput}
-        placeholder="Last name"
-        icon="user"
-      />
-    </Form.Group>
-    <Field
-      name="email"
-      component={SimpleInput}
-      type="email"
-      placeholder="Your email"
-      icon="mail"
-      validate={[required, email]}
-      warn={notGmail}
-    />
-    <Field
-      name="password"
-      component={SimpleInput}
-      type="password"
-      placeholder="Your password"
-      icon="key"
-      validate={[required, minLength8]}
-      warn={strongPassword}
-    />
-    <Field
-      name="confirmPassword"
-      component={SimpleInput}
-      type="password"
-      placeholder="Repeat your password"
-      icon="key"
-      validate={[required, matchPasswords]}
-    />
-    <Button fluid size="medium" color="teal">
-      Sign up
-    </Button>
-  </Form>
-);
+import {signup} from '../../actions/auth';
+
+const Register = ({signup}) => {
+  const {register, handleSubmit, errors, formState} = useForm();
+  return (
+    <form onSubmit={handleSubmit(register)}>
+      <FormControl isInvalid={errors.firstName}>
+        <FormLabel htmlFor="firstName">First Name</FormLabel>
+        <Input
+          name="firstName"
+          type="firstName"
+          placeholder="John"
+          ref={register()}
+        />
+        <FormErrorMessage>{errors.firstName?.message}</FormErrorMessage>
+      </FormControl>
+      <FormControl isInvalid={errors.lastName}>
+        <FormLabel htmlFor="lastName">Last Name</FormLabel>
+        <Input
+          name="lastName"
+          type="lastName"
+          placeholder="Doe"
+          ref={register()}
+        />
+        <FormErrorMessage>{errors.lastName?.message}</FormErrorMessage>
+      </FormControl>
+      <FormControl isInvalid={errors.email}>
+        <FormLabel htmlFor="email">Email</FormLabel>
+        <Input
+          name="email"
+          type="email"
+          placeholder="jdoe@email.com"
+          ref={register()}
+        />
+        <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
+      </FormControl>
+      <FormControl isInvalid={errors.password}>
+        <FormLabel htmlFor="password">Password</FormLabel>
+        <Input
+          name="password"
+          type="password"
+          placeholder="********"
+          ref={register()}
+        />
+        <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
+      </FormControl>
+      <FormControl isInvalid={errors.confirmPassword}>
+        <FormLabel htmlFor="confirmPassword">Confirm Password</FormLabel>
+        <Input
+          name="confirmPassword"
+          type="confirmPassword"
+          placeholder="********"
+          ref={register()}
+        />
+        <FormErrorMessage>{errors.confirmPassword?.message}</FormErrorMessage>
+      </FormControl>
+      <Button
+        mt={4}
+        variantColor="teal"
+        isLoading={formState.isSubmitting}
+        type="submit"
+      >
+        Sign up
+      </Button>
+    </form>
+  );
+};
 
 Register.propTypes = {
-  register: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired
+  signup: PropTypes.func.isRequired,
 };
 
 export default connect(null, {
-  register
-})(reduxForm({ form: 'register' })(Register));
+  signup,
+})(Register);
